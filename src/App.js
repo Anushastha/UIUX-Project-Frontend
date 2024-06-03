@@ -1,12 +1,53 @@
 import React from 'react';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Outlet,
+  useLocation
+} from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Landing from './pages/user/Landing';
+import NavBar from './components/NavBar';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminColleges from './pages/admin/AdminColleges';
+import AdminCourses from './pages/admin/AdminCourses';
+import UserDashboard from './pages/user/UserDashboard';
+import LoginRegister from './pages/LoginRegister';
+
+function Layout() {
+  const location = useLocation();
+  const showNavBar = !['/login', '/register', '/auth'].includes(location.pathname);
+
+  return (
+    <>
+      {showNavBar && <NavBar />}
+      <Outlet />
+    </>
+  );
+}
 
 function App() {
   return (
-    <>
-      <h1 className="text-3xl font-bold underline">
-        HelloWorld!!
-      </h1>
-    </>
+    <Router>
+      <ToastContainer />
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Landing />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="user/dashboard" element={<UserDashboard />} />
+          <Route path="auth" element={<LoginRegister />} />
+          <Route path="admin/dashboard" element={<AdminDashboard />} />
+          <Route path="admin/colleges" element={<AdminColleges />} />
+          <Route path="admin/courses" element={<AdminCourses />} />
+        </Route>
+      </Routes>
+    </Router>
   );
 }
 
