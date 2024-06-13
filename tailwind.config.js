@@ -10,7 +10,11 @@ module.exports = {
       fontFamily: {
         "primary": ["Amaranth", "sans-serif"],
         "secondary": ["Lato", "sans-serif"]
-      }
+      },
+      btn: {
+        "blue": "#2E266D",
+        "green": "#87CB28"
+      },
     },
   },
   plugins: [],

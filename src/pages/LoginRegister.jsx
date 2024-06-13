@@ -88,6 +88,7 @@ function LoginRegister() {
 
   return (
     <Components.Container>
+      {/* Register form */}
       <Components.SignUpContainer signinIn={signIn}>
         <Components.Form onSubmit={handleRegisterSubmit}>
           <Components.Title>Create Account</Components.Title>
@@ -99,6 +100,7 @@ function LoginRegister() {
         </Components.Form>
       </Components.SignUpContainer>
 
+      {/* Login form */}
       <Components.SignInContainer signinIn={signIn}>
         <Components.Form onSubmit={handleLoginSubmit}>
           <Components.Title>Sign in</Components.Title>

@@ -2,12 +2,11 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
 background-color: #fff;
-border-radius: 10px;
 position: relative;
 overflow: hidden;
-width: 678px;
+width: 950px;
 max-width: 100%;
-min-height: 400px;
+min-height: 500px;
 `;
 
 export const SignUpContainer = styled.div`
@@ -50,10 +49,15 @@ height: 100%;
 text-align: center;
 `;
 
-export const Title = styled.h1`
+export const Title = styled.p`
 font-weight: bold;
 margin: 0;
+font-size: 30px
 `;
+
+export const Line = styled.p`
+
+`
 
 export const Input = styled.input`
 background-color: #eee;
