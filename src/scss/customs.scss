@@ -1,0 +1,44 @@
+
+  $color: (
+    "blue":     rgb(46, 38, 109),
+    "red":        rgb(219, 46, 46),
+    "green":      rgb(135, 203, 40),
+  );
+
+  .font-primary {
+    font-family: 'Amaranth', sans-serif;
+  }
+  
+  .font-secondary {
+    font-family: 'Lato', sans-serif;
+  }
+
+  @each $class, $colorValue in $color {
+    .text-#{$class} {
+      color: $colorValue;
+    }
+    .bg-#{$class} {
+      background-color: $colorValue;
+    }
+    .btn-#{$class}{
+      background-color: $colorValue;
+      color: white;
+
+      &:hover {
+        background-color: lighten($colorValue, 10%);
+        color: white;
+      }
+    }
+
+    .btn-outline-#{$class} {
+      background-color: transparent;
+      border: 1px solid $colorValue;
+      color: $colorValue;
+  
+      &:hover {
+        background-color: lighten($colorValue, 10%);
+        color: white;
+      }
+    }
+    
+  }

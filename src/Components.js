@@ -1,5 +1,12 @@
 import styled from 'styled-components';
 
+export const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; 
+`;
+
 export const Container = styled.div`
 background-color: #fff;
 position: relative;
@@ -7,6 +14,7 @@ overflow: hidden;
 width: 950px;
 max-width: 100%;
 min-height: 500px;
+
 `;
 
 export const SignUpContainer = styled.div`
@@ -122,7 +130,9 @@ height: 100%;
 width: 200%;
 transform: translateX(0);
 transition: transform 0.6s ease-in-out;
-${props => (props.signinIn !== true ? `transform: translateX(50%);` : null)}
+${props => (props.signinIn !== true
+    ? `
+    transform: translateX(50%);` : null)}
 `;
 
 export const OverlayPanel = styled.div`

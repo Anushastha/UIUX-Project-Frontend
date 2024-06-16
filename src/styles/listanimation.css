@@ -1,0 +1,40 @@
+/* ListAnimation.css */
+.list-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .list-item {
+    background-color: #f0f0f0;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .list-item h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+  }
+  
+  .list-item p {
+    margin-bottom: 0;
+    color: #666;
+  }
+  
+  /* Optional: Add animations for AOS */
+  [data-aos="fade-up"] {
+    opacity: 0;
+    transition-duration: 0.5s;
+  }
+  
+  [data-aos="fade-up"].aos-animate {
+    opacity: 1;
+  }
+  

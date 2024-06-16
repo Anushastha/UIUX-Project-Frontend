@@ -1,146 +1,140 @@
-// import React, { useState } from "react";
-// import { NavLink } from "react-router-dom";
-
-// const NavBar = () => {
-//   // making useState
-//   const [isMenuOpen, setisMenuOpen] = useState(false);
-//   const handleMenuToggler = () => {
-//     setisMenuOpen(!isMenuOpen);
-//   };
-
-//   const navItems = [
-//     { path: "/admin/dashboard", title: "Home" },
-//     { path: "/admin/colleges", title: "Colleges" },
-//     { path: "/admin/courses", title: "Courses" },
-//     { path: "/admin/dashboard", title: "Blogs" },
-//   ];
-//   return (
-//     <>
-//       <div>
-//         <header>
-//           <nav>
-//             <a href="/" className="flex items-center gap-2 text-2xl">
-//               <img
-//                 src="/assets/images/logo.png"
-//                 alt="Logo"
-//                 height="120"
-//                 width="150"
-//               />
-//             </a>
-//             {/* nav items for  large screen */}
-//             <ul>
-//               {navItems.map(({ path, title }) => (
-//                 <li key={path} className="text-base text-primary">
-//                   <NavLink
-//                     to={path}
-//                     className={({ isActive }) => isActive ? "active" : ""
-//                     }
-//                   >{ }</NavLink>
-//                 </li>
-//               ))}
-//             </ul>
-//             <a href="/admin/colleges">Colleges</a>
-//             <a href="/admin/courses">Courses</a>
-//           </nav>
-//         </header>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default NavBar;
-
-// // // src/components/Navbar.jsx
-// // import React from 'react';
-// // import { Link } from 'react-router-dom';
-
-// // const NavBar = () => (
-// //   <nav>
-// //     <ul>
-// //       <li><Link to="/colleges">Colleges</Link></li>
-// //       <li><Link to="/courses">Courses</Link></li>
-// //     </ul>
-// //   </nav>
-// // );
-
-// // export default NavBar;
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 
 const NavBar = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/login");
+    window.location.reload();
+  };
+
   return (
-    <div>
-      <nav className="navbar navbar-expand-lg fixed-top">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="#">
-            <img
-              src="/assets/images/logo.png"
-              alt="Logo"
-              height="120"
-              width="150"
-            />{" "}
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasNavbar"
-            aria-controls="offcanvasNavbar"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div
-            className="offcanvas offcanvas-end"
-            tabIndex="-1"
-            id="offcanvasNavbar"
-            aria-labelledby="offcanvasNavbarLabel"
-          >
-            <div className="offcanvas-header">
+    <>
+      <div>
+        <nav className="navbar navbar-expand-lg fixed-top bg-light">
+          <div className="container-fluid">
+            <a className="navbar-brand" href="#">
               <img
-                src="/assets/images/logo.png"
+                src="logo.png"
                 alt="Logo"
                 height="120"
                 width="150"
               />
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="offcanvas"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="offcanvas-body">
-              <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
+            </a>
+            <button
+              className="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div
+              className="collapse navbar-collapse"
+              id="navbarSupportedContent"
+            >
+              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <a
-                    className="nav-link active mx-lg-2"
-                    aria-current="page"
-                    href="#"
-                  >
+                  <Link className="nav-link active text-black" aria-current="page" to="#">
                     Home
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link mx-lg-2" href="#">
-                    Colleges
-                  </a>
+                  <Link className="nav-link text-black" to="#">
+                    Products
+                  </Link>
                 </li>
-                <li className="nav-item">
-                  <a className="nav-link mx-lg-2" href="#">
-                    Courses
+                <li className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle text-black"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Category
                   </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link mx-lg-2" href="#">
-                    Blogs
-                  </a>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <Link className="dropdown-item" to="#">
+                        Armchairs
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="#">
+                        Lights
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="#">
+                        Rugs and Carpets
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="#">
+                        Beds
+                      </Link>
+                    </li>
+                  </ul>
                 </li>
               </ul>
+              <form className="d-flex gap-2" role="search">
+                {user ? (
+                  <div className="dropdown">
+                    <button
+                      className="btn btn-secondary dropdown-toggle bg-transparent border-0"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      Welcome, {user.firstName}!
+                    </button>
+                    <ul className="dropdown-menu">
+                      <li>
+                        <Link className="dropdown-item" to="/user/userProfile/:id">
+                          Profile
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/changepp">
+                          Change password
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/user/contact">
+                          Contact
+                        </Link>
+                      </li>
+                      <li>
+                        <button onClick={handleLogout} className="dropdown-item">
+                          Logout
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                ) : (
+                  <>
+                    <Link className="btn btn-outline-danger" to="/login">
+                      Login
+                    </Link>
+                    <Link className="btn btn-outline-success" to="/register">
+                      Register
+                    </Link>
+                  </>
+                )}
+              </form>
             </div>
           </div>
-        </div>
-      </nav>
-    </div>
+        </nav>
+      </div>
+    </>
   );
 };
 
