@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as Components from "../Components";
 import "../styles/auth.css";
-import { loginApi } from "../apis/Apis"; // Import your login API function
-import { registerApi } from "../apis/Apis"; // Import your register API function
+import { loginApi, registerApi } from "../apis/Apis";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 
 function LoginRegister() {
-  const [signIn, toggle] = React.useState(true);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const mode = queryParams.get("mode");
+  const initialSignInState = mode === "login";
+  const [signIn, setSignIn] = useState(initialSignInState);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -15,42 +18,34 @@ function LoginRegister() {
 
   const navigate = useNavigate();
 
-  const changeFirstName = (e) => {
-    setFirstName(e.target.value);
-  };
+  useEffect(() => {
+    document.body.classList.add("login-register-body");
 
-  const changeLastName = (e) => {
-    setLastName(e.target.value);
-  };
+    return () => {
+      document.body.classList.remove("login-register-body");
+    };
+  }, []);
 
-  const changeEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const changePassword = (e) => {
-    setPassword(e.target.value);
-  };
+  const changeFirstName = (e) => setFirstName(e.target.value);
+  const changeLastName = (e) => setLastName(e.target.value);
+  const changeEmail = (e) => setEmail(e.target.value);
+  const changePassword = (e) => setPassword(e.target.value);
 
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
 
-    const data = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password,
-    };
+    const data = { firstName, lastName, email, password };
 
     registerApi(data)
       .then((res) => {
-        if (res.data.success === true) {
+        if (res.data.success) {
           toast.success(res.data.message);
         } else {
           toast.error(res.data.message);
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         toast.error("Internal Server Error!");
       });
   };
@@ -58,38 +53,31 @@ function LoginRegister() {
   const handleLoginSubmit = (e) => {
     e.preventDefault();
 
-    const data = {
-      email: email,
-      password: password,
-    };
+    const data = { email, password };
 
     loginApi(data)
       .then((res) => {
-        if (res.data.success === false) {
+        if (!res.data.success) {
           toast.error(res.data.message);
         } else {
           toast.success(res.data.message);
           localStorage.setItem("token", res.data.token);
           const isAdmin = res.data.isAdmin;
-          if (isAdmin) {
-            navigate("/admin/dashboard");
-          } else {
-            navigate("/user/dashboard");
-          }
-          const convertedJson = JSON.stringify(res.data.userData);
-          localStorage.setItem("user", convertedJson);
+          navigate(isAdmin ? "/admin/dashboard" : "/user/colleges");
+          localStorage.setItem("user", JSON.stringify(res.data.userData));
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         toast.error("Server Error!");
       });
   };
 
+  const toggleSignIn = (value) => setSignIn(value);
+
   return (
     <Components.Wrapper>
       <Components.Container>
-        {/* Register form */}
         <Components.SignUpContainer signinIn={signIn}>
           <Components.Form onSubmit={handleRegisterSubmit}>
             <Components.Title>Create Account</Components.Title>
@@ -117,7 +105,6 @@ function LoginRegister() {
           </Components.Form>
         </Components.SignUpContainer>
 
-        {/* Login form */}
         <Components.SignInContainer signinIn={signIn}>
           <Components.Form onSubmit={handleLoginSubmit}>
             <Components.Title>Sign in</Components.Title>
@@ -145,7 +132,7 @@ function LoginRegister() {
               <Components.Paragraph>
                 To keep connected with us please login with your personal info
               </Components.Paragraph>
-              <Components.GhostButton onClick={() => toggle(true)}>
+              <Components.GhostButton onClick={() => toggleSignIn(true)}>
                 Sign In
               </Components.GhostButton>
             </Components.LeftOverlayPanel>
@@ -155,7 +142,7 @@ function LoginRegister() {
               <Components.Paragraph>
                 Enter your personal details and start your journey with us
               </Components.Paragraph>
-              <Components.GhostButton onClick={() => toggle(false)}>
+              <Components.GhostButton onClick={() => toggleSignIn(false)}>
                 Sign Up
               </Components.GhostButton>
             </Components.RightOverlayPanel>

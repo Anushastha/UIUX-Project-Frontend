@@ -1,0 +1,10 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+body {
+    background: #90c3fc;
+    background: -webkit-linear-gradient(to top right, #c2e8ff, #90c3fc);
+    background: linear-gradient(to top right, #c2e8ff, #90c3fc);
+    color: #2e266d;
+    height: 100vh;
+}

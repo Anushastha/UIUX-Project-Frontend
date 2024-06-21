@@ -1,38 +1,160 @@
 import React from "react";
 import "../../scss/customs.scss";
+import PopularCourses from "../../components/PopularCourses";
+import { Link } from "react-router-dom";
+
 const Landing = () => {
   return (
     <>
-      <div className="container mt-4">
-        <div className="row align-items-center">
-          <div className="col-md-6 mb-4">
-            <h1 className="font-bold text-8xl mb-32 w-full text-center md:text-6xl xs:text-4xl md:mb-16">
-              CollegeSeek
-            </h1>
-            <div className="flex items-center mb-4">
-              <p className="font-secondary" style={{ textAlign: "justify" }}>
-                <b>CollegeSeek</b> simplifies your college search journey,
-                providing a seamless experience to help you discover the perfect
-                fit for your future aspirations and academic goals.
-              </p>
-            </div>
-            <div className="row items-center">
-              <a
-                href="/#"
-                className="text-blue flex items-center"
-                style={{ textDecoration: "none", fontSize: "20px" }}
+      <div className="col">
+        <div
+          className="container"
+          style={{
+            marginTop: "20vh",
+            marginBottom: "80px",
+          }}
+        >
+          <div className="row align-items-center background-light">
+            <div className="col-md-6 mb-4">
+              <h1
+                className="font-primary font-bold mb-4 w-full text-center md:mb-16"
+                style={{
+                  fontSize: "55px",
+                }}
               >
-                <u className="me-2">Learn More</u>
-                <img src="/assets/svg/info_circle.svg" height={20} />
-              </a>
+                CollegeSeek
+              </h1>
+              <div className="flex items-center mb-4">
+                <p
+                  className="font-secondary"
+                  style={{ textAlign: "justify", fontSize: "20px" }}
+                >
+                  <b>CollegeSeek</b> simplifies your college search journey,
+                  providing a seamless experience to help you discover the
+                  perfect fit for your future aspirations and academic goals.
+                </p>
+              </div>
+              <div className="row items-center">
+                <Link
+                  href="/#"
+                  className="text-blue flex items-center font-secondary"
+                  style={{ textDecoration: "none", fontSize: "20px" }}
+                >
+                  <u
+                    style={{
+                      display: "flex",
+                    }}
+                  >
+                    <b>Learn More</b>
+                    <img
+                      src="/assets/svg/info_circle.svg"
+                      alt="info"
+                      style={{
+                        marginLeft: "10px",
+                      }}
+                    />
+                  </u>
+                </Link>
+              </div>
+            </div>
+            <div className="col-md-6 text-center">
+              <img
+                src="/assets/images/landing.png"
+                alt="CollegeSeek"
+                className="img-fluid"
+              />
             </div>
           </div>
-          <div className="col-md-6 text-center">
-            <img
-              src="/assets/images/landing.png"
-              alt="CollegeSeek"
-              className="img-fluid"
-            />
+        </div>
+
+        <div className="my-5">
+          <div>
+            <h1
+              className="font-primary font-bold w-full text-center md:mb-16"
+              style={{
+                fontSize: "45px",
+                marginBottom: "50px",
+              }}
+            >
+              Explore Colleges
+            </h1>
+          </div>
+          <div
+            style={{
+              margin: "3vh",
+            }}
+          >
+            <div
+              id="carouselExample"
+              className="carousel slide mb-5"
+              data-bs-ride="carousel"
+              data-bs-interval="1500"
+            >
+              <div className="carousel-inner">
+                <div className="carousel-item active">
+                  <img
+                    src="/assets/images/college1.png"
+                    alt="Slide 1"
+                    className="d-block w-100"
+                  />
+                </div>
+                <div className="carousel-item">
+                  <img
+                    src="/assets/images/college2.png"
+                    alt="Slide 2"
+                    className="d-block w-100"
+                  />
+                </div>
+                <div className="carousel-item">
+                  <img
+                    src="/assets/images/college3.png"
+                    alt="Slide 3"
+                    className="d-block w-100"
+                  />
+                </div>
+              </div>
+              <button
+                className="carousel-control-prev"
+                type="button"
+                data-bs-target="#carouselExample"
+                data-bs-slide="prev"
+              >
+                <span
+                  className="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
+                <span>Previous</span>
+              </button>
+              <button
+                className="carousel-control-next"
+                type="button"
+                data-bs-target="#carouselExample"
+                data-bs-slide="next"
+              >
+                <span>Next</span>
+                <span
+                  className="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="popular-courses">
+          <div>
+            <h1
+              className="font-primary font-bold w-full text-center md:mb-16"
+              style={{
+                fontSize: "45px",
+                marginBottom: "100px",
+                marginTop: "80px",
+              }}
+            >
+              Popular Courses
+            </h1>
+          </div>
+          <div className="flex w-full flex-col items-center justify-center">
+            <PopularCourses />
           </div>
         </div>
       </div>

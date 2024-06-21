@@ -1,21 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
-
 * {
   box-sizing: border-box;
 }
 
-body {
-    background: #90C3FC;
-    background: -webkit-linear-gradient(to top right, #C2E8FF, #90C3FC);
-    background: linear-gradient(to top right, #C2E8FF, #90C3FC);
-    background-repeat: no-repeat;
-    background-size: cover;
-    display: flex;
-    overflow: hidden;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    font-family: "Amaranth","Lato", sans-serif;
-    height: 100vh;
-    color: #2E266D;
+body.login-register-body {
+  background: #90c3fc;
+  background: -webkit-linear-gradient(to top right, #c2e8ff, #90c3fc);
+  background: linear-gradient(to top right, #c2e8ff, #90c3fc);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: "Amaranth", "Lato", sans-serif;
+  height: 100vh;
+  color: #2e266d;
 }
