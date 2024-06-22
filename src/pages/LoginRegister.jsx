@@ -11,10 +11,12 @@ function LoginRegister() {
   const mode = queryParams.get("mode");
   const initialSignInState = mode === "login";
   const [signIn, setSignIn] = useState(initialSignInState);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const navigate = useNavigate();
 
@@ -26,20 +28,49 @@ function LoginRegister() {
     };
   }, []);
 
-  const changeFirstName = (e) => setFirstName(e.target.value);
-  const changeLastName = (e) => setLastName(e.target.value);
+  const changeFullName = (e) => setFullName(e.target.value);
   const changeEmail = (e) => setEmail(e.target.value);
   const changePassword = (e) => setPassword(e.target.value);
+  const changeConfirmPassword = (e) => setConfirmPassword(e.target.value);
+  const changePhoneNumber = (e) => setPhoneNumber(e.target.value);
+
+  // Validation functions
+  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); //^ for string [^\s@]+@[^\s@] for @ and [^\s@] for .com
+  const isValidPhoneNumber = (number) => /^\d{10}$/.test(number);
+  const isValidPassword = (password) => password.length >= 8;
 
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
+    if (!isValidEmail(email)) {
+      toast.error("Invalid email format.");
+      return;
+    }
+    if (!isValidPhoneNumber(phoneNumber)) {
+      toast.error("Phone number must be 10 digits.");
+      return;
+    }
+    if (!isValidPassword(password)) {
+      toast.error("Password must be at least 8 characters long.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match.");
+      return;
+    }
 
-    const data = { firstName, lastName, email, password };
+    const data = {
+      fullName,
+      email,
+      password,
+      confirmPassword,
+      phoneNumber,
+    };
 
     registerApi(data)
       .then((res) => {
         if (res.data.success) {
           toast.success(res.data.message);
+          navigate("/auth?mode=login");
         } else {
           toast.error(res.data.message);
         }
@@ -81,47 +112,145 @@ function LoginRegister() {
         <Components.SignUpContainer signinIn={signIn}>
           <Components.Form onSubmit={handleRegisterSubmit}>
             <Components.Title>Create Account</Components.Title>
-            <Components.Input
-              type="text"
-              placeholder="First Name"
-              onChange={changeFirstName}
-            />
-            <Components.Input
-              type="text"
-              placeholder="Last Name"
-              onChange={changeLastName}
-            />
-            <Components.Input
-              type="email"
-              placeholder="Email"
-              onChange={changeEmail}
-            />
-            <Components.Input
-              type="password"
-              placeholder="Password"
-              onChange={changePassword}
-            />
-            <Components.Button type="submit">Sign Up</Components.Button>
+            <Components.Subtitle>
+              Create your account now and explore
+            </Components.Subtitle>
+
+            <Components.Line>Enter full name</Components.Line>
+            <Components.InputContainer>
+              <Components.Input type="text" onChange={changeFullName} />
+              <Components.IconWrapper>
+                <img
+                  src="/assets/svg/user.svg"
+                  style={{
+                    height: "25px",
+                  }}
+                />
+              </Components.IconWrapper>
+            </Components.InputContainer>
+
+            <Components.Line>Enter email</Components.Line>
+            <Components.InputContainer>
+              <Components.Input type="text" onChange={changeEmail} />
+              <Components.IconWrapper>
+                <img
+                  src="/assets/svg/mail.svg"
+                  style={{
+                    height: "25px",
+                  }}
+                />{" "}
+              </Components.IconWrapper>
+            </Components.InputContainer>
+
+            <Components.Line>Enter password</Components.Line>
+            <Components.InputContainer>
+              <Components.Input
+                type="password"
+                placeholder="Password"
+                onChange={changePassword}
+              />
+              <Components.IconWrapper>
+                <img
+                  src="/assets/svg/eye.svg"
+                  style={{
+                    height: "25px",
+                  }}
+                />{" "}
+              </Components.IconWrapper>
+            </Components.InputContainer>
+
+            <Components.InputContainer>
+              <Components.Input
+                type="password"
+                placeholder="Confirm password"
+                onChange={changeConfirmPassword}
+              />
+              <Components.IconWrapper>
+                <img
+                  src="/assets/svg/eye.svg"
+                  style={{
+                    height: "25px",
+                  }}
+                />{" "}
+              </Components.IconWrapper>
+            </Components.InputContainer>
+
+            <Components.Line>Enter phone number</Components.Line>
+            <Components.InputContainer>
+              <Components.Input type="number" onChange={changePhoneNumber} />
+              <Components.IconWrapper>
+                <img
+                  src="/assets/svg/phone-blue.svg"
+                  style={{
+                    height: "25px",
+                  }}
+                />{" "}
+              </Components.IconWrapper>
+            </Components.InputContainer>
+
+            <Components.Button type="submit">Register</Components.Button>
           </Components.Form>
         </Components.SignUpContainer>
 
         <Components.SignInContainer signinIn={signIn}>
           <Components.Form onSubmit={handleLoginSubmit}>
-            <Components.Title>Sign in</Components.Title>
-            <Components.Input
-              type="email"
-              placeholder="Email"
-              onChange={changeEmail}
-            />
-            <Components.Input
-              type="password"
-              placeholder="Password"
-              onChange={changePassword}
-            />
-            <Components.Anchor href="#">
-              Forgot your password?
-            </Components.Anchor>
-            <Components.Button type="submit">Sign In</Components.Button>
+            <Components.Title>Login</Components.Title>
+            <Components.Subtitle
+              style={{
+                marginBottom: "30px",
+              }}
+            >
+              Let's get started! Sign in to unlock all the features
+            </Components.Subtitle>
+
+            <Components.Line>Enter email</Components.Line>
+            <Components.InputContainer>
+              <Components.Input type="text" onChange={changeEmail} />
+              <Components.IconWrapper>
+                <img
+                  src="/assets/svg/mail.svg"
+                  style={{
+                    height: "25px",
+                  }}
+                />{" "}
+              </Components.IconWrapper>
+            </Components.InputContainer>
+
+            <Components.Line>Enter password</Components.Line>
+            <Components.InputContainer
+              style={{
+                marginBottom: "20px",
+              }}
+            >
+              <Components.Input type="password" onChange={changePassword} />
+              <Components.IconWrapper>
+                <img
+                  src="/assets/svg/eye.svg"
+                  style={{
+                    height: "25px",
+                  }}
+                />{" "}
+              </Components.IconWrapper>
+            </Components.InputContainer>
+
+            <Components.LoginBottomContainer>
+              <Components.Anchor href="#">
+                Forgot your password?
+              </Components.Anchor>
+              <Components.RememberMe>
+                <label>
+                  Remember me
+                  <input
+                    type="checkbox"
+                    style={{
+                      marginLeft: "10px",
+                    }}
+                  />
+                </label>
+              </Components.RememberMe>
+            </Components.LoginBottomContainer>
+
+            <Components.Button type="submit">Login</Components.Button>
           </Components.Form>
         </Components.SignInContainer>
 
@@ -129,22 +258,38 @@ function LoginRegister() {
           <Components.Overlay signinIn={signIn}>
             <Components.LeftOverlayPanel signinIn={signIn}>
               <Components.Title>Welcome Back!</Components.Title>
-              <Components.Paragraph>
+              <Components.Paragraph
+                style={{
+                  fontFamily: "Lato, sans-serif",
+                  fontSize: "16px",
+                  width: "300px",
+                  fontWeight: "500",
+                }}
+              >
                 To keep connected with us please login with your personal info
               </Components.Paragraph>
               <Components.GhostButton onClick={() => toggleSignIn(true)}>
-                Sign In
+                Login
               </Components.GhostButton>
+              <img src="/assets/svg/left-arrow.svg" />
             </Components.LeftOverlayPanel>
 
             <Components.RightOverlayPanel signinIn={signIn}>
               <Components.Title>Hello, Friend!</Components.Title>
-              <Components.Paragraph>
+              <Components.Paragraph
+                style={{
+                  fontFamily: "Lato, sans-serif",
+                  fontSize: "16px",
+                  width: "300px",
+                  fontWeight: "500",
+                }}
+              >
                 Enter your personal details and start your journey with us
               </Components.Paragraph>
               <Components.GhostButton onClick={() => toggleSignIn(false)}>
-                Sign Up
+                Register
               </Components.GhostButton>
+              <img src="/assets/svg/right-arrow.svg" />
             </Components.RightOverlayPanel>
           </Components.Overlay>
         </Components.OverlayContainer>

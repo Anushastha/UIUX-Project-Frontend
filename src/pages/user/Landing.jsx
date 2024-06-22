@@ -47,7 +47,7 @@ const Landing = () => {
                   >
                     <b>Learn More</b>
                     <img
-                      src="/assets/svg/info_circle.svg"
+                      src="/assets/svg/info-circle.svg"
                       alt="info"
                       style={{
                         marginLeft: "10px",

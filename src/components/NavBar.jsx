@@ -12,6 +12,22 @@ const NavBar = () => {
     window.location.reload();
   };
 
+  const customColors = [
+    "#FF5733", // Red
+    "#33FF57", // Green
+    "#3357FF", // Blue
+    "#FF33A6", // Pink
+    "#33FFF3", // Aqua
+    "#f59e04", // Orange
+    "#7e42b9", // Purple
+    "#FF33C4", // Magenta
+  ];
+
+  const getRandomColor = () => {
+    const randomIndex = Math.floor(Math.random() * customColors.length);
+    return customColors[randomIndex];
+  };
+
   return (
     <div style={{ marginBottom: "100px" }}>
       <nav
@@ -19,8 +35,7 @@ const NavBar = () => {
         style={{ boxShadow: "0px 2px 10px 0px rgba(99, 99, 99, 0.1)" }}
       >
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
-          </Link>
+          <Link className="navbar-brand" to="/"></Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -88,9 +103,21 @@ const NavBar = () => {
             )}
             <form className="d-flex gap-2" role="search">
               {user ? (
-                <div className="dropdown">
+                <div className="dropdown d-flex align-items-center">
+                  <div
+                    className="tw-rounded-full tw-flex tw-items-center tw-justify-center"
+                    style={{
+                      width: "30px",
+                      height: "30px",
+                      backgroundColor: getRandomColor(),
+                      color: "white",
+                      fontSize: "20px",
+                    }}
+                  >
+                    {user.firstName.charAt(0).toUpperCase()}
+                  </div>
                   <button
-                    className="btn dropdown-toggle bg-transparent border-0"
+                    className="btn dropdown-toggle bg-transparent border-0 font-primary tw-me-5"
                     type="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
@@ -100,24 +127,33 @@ const NavBar = () => {
                   <ul className="dropdown-menu">
                     <li>
                       <Link
-                        className="dropdown-item"
+                        className="dropdown-item font-primary"
                         to="/user/userProfile/:id"
                       >
                         Profile
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="/changepp">
+                      <Link
+                        className="dropdown-item font-primary"
+                        to="/changepp"
+                      >
                         Change password
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="/user/contact">
+                      <Link
+                        className="dropdown-item font-primary"
+                        to="/user/contact"
+                      >
                         Contact
                       </Link>
                     </li>
                     <li>
-                      <button onClick={handleLogout} className="dropdown-item">
+                      <button
+                        onClick={handleLogout}
+                        className="dropdown-item font-primary"
+                      >
                         Logout
                       </button>
                     </li>

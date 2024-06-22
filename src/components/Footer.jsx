@@ -7,9 +7,11 @@ const Footer = () => {
         className="footer"
         style={{
           marginTop: "50px",
-              }}
-             
-      ></div>
+          backgroundColor: "white"
+              }}     
+      >
+        
+      </div>
     </>
   );
 };
