@@ -93,7 +93,9 @@ export const InputContainer = styled.div`
 `;
 
 export const Input = styled.input`
+  font-family: "Lato", sans-serif;
   background-color: #F3F4F4;
+  color: #2E266D;
   border: none;
   padding: 5px 15px;
   width: 90%;

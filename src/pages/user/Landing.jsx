@@ -1,6 +1,5 @@
 import React from "react";
 import "../../scss/customs.scss";
-import PopularCourses from "../../components/PopularCourses";
 import { Link } from "react-router-dom";
 
 const Landing = () => {
@@ -36,22 +35,16 @@ const Landing = () => {
               </div>
               <div className="row items-center">
                 <Link
-                  href="/#"
+                  to="/"
                   className="text-blue flex items-center font-secondary"
                   style={{ textDecoration: "none", fontSize: "20px" }}
                 >
-                  <u
-                    style={{
-                      display: "flex",
-                    }}
-                  >
+                  <u style={{ display: "flex" }}>
                     <b>Learn More</b>
                     <img
                       src="/assets/svg/info-circle.svg"
-                      alt="info"
-                      style={{
-                        marginLeft: "10px",
-                      }}
+                      alt="Information"
+                      style={{ marginLeft: "10px" }}
                     />
                   </u>
                 </Link>
@@ -153,9 +146,7 @@ const Landing = () => {
               Popular Courses
             </h1>
           </div>
-          <div className="flex w-full flex-col items-center justify-center">
-            <PopularCourses />
-          </div>
+          <div className="flex w-full flex-col items-center justify-center"></div>
         </div>
       </div>
     </>

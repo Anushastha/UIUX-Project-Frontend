@@ -23,6 +23,7 @@
     .btn-#{$class}{
       background-color: $colorValue;
       color: white;
+      border: none;
 
       &:hover {
         background-color: lighten($colorValue, 10%);

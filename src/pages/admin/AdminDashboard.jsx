@@ -1,36 +1,52 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const AdminDashboard = () => {
   return (
     <>
       <div>
-        <button
+        <Link
           className="btn-blue px-4 py-2 me-3 font-primary"
+          type="button"
           style={{
             borderRadius: "8px",
             width: "100px",
+            border: "none",
+            textDecoration: "none",
+            textAlign: "center",
           }}
+          to="/admin/colleges"
         >
           Colleges
-        </button>
-        <button
+        </Link>
+        <Link
           className="btn-blue px-4 py-2 me-3 font-primary"
+          type="button"
           style={{
             borderRadius: "8px",
             width: "100px",
+            border: "none",
+            textDecoration: "none",
+            textAlign: "center",
           }}
+          to="/admin/courses"
         >
           Courses
-        </button>
-        <button
+        </Link>
+        <Link
           className="btn-blue px-4 py-2 me-3 font-primary"
+          type="button"
           style={{
             borderRadius: "8px",
             width: "100px",
+            border: "none",
+            textDecoration: "none",
+            textAlign: "center",
           }}
+          to="/admin/blogs"
         >
           Blogs
-        </button>
+        </Link>
       </div>
     </>
   );

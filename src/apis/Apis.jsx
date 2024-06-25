@@ -32,10 +32,13 @@ export const deleteCollegeApi = (id) =>
 export const addCourseToCollegeApi = (data) =>
   Api.post("/api/colleges/addCourse", data);
 
-// // Course APIs
-// export const createCourseApi = (data) => Api.post("/api/courses", data, config);
-// export const getAllCoursesApi = () => Api.get("/api/courses", config);
-// export const getSingleCourseApi = (id) => Api.get(`/api/courses/${id}`, config);
-// export const updateCourseApi = (id, data) =>
-//   Api.put(`/api/courses/${id}`, data, config);
-// export const deleteCourseApi = (id) => Api.delete(`/api/courses/${id}`, config);
+//Courses APIs
+export const createCourseApi = (formData) =>
+  Api.post("/api/courses/create_course", formData);
+export const getAllCoursesApi = () => Api.get("/api/courses/get_courses");
+export const getSingleCourseApi = (id) =>
+  Api.get(`/api/courses/get_course/${id}`);
+export const updateCourseApi = (id, formData) =>
+  Api.put(`/api/courses/update_course/${id}`, formData, config);
+export const deleteCourseApi = (id) =>
+  Api.delete(`/api/courses/delete_course/${id}`, config);

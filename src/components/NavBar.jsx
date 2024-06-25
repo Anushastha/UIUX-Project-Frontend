@@ -112,6 +112,10 @@ const NavBar = () => {
                       backgroundColor: getRandomColor(),
                       color: "white",
                       fontSize: "20px",
+                      borderRadius: "50%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
                   >
                     {user.firstName.charAt(0).toUpperCase()}
@@ -128,7 +132,7 @@ const NavBar = () => {
                     <li>
                       <Link
                         className="dropdown-item font-primary"
-                        to="/user/userProfile/:id"
+                        to={`/user/userProfile/${user.id}`}
                       >
                         Profile
                       </Link>

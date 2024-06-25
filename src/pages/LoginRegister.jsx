@@ -122,6 +122,7 @@ function LoginRegister() {
               <Components.IconWrapper>
                 <img
                   src="/assets/svg/user.svg"
+                  alt="user"
                   style={{
                     height: "25px",
                   }}
@@ -135,6 +136,7 @@ function LoginRegister() {
               <Components.IconWrapper>
                 <img
                   src="/assets/svg/mail.svg"
+                  alt="mail"
                   style={{
                     height: "25px",
                   }}
@@ -146,12 +148,14 @@ function LoginRegister() {
             <Components.InputContainer>
               <Components.Input
                 type="password"
+                alt="eye"
                 placeholder="Password"
                 onChange={changePassword}
               />
               <Components.IconWrapper>
                 <img
                   src="/assets/svg/eye.svg"
+                  alt="eye"
                   style={{
                     height: "25px",
                   }}
@@ -163,11 +167,13 @@ function LoginRegister() {
               <Components.Input
                 type="password"
                 placeholder="Confirm password"
+                alt="eye"
                 onChange={changeConfirmPassword}
               />
               <Components.IconWrapper>
                 <img
                   src="/assets/svg/eye.svg"
+                  alt="eye"
                   style={{
                     height: "25px",
                   }}
@@ -181,6 +187,7 @@ function LoginRegister() {
               <Components.IconWrapper>
                 <img
                   src="/assets/svg/phone-blue.svg"
+                  alt="phone"
                   style={{
                     height: "25px",
                   }}
@@ -209,6 +216,7 @@ function LoginRegister() {
               <Components.IconWrapper>
                 <img
                   src="/assets/svg/mail.svg"
+                  alt="mail"
                   style={{
                     height: "25px",
                   }}
@@ -226,6 +234,7 @@ function LoginRegister() {
               <Components.IconWrapper>
                 <img
                   src="/assets/svg/eye.svg"
+                  alt="eye"
                   style={{
                     height: "25px",
                   }}
@@ -271,7 +280,7 @@ function LoginRegister() {
               <Components.GhostButton onClick={() => toggleSignIn(true)}>
                 Login
               </Components.GhostButton>
-              <img src="/assets/svg/left-arrow.svg" />
+              <img src="/assets/svg/left-arrow.svg" alt="arrow-left" />
             </Components.LeftOverlayPanel>
 
             <Components.RightOverlayPanel signinIn={signIn}>
@@ -289,7 +298,7 @@ function LoginRegister() {
               <Components.GhostButton onClick={() => toggleSignIn(false)}>
                 Register
               </Components.GhostButton>
-              <img src="/assets/svg/right-arrow.svg" />
+              <img src="/assets/svg/right-arrow.svg" alt="arrow-right" />
             </Components.RightOverlayPanel>
           </Components.Overlay>
         </Components.OverlayContainer>
