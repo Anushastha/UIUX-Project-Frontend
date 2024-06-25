@@ -94,7 +94,11 @@ function LoginRegister() {
           toast.success(res.data.message);
           localStorage.setItem("token", res.data.token);
           const isAdmin = res.data.isAdmin;
-          navigate(isAdmin ? "/admin/dashboard" : "/user/colleges");
+          if (isAdmin) {
+            navigate("/admin/colleges");
+          } else {
+            navigate("/user/colleges");
+          }
           localStorage.setItem("user", JSON.stringify(res.data.userData));
         }
       })

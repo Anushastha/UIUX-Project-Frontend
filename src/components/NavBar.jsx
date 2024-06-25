@@ -12,22 +12,6 @@ const NavBar = () => {
     window.location.reload();
   };
 
-  const customColors = [
-    "#FF5733", // Red
-    "#33FF57", // Green
-    "#3357FF", // Blue
-    "#FF33A6", // Pink
-    "#33FFF3", // Aqua
-    "#f59e04", // Orange
-    "#7e42b9", // Purple
-    "#FF33C4", // Magenta
-  ];
-
-  const getRandomColor = () => {
-    const randomIndex = Math.floor(Math.random() * customColors.length);
-    return customColors[randomIndex];
-  };
-
   return (
     <div style={{ marginBottom: "100px" }}>
       <nav
@@ -54,14 +38,37 @@ const NavBar = () => {
             {user && user.isAdmin ? (
               <ul className="navbar-nav">
                 <li className="nav-item">
-                  <div
-                    className="font-primary"
-                    style={{
-                      fontSize: "20px",
-                    }}
+                  <NavLink
+                    className="nav-link mx-lg-2 font-primary"
+                    to="/"
+                    exact
                   >
-                    Admin Dashboard
-                  </div>
+                    Home
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink
+                    className="nav-link mx-lg-2 font-primary"
+                    to="/admin/colleges"
+                  >
+                    Colleges
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink
+                    className="nav-link mx-lg-2 font-primary"
+                    to="/admin/courses"
+                  >
+                    Courses
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink
+                    className="nav-link mx-lg-2 font-primary"
+                    to="/admin/blogs"
+                  >
+                    Blogs
+                  </NavLink>
                 </li>
               </ul>
             ) : (
@@ -109,7 +116,7 @@ const NavBar = () => {
                     style={{
                       width: "30px",
                       height: "30px",
-                      backgroundColor: getRandomColor(),
+                      backgroundColor: "red",
                       color: "white",
                       fontSize: "20px",
                       borderRadius: "50%",
@@ -121,46 +128,63 @@ const NavBar = () => {
                     {user.firstName.charAt(0).toUpperCase()}
                   </div>
                   <button
-                    className="btn dropdown-toggle bg-transparent border-0 font-primary tw-me-5"
+                    className="btn dropdown-toggle bg-transparent border-0 font-primary"
                     type="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
+                    style={{
+                      marginRight: "20px",
+                    }}
                   >
                     Welcome, {user.firstName}!
                   </button>
+
                   <ul className="dropdown-menu">
-                    <li>
-                      <Link
-                        className="dropdown-item font-primary"
-                        to={`/user/userProfile/${user.id}`}
-                      >
-                        Profile
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        className="dropdown-item font-primary"
-                        to="/changepp"
-                      >
-                        Change password
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        className="dropdown-item font-primary"
-                        to="/user/contact"
-                      >
-                        Contact
-                      </Link>
-                    </li>
-                    <li>
-                      <button
-                        onClick={handleLogout}
-                        className="dropdown-item font-primary"
-                      >
-                        Logout
-                      </button>
-                    </li>
+                    {user.isAdmin ? (
+                      <li>
+                        <button
+                          onClick={handleLogout}
+                          className="dropdown-item font-primary"
+                        >
+                          Logout
+                        </button>
+                      </li>
+                    ) : (
+                      <>
+                        <li>
+                          <Link
+                            className="dropdown-item font-primary"
+                            to={`/user/userProfile/${user.id}`}
+                          >
+                            Profile
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            className="dropdown-item font-primary"
+                            to="/changepp"
+                          >
+                            Change password
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            className="dropdown-item font-primary"
+                            to="/user/contact"
+                          >
+                            Contact
+                          </Link>
+                        </li>
+                        <li>
+                          <button
+                            onClick={handleLogout}
+                            className="dropdown-item font-primary"
+                          >
+                            Logout
+                          </button>
+                        </li>
+                      </>
+                    )}
                   </ul>
                 </div>
               ) : (
