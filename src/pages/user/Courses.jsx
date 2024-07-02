@@ -143,7 +143,7 @@ const Courses = () => {
                           className="card d-flex flex-column tw-px-5"
                           style={{
                             height: "100%",
-                            boxShadow: "0px 2px 10px 0px rgba(0, 0, 0, 0.1)",
+                            boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
                             borderRadius: "0px",
                             border: "none",
                           }}
