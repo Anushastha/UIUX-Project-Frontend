@@ -25,6 +25,7 @@ import AdminEditCollege from './pages/admin/AdminEditCollege';
 import AdminEditCourse from './pages/admin/AdminEditCourse';
 import AdminEditBlogs from './pages/admin/AdminEditBlogs';
 import BlogDetail from './pages/user/BlogDetail';
+import CourseDetail from './pages/user/CourseDetail';
 
 
 const PrivateRoute = ({ children, isAdmin }) => {
@@ -70,6 +71,7 @@ function App() {
           <Route path="user/courses" element={<PrivateRoute><Courses /></PrivateRoute>} />
           <Route path="user/blogs" element={<PrivateRoute><Blogs /></PrivateRoute>} />
           <Route path="/user/blogs/blogDetails/:id" element={<PrivateRoute><BlogDetail /></PrivateRoute>} />
+          <Route path="/user/courses/courseDetails/:id" element={<PrivateRoute><CourseDetail /></PrivateRoute>} />
 
           <Route path="animation" element={<ListAnimation />} />
 
@@ -77,7 +79,7 @@ function App() {
           <Route path="admin/courses" element={<PrivateRoute isAdmin={true}><AdminCourses /></PrivateRoute>} />
           <Route path="admin/blogs" element={<PrivateRoute isAdmin={true}><AdminBlogs /></PrivateRoute>} />
           <Route path="admin/colleges/editCollege/:id" element={<PrivateRoute isAdmin={true}><AdminEditCollege /></PrivateRoute>} />
-          <Route path="admin/colleges/editCourse/:id" element={<PrivateRoute isAdmin={true}><AdminEditCourse /></PrivateRoute>} />
+          <Route path="admin/courses/editCourse/:id" element={<PrivateRoute isAdmin={true}><AdminEditCourse /></PrivateRoute>} />
           <Route path="admin/blogs/editBlog/:id" element={<PrivateRoute isAdmin={true}><AdminEditBlogs /></PrivateRoute>} />
         </Route>
       </Routes>

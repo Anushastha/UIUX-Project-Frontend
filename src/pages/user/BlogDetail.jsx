@@ -26,7 +26,7 @@ const BlogDetail = () => {
         style={{
           height: "max-content",
           borderRadius: "15px",
-          padding: "40px 50px 0px 50px",
+          padding: "40px 50px 40px 50px",
         }}
       >
         <div className="container">
@@ -35,7 +35,7 @@ const BlogDetail = () => {
               <p
                 className="font-primary text-blue"
                 style={{
-                  fontSize: "6vh",
+                  fontSize: "5vh",
                   marginBottom: "0px",
                   lineHeight: "normal",
                 }}

@@ -1,0 +1,5 @@
+.gradient-container {
+    background: -webkit-linear-gradient(to top right, #c2e8ff, #90c3fc);
+    background: linear-gradient(to top right, #c2e8ff, #90c3fc);
+    
+}
