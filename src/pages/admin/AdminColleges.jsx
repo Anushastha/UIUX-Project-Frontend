@@ -240,7 +240,7 @@ const AdminColleges = () => {
                     aria-label="Basic example"
                   >
                     <Link
-                      to={`/admin/edit/college/${item._id}`}
+                      to={`/admin/colleges/editCollege/${item._id}`}
                       className="btn btn-blue"
                     >
                       Edit

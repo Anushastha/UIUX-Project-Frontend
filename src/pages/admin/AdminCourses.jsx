@@ -252,7 +252,7 @@ const AdminCourses = () => {
                       aria-label="Basic example"
                     >
                       <Link
-                        to={`/admin/edit/course/${item._id}`}
+                        to={`/admin/courses/editCourse/${item._id}`}
                         type="button"
                         className="btn btn-blue"
                       >

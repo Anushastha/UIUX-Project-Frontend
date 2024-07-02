@@ -31,6 +31,8 @@ export const deleteCollegeApi = (id) =>
   Api.delete(`/api/colleges/delete_college/${id}`, config);
 export const addCourseToCollegeApi = (data) =>
   Api.post("/api/colleges/addCourse", data);
+export const searchCollegesApi = (query) =>
+  Api.get(`/api/colleges/search?query=${query}`);
 
 //Courses APIs
 export const createCourseApi = (formData) =>
@@ -42,3 +44,13 @@ export const updateCourseApi = (id, formData) =>
   Api.put(`/api/courses/update_course/${id}`, formData, config);
 export const deleteCourseApi = (id) =>
   Api.delete(`/api/courses/delete_course/${id}`, config);
+
+//Blogs APIs
+export const createBlogApi = (formData) =>
+  Api.post("/api/blogs/create_blog", formData);
+export const getAllBlogsApi = () => Api.get("/api/blogs/get_blogs");
+export const getSingleBlogApi = (id) => Api.get(`/api/blogs/get_blog/${id}`);
+export const updateBlogApi = (id, formData) =>
+  Api.put(`/api/blogs/update_blog/${id}`, formData, config);
+export const deleteBlogApi = (id) =>
+  Api.delete(`/api/blogs/delete_blog/${id}`, config);

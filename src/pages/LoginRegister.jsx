@@ -18,6 +18,9 @@ function LoginRegister() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,8 +37,7 @@ function LoginRegister() {
   const changeConfirmPassword = (e) => setConfirmPassword(e.target.value);
   const changePhoneNumber = (e) => setPhoneNumber(e.target.value);
 
-  // Validation functions
-  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); //^ for string [^\s@]+@[^\s@] for @ and [^\s@] for .com
+  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const isValidPhoneNumber = (number) => /^\d{10}$/.test(number);
   const isValidPassword = (password) => password.length >= 8;
 
@@ -94,12 +96,14 @@ function LoginRegister() {
           toast.success(res.data.message);
           localStorage.setItem("token", res.data.token);
           const isAdmin = res.data.isAdmin;
+          const convertedJson = JSON.stringify(res.data.userData);
+          localStorage.setItem("user", convertedJson);
+
           if (isAdmin) {
             navigate("/admin/colleges");
           } else {
             navigate("/user/colleges");
           }
-          localStorage.setItem("user", JSON.stringify(res.data.userData));
         }
       })
       .catch((err) => {
@@ -109,6 +113,10 @@ function LoginRegister() {
   };
 
   const toggleSignIn = (value) => setSignIn(value);
+
+  const togglePasswordVisibility = () => setPasswordVisible(!passwordVisible);
+  const toggleConfirmPasswordVisibility = () =>
+    setConfirmPasswordVisible(!confirmPasswordVisible);
 
   return (
     <Components.Wrapper>
@@ -151,17 +159,19 @@ function LoginRegister() {
             <Components.Line>Enter password</Components.Line>
             <Components.InputContainer>
               <Components.Input
-                type="password"
-                alt="eye"
+                type={passwordVisible ? "text" : "password"}
                 placeholder="Password"
                 onChange={changePassword}
               />
-              <Components.IconWrapper>
+              <Components.IconWrapper onClick={togglePasswordVisibility}>
                 <img
-                  src="/assets/svg/eye.svg"
+                  src={`/assets/svg/${
+                    passwordVisible ? "eye" : "eye-crossed"
+                  }.svg`}
                   alt="eye"
                   style={{
                     height: "25px",
+                    cursor: "pointer",
                   }}
                 />{" "}
               </Components.IconWrapper>
@@ -169,17 +179,19 @@ function LoginRegister() {
 
             <Components.InputContainer>
               <Components.Input
-                type="password"
+                type={confirmPasswordVisible ? "text" : "password"}
                 placeholder="Confirm password"
-                alt="eye"
                 onChange={changeConfirmPassword}
               />
-              <Components.IconWrapper>
+              <Components.IconWrapper onClick={toggleConfirmPasswordVisibility}>
                 <img
-                  src="/assets/svg/eye.svg"
+                  src={`/assets/svg/${
+                    confirmPasswordVisible ? "eye" : "eye-crossed"
+                  }.svg`}
                   alt="eye"
                   style={{
                     height: "25px",
+                    cursor: "pointer",
                   }}
                 />{" "}
               </Components.IconWrapper>
@@ -234,13 +246,19 @@ function LoginRegister() {
                 marginBottom: "20px",
               }}
             >
-              <Components.Input type="password" onChange={changePassword} />
-              <Components.IconWrapper>
+              <Components.Input
+                type={passwordVisible ? "text" : "password"}
+                onChange={changePassword}
+              />
+              <Components.IconWrapper onClick={togglePasswordVisibility}>
                 <img
-                  src="/assets/svg/eye.svg"
+                  src={`/assets/svg/${
+                    passwordVisible ? "eye" : "eye-crossed"
+                  }.svg`}
                   alt="eye"
                   style={{
                     height: "25px",
+                    cursor: "pointer",
                   }}
                 />{" "}
               </Components.IconWrapper>

@@ -1,6 +1,7 @@
 import React from "react";
 import "../../scss/customs.scss";
 import { Link } from "react-router-dom";
+// import PopularCourses from "../../components/PopularCourses";
 
 const Landing = () => {
   return (
@@ -146,7 +147,9 @@ const Landing = () => {
               Popular Courses
             </h1>
           </div>
-          <div className="flex w-full flex-col items-center justify-center"></div>
+          <div className="flex w-full flex-col items-center justify-center">
+            {/* <PopularCourses /> */}
+          </div>
         </div>
       </div>
     </>

@@ -39,40 +39,29 @@ const Colleges = () => {
         </div>
         <form onSubmit={handleSubmit}>
           <div
-            className="flex items-center overflow-hidden"
+            className=" items-center overflow-hidden mx-auto w-full max-w-lg"
             style={{
               position: "absolute",
               marginTop: "20vh",
               left: "35%",
               display: "flex",
-              width: "400px",
             }}
           >
             <input
               type="text"
               placeholder="Search college names"
-              className="me-1 bg-white border border-white rounded-md shadow-sm px-4 py-2 text-gray-900 bg-white border-none focus:outline-none"
+              className="bg-white me-1 border border-white rounded-md shadow-sm px-2 py-2 text-gray-900 focus:outline-none w-full sm:w-2/3 md:w-1/2 lg:w-2/3 xl:w-3/4"
               onChange={handleInputChange}
-              value={query}
               style={{
-                width: "100%",
+                width: "60vh",
               }}
+              value={query}
             />
             <button
               type="submit"
-              className="items-center justify-center py-1 bg-white h-full"
-              style={{
-                border: "none",
-                height: "42px",
-              }}
+              className="py-2 px-4 bg-white border border-white rounded-md shadow-sm text-gray-900 hover:bg-gray-100"
             >
-              <FiSearch
-                style={{
-                  height: "20px",
-                  width: "35px",
-                  color: "#2E266D",
-                }}
-              />
+              <FiSearch className="text-xl text-[#2E266D]" />
             </button>
           </div>
         </form>
@@ -88,9 +77,7 @@ const Colleges = () => {
           )}
         </div>
       </div>
-      <div>
-        
-      </div>
+      <div></div>
     </div>
   );
 };

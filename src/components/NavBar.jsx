@@ -112,7 +112,7 @@ const NavBar = () => {
               {user ? (
                 <div className="dropdown d-flex align-items-center">
                   <div
-                    className="tw-rounded-full tw-flex tw-items-center tw-justify-center"
+                    className="tw-rounded-full tw-flex tw-items-center tw-justify-center font-secondary font-bold"
                     style={{
                       width: "30px",
                       height: "30px",
@@ -125,7 +125,7 @@ const NavBar = () => {
                       justifyContent: "center",
                     }}
                   >
-                    {user.firstName.charAt(0).toUpperCase()}
+                    {user.fullName ? user.fullName.charAt(0).toUpperCase() : ""}{" "}
                   </div>
                   <button
                     className="btn dropdown-toggle bg-transparent border-0 font-primary"
@@ -136,7 +136,7 @@ const NavBar = () => {
                       marginRight: "20px",
                     }}
                   >
-                    Welcome, {user.firstName}!
+                    Welcome, {user.fullName ? user.fullName.split(" ")[0] : ""}!{" "}
                   </button>
 
                   <ul className="dropdown-menu">
