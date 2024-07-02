@@ -8,6 +8,9 @@ const Footer = () => {
       <div
         style={{
           background: "white",
+          paddingBottom: "20px",
+          paddingTop: "10px",
+
         }}
       >
         <div
@@ -29,6 +32,8 @@ const Footer = () => {
               alignItems: "center",
               justifyContent: "center",
               width: "80%",
+              position: "relative",
+              zIndex: "0",
             }}
           >
             <img
@@ -99,51 +104,82 @@ const Footer = () => {
           style={{
             paddingLeft: "12vw",
             display: "flex",
+            justifyContent: "space-between",
           }}
         >
-          <div>
-            <p
-              className="font-primary"
-              style={{
-                fontSize: "25px",
-                marginRight: "15vw",
-              }}
-            >
-              Links
-            </p>
-            <ul
-              className="font-secondary"
-              style={{
-                lineHeight: "40px",
-                fontSize: "15px",
-              }}
-            >
-              <li>Home</li>
-              <li>Courses</li>
-              <li>Colleges</li>
-              <li>Blogs</li>
-            </ul>
+          <div
+            style={{
+              display: "flex",
+            }}
+          >
+            <div>
+              <p
+                className="font-primary"
+                style={{
+                  fontSize: "25px",
+                  marginRight: "15vw",
+                }}
+              >
+                Links
+              </p>
+              <ul
+                className="font-secondary"
+                style={{
+                  lineHeight: "40px",
+                  fontSize: "15px",
+                }}
+              >
+                <li>
+                  <Link to={"/"}>Home</Link>
+                </li>
+                <li>
+                  <Link to={"/user/colleges"}>Colleges</Link>
+                </li>
+                <li>
+                  <Link to={"/user/courses"}>Courses</Link>
+                </li>
+                <li>
+                  <Link to={"/user/blogs"}>Blogs</Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <p
+                className="font-primary"
+                style={{
+                  fontSize: "25px",
+                }}
+              >
+                Contact
+              </p>
+              <ul
+                className="font-secondary"
+                style={{
+                  lineHeight: "40px",
+                  fontWeight: "bold",
+                  fontSize: "15px",
+                }}
+              >
+                <li>collegeseek@gmail.com</li>
+                <li>9841000000</li>
+              </ul>
+            </div>
           </div>
-          <div>
-            <p
-              className="font-primary"
+          <div
+            style={{
+              position: "absolute",
+              right: "2vw",
+              bottom: "-250vh",
+              zIndex: "1",
+            }}
+          >
+            <img
+              src="/assets/images/footerImage.png"
+              alt="footer-image"
               style={{
-                fontSize: "25px",
+                height: "55vh",
               }}
-            >
-              Contact
-            </p>
-            <ul
-              className="font-secondary"
-              style={{
-                lineHeight: "40px",
-                fontWeight: "bold",
-                fontSize: "15px",
-              }}
-            >
-              <li>collegeseek@gmail.com</li>
-              <li>9841000000</li>
-            </ul>
+            />
           </div>
         </div>
       </div>
