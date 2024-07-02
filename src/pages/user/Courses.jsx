@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import axios from "axios";
 import { getAllCoursesApi } from "../../apis/Apis";
+import "../../styles/tailwind.css";
+import { Link } from "react-router-dom";
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
@@ -23,7 +25,6 @@ const Courses = () => {
     fetch("jobs.json")
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
         setJobs(data);
       });
   }, []);
@@ -45,7 +46,7 @@ const Courses = () => {
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
-      <div className="container my-5 w-full max-w-md">
+      <div className="w-full max-w-md">
         <div style={{ marginLeft: "10vh" }}>
           <p
             className="flex font-primary"
@@ -83,43 +84,194 @@ const Courses = () => {
               type="submit"
               className="py-2 px-4 bg-white border border-white rounded-md shadow-sm text-gray-900 hover:bg-gray-100"
             >
-              <FiSearch className="text-xl text-[#2E266D]" />
+              <FiSearch className="text-xl text-blue" />
             </button>
           </div>
         </form>
         <div className="mt-4">
           {results.length > 0 && (
             <ul className="list-disc pl-5">
-              {results.map((courses, index) => (
+              {results.map((course, index) => (
                 <li key={index} className="mb-2">
-                  {courses.courseName}
+                  {course.courseName}
                 </li>
               ))}
             </ul>
           )}
         </div>
       </div>
-      <div className="flex w-full max-w-5xl mt-8 space-x-4">
-        <div className="bg-white p-4 rounded-md shadow-md w-1/3">
-          <img
-            src="/path-to-your-image.jpg"
-            alt="Course"
-            className="w-full h-auto rounded-md"
-          />
+      <div
+        style={{
+          width: "fit-content",
+          display: "flex",
+          padding: "20px",
+        }}
+      >
+        <div
+          className="bg-blue me-2"
+          style={{ width: "fit-content", padding: "10px" }}
+        >
+          <img src="/assets/images/ad.png" />
         </div>
-        <div className="bg-white p-4 rounded-md shadow-md w-2/3">
-          {courses.length > 0 ? (
-            <ul>
-              {courses.map((item) => (
-                <li key={item} className="mb-2">
-                  <p className="font-bold">{courses.courseName}</p>
-                  <p>{courses.courseDescription}</p>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No course details available</p>
-          )}
+        <div
+          className="container px-5 bg-white"
+          style={{
+            height: "max-content",
+          }}
+        >
+          <div className="row justify-content-center">
+            <div className="col-lg-20">
+              <div className="custom-container mt-3">
+                <div className="row row-cols-1 row-cols-md-1 g-3">
+                  <p
+                    className="text-blue font-primary tw-text-2xl tw-ml-3"
+                    style={{
+                      marginTop: "30px",
+                    }}
+                  >
+                    {courses.length} Results
+                  </p>
+                  {courses.map((item) => (
+                    <div key={item.courseId} className="col">
+                      <div
+                        style={{
+                          display: "flex",
+                          width: "100%",
+                        }}
+                      >
+                        <div
+                          className="card d-flex flex-column tw-px-5"
+                          style={{
+                            height: "100%",
+                            boxShadow: "0px 2px 10px 0px rgba(0, 0, 0, 0.1)",
+                            borderRadius: "0px",
+                            border: "none",
+                          }}
+                        >
+                          <div style={{ display: "flex" }}>
+                            {/*main info*/}
+                            <div
+                              className="card-body d-flex flex-column"
+                              style={{
+                                width: "80%",
+                              }}
+                            >
+                              <p
+                                className="card-title font-primary text-blue"
+                                style={{
+                                  fontSize: "18px",
+                                }}
+                              >
+                                {item.courseName}
+                              </p>
+                              <p
+                                className="card-text font-secondary text-blue"
+                                style={{
+                                  fontSize: "14px",
+                                  marginBottom: "10px",
+                                  textAlign: "justify",
+                                  textJustify: "inter-word",
+                                }}
+                              >
+                                {item.courseDescription.slice(0, 200) + "..."}
+                              </p>
+                              <Link
+                                className="btn btn-blue font-primary"
+                                to="/"
+                                style={{
+                                  width: "fit-content",
+                                }}
+                              >
+                                See More
+                              </Link>
+                            </div>
+
+                            {/* additional info */}
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                                alignItems: "flex-start",
+                                width: "20%",
+                                padding: "10px",
+                              }}
+                            >
+                              <div className="mb-2">
+                                <div className="tw-flex items-center">
+                                  <img
+                                    className="me-2"
+                                    src="/assets/svg/money.svg"
+                                    alt="money"
+                                    style={{
+                                      height: "20px",
+                                    }}
+                                  />
+                                  <p
+                                    className="font-primary text-blue"
+                                    style={{
+                                      fontSize: "14px",
+                                      marginBottom: "5px",
+                                    }}
+                                  >
+                                    Expected Fees
+                                  </p>
+                                </div>
+
+                                <div
+                                  className="font-secondary text-green"
+                                  style={{
+                                    fontSize: "14px",
+                                    fontWeight: "bold",
+                                    marginLeft: "25px",
+                                  }}
+                                >
+                                  {item.expectedFeesMin}-{item.expectedFeesMax}
+                                </div>
+                              </div>
+                              <div className="mt-2">
+                                <div className="tw-flex items-center">
+                                  <img
+                                    className="me-2"
+                                    src="/assets/svg/clock.svg"
+                                    alt="clock"
+                                    style={{
+                                      height: "20px",
+                                    }}
+                                  />
+                                  <p
+                                    className="font-primary text-blue"
+                                    style={{
+                                      fontSize: "14px",
+                                      marginBottom: "5px",
+                                    }}
+                                  >
+                                    Average Duration
+                                  </p>
+                                </div>
+
+                                <div
+                                  className="font-secondary text-green"
+                                  style={{
+                                    fontSize: "14px",
+                                    fontWeight: "bold",
+                                    marginLeft: "25px", // Adjust margin left for spacing
+                                  }}
+                                >
+                                  {item.averageDurationMin}-
+                                  {item.averageDurationMax}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

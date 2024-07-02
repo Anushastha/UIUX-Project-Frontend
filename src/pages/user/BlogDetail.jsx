@@ -20,23 +20,24 @@ const BlogDetail = () => {
   }, [id]);
 
   return (
-    <div>
+    <div className="min-h-screen flex items-center justify-center">
       <div
-        className="bg-white rounded-lg p-4 tw-w-5 max-w-lg"
+        className="container bg-white max-w-3xl"
         style={{
-          margin: "50px",
           height: "max-content",
-          borderRadius: "1rem",
+          borderRadius: "15px",
+          padding: "40px 50px 0px 50px",
         }}
       >
-        <div className="container-fluid">
+        <div className="container">
           <div className="row justify-content-center">
-            <div className="col-lg-20">
+            <div className="col-lg-12">
               <p
                 className="font-primary text-blue"
                 style={{
-                  fontSize: "190%",
+                  fontSize: "6vh",
                   marginBottom: "0px",
+                  lineHeight: "normal",
                 }}
               >
                 {blogTitle}
@@ -44,8 +45,9 @@ const BlogDetail = () => {
               <p
                 className="font-secondary text-green"
                 style={{
-                  fontSize: "100%",
+                  fontSize: "1rem",
                   fontWeight: "bold",
+                  marginBottom: "30px",
                 }}
               >
                 {createdAt}
@@ -53,14 +55,16 @@ const BlogDetail = () => {
               <img
                 src={blogImage}
                 alt={blogTitle}
-                style={{
-                  width: "100%",
-                  height: "fit-content",
-                  marginBottom: "10px",
-                  borderRadius: "1rem", // rounding the image corners
-                }}
+                className="w-full object-cover rounded-lg"
+                style={{ height: "fit-content", marginBottom: "30px" }}
               />
-              <p className="font-secondary" style={{ textAlign: "justify" }}>
+              <p
+                className="font-secondary"
+                style={{
+                  textAlign: "justify",
+                  textJustify: "inter-word",
+                }}
+              >
                 {blogDescription}
               </p>
             </div>
