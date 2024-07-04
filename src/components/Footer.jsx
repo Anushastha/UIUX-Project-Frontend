@@ -10,7 +10,6 @@ const Footer = () => {
           background: "white",
           paddingBottom: "20px",
           paddingTop: "10px",
-
         }}
       >
         <div
@@ -32,8 +31,6 @@ const Footer = () => {
               alignItems: "center",
               justifyContent: "center",
               width: "80%",
-              position: "relative",
-              zIndex: "0",
             }}
           >
             <img
@@ -164,22 +161,6 @@ const Footer = () => {
                 <li>9841000000</li>
               </ul>
             </div>
-          </div>
-          <div
-            style={{
-              position: "absolute",
-              right: "2vw",
-              bottom: "-250vh",
-              zIndex: "1",
-            }}
-          >
-            <img
-              src="/assets/images/footerImage.png"
-              alt="footer-image"
-              style={{
-                height: "55vh",
-              }}
-            />
           </div>
         </div>
       </div>

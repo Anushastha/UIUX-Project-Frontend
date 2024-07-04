@@ -26,6 +26,9 @@ import AdminEditCourse from './pages/admin/AdminEditCourse';
 import AdminEditBlogs from './pages/admin/AdminEditBlogs';
 import BlogDetail from './pages/user/BlogDetail';
 import CourseDetail from './pages/user/CourseDetail';
+import ChangePassword from './pages/user/ChangePassword';
+import EditProfile from './pages/user/EditProfile';
+import UserProfile from './pages/user/UserProfile';
 
 
 const PrivateRoute = ({ children, isAdmin }) => {
@@ -46,8 +49,17 @@ const PrivateRoute = ({ children, isAdmin }) => {
 
 function Layout() {
   const location = useLocation();
-  const showNavBar = !location.pathname.startsWith('/auth');
-  const showFooter = !location.pathname.startsWith('/auth');
+  const showNavBar = !location.pathname.startsWith('/auth') &&
+    !location.pathname.startsWith('/admin') &&
+    !location.pathname.startsWith('/user/changePassword') &&
+    !location.pathname.startsWith('/user/editProfile') &&
+    !location.pathname.startsWith('/user/userProfile');
+
+  const showFooter = !location.pathname.startsWith('/auth') &&
+    !location.pathname.startsWith('/admin') &&
+    !location.pathname.startsWith('/user/changePassword') &&
+    !location.pathname.startsWith('/user/editProfile') &&
+    !location.pathname.startsWith('/user/userProfile');
 
   return (
     <>
@@ -70,8 +82,11 @@ function App() {
           <Route path="user/colleges" element={<PrivateRoute><Colleges /></PrivateRoute>} />
           <Route path="user/courses" element={<PrivateRoute><Courses /></PrivateRoute>} />
           <Route path="user/blogs" element={<PrivateRoute><Blogs /></PrivateRoute>} />
-          <Route path="/user/blogs/blogDetails/:id" element={<PrivateRoute><BlogDetail /></PrivateRoute>} />
-          <Route path="/user/courses/courseDetails/:id" element={<PrivateRoute><CourseDetail /></PrivateRoute>} />
+          <Route path="user/blogs/blogDetails/:id" element={<PrivateRoute><BlogDetail /></PrivateRoute>} />
+          <Route path="user/courses/courseDetails/:id" element={<PrivateRoute><CourseDetail /></PrivateRoute>} />
+          <Route path="user/changePassword" element={<PrivateRoute><ChangePassword /></PrivateRoute>} />
+          <Route path="user/editProfile" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
+          <Route path="user/userProfile" element={<PrivateRoute><UserProfile /></PrivateRoute>} />
 
           <Route path="animation" element={<ListAnimation />} />
 

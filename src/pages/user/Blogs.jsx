@@ -37,7 +37,8 @@ const Blogs = () => {
                     style={{
                       border: "none",
                       borderRadius: "0px",
-                      boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+                      boxShadow:
+                        "rgba(60, 64, 67, 0.15) 0px 1px 2px 0px, rgba(60, 64, 67, 0.1) 0px 2px 6px 2px",
                     }}
                   >
                     <img

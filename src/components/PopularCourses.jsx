@@ -21,12 +21,12 @@ const Details = ({ position, company, companyLink, time, address, work }) => {
           <a
             href={companyLink}
             target="_blank"
-            className="tw-text-primary dark:tw-text-primaryDark tw-capitalize"
+            className="tw-text-blue tw-capitalize"
           >
             @{company}
           </a>
         </h3>
-        <span className="tw-capitalize tw-font-medium tw-text-dark/75 xs:tw-text-sm">
+        <span className="tw-capitalize tw-font-medium tw-text-blue/75 xs:tw-text-sm">
           {time} | {address}
         </span>
         <p className="tw-font-medium tw-w-full md:tw-text-sm">{work}</p>
@@ -49,7 +49,7 @@ const PopularCourses = () => {
       >
         <motion.div
           style={{ scaleY: scrollYProgress }}
-          className="absolute tw-left-9 tw-top-0 tw-w-[4px] tw-h-full tw-bg-dark dark:tw-bg-light tw-origin-top 
+          className="absolute tw-left-9 tw-top-0 tw-w-[4px] tw-h-full tw-bg-blue tw-origin-top 
                     md:tw-w-[2px] md:tw-left-[30px] xs:tw-left-[20px]
                     "
         />

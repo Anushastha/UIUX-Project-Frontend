@@ -145,7 +145,8 @@ const Courses = () => {
                           className="card d-flex flex-column tw-px-5"
                           style={{
                             height: "100%",
-                            boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+                            boxShadow:
+                              "rgba(60, 64, 67, 0.15) 0px 1px 2px 0px, rgba(60, 64, 67, 0.1) 0px 2px 6px 2px",
                             borderRadius: "0px",
                             border: "none",
                           }}
@@ -228,7 +229,8 @@ const Courses = () => {
                                     marginLeft: "26px",
                                   }}
                                 >
-                                  {item.expectedFeesMin}  -  {item.expectedFeesMax}
+                                  {item.expectedFeesMin} -{" "}
+                                  {item.expectedFeesMax}
                                 </div>
                               </div>
                               <div className="mt-2">
@@ -260,7 +262,8 @@ const Courses = () => {
                                     marginLeft: "26px",
                                   }}
                                 >
-                                  {item.averageDurationMin}  -  {item.averageDurationMax}
+                                  {item.averageDurationMin} -{" "}
+                                  {item.averageDurationMax}
                                 </div>
                               </div>
                             </div>

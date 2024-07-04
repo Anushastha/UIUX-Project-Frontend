@@ -43,6 +43,18 @@ export const SignInContainer = styled.div`
   ${props => (props.signinIn !== true ? `transform: translateX(100%);` : null)}
 `;
 
+export const ChangePasswordContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  position: relative;
+  overflow: hidden;
+  width: 50vw;
+  height: max-content;
+  margin: 0 auto;
+`;
+
 export const Form = styled.form`
   background-color: #ffffff;
   display: flex;

@@ -18,6 +18,7 @@ const config = {
 //Auth APIs
 export const loginApi = (data) => Api.post("/api/user/login", data);
 export const registerApi = (data) => Api.post("/api/user/create", data);
+export const changePasswordApi = (data) => Api.post("/api/user/change_password", data);
 
 // College APIs
 export const createCollegeApi = (formData) =>

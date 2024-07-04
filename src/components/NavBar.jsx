@@ -154,27 +154,20 @@ const NavBar = () => {
                         <li>
                           <Link
                             className="dropdown-item font-primary"
+                            to="/user/changePassword"
+                          >
+                            Change Password
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            className="dropdown-item font-primary"
                             to={`/user/userProfile/${user.id}`}
                           >
                             Profile
                           </Link>
                         </li>
-                        <li>
-                          <Link
-                            className="dropdown-item font-primary"
-                            to="/changepp"
-                          >
-                            Change password
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            className="dropdown-item font-primary"
-                            to="/user/contact"
-                          >
-                            Contact
-                          </Link>
-                        </li>
+
                         <li>
                           <button
                             onClick={handleLogout}
