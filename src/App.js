@@ -30,7 +30,6 @@ import ChangePassword from './pages/user/ChangePassword';
 import EditProfile from './pages/user/EditProfile';
 import UserProfile from './pages/user/UserProfile';
 
-
 const PrivateRoute = ({ children, isAdmin }) => {
   const token = localStorage.getItem('token');
   const user = JSON.parse(localStorage.getItem('user'));
@@ -50,7 +49,6 @@ const PrivateRoute = ({ children, isAdmin }) => {
 function Layout() {
   const location = useLocation();
   const showNavBar = !location.pathname.startsWith('/auth') &&
-    !location.pathname.startsWith('/admin') &&
     !location.pathname.startsWith('/user/changePassword') &&
     !location.pathname.startsWith('/user/editProfile') &&
     !location.pathname.startsWith('/user/userProfile');
@@ -79,6 +77,7 @@ function App() {
           <Route index element={<Landing />} />
           <Route path="auth" element={<LoginRegister />} />
 
+
           <Route path="user/colleges" element={<PrivateRoute><Colleges /></PrivateRoute>} />
           <Route path="user/courses" element={<PrivateRoute><Courses /></PrivateRoute>} />
           <Route path="user/blogs" element={<PrivateRoute><Blogs /></PrivateRoute>} />
@@ -88,14 +87,13 @@ function App() {
           <Route path="user/editProfile" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
           <Route path="user/userProfile" element={<PrivateRoute><UserProfile /></PrivateRoute>} />
 
-          <Route path="animation" element={<ListAnimation />} />
-
           <Route path="admin/colleges" element={<PrivateRoute isAdmin={true}><AdminColleges /></PrivateRoute>} />
           <Route path="admin/courses" element={<PrivateRoute isAdmin={true}><AdminCourses /></PrivateRoute>} />
           <Route path="admin/blogs" element={<PrivateRoute isAdmin={true}><AdminBlogs /></PrivateRoute>} />
           <Route path="admin/colleges/editCollege/:id" element={<PrivateRoute isAdmin={true}><AdminEditCollege /></PrivateRoute>} />
           <Route path="admin/courses/editCourse/:id" element={<PrivateRoute isAdmin={true}><AdminEditCourse /></PrivateRoute>} />
           <Route path="admin/blogs/editBlog/:id" element={<PrivateRoute isAdmin={true}><AdminEditBlogs /></PrivateRoute>} />
+
         </Route>
       </Routes>
     </Router>

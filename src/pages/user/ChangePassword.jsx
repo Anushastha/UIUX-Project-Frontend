@@ -1,44 +1,39 @@
 import React, { useState } from "react";
 import * as Components from "../../Components";
 import "../../styles/auth.css";
-import { changePasswordApi } from "../../apis/Apis";
 import { toast } from "react-toastify";
+import { changePasswordApi } from "../../apis/Apis";
 
 function ChangePassword() {
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmNewPassword, setConfirmNewPassword] = useState("");
-  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmNewPassword: "",
+  });
 
-  const handlePasswordChange = async (e) => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (formData.newPassword !== formData.confirmNewPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
     try {
-      if (newPassword === currentPassword) {
-        throw new Error(
-          "New password should be different from the current password."
-        );
-      }
-
-      if (newPassword !== confirmNewPassword) {
-        throw new Error("New password and confirmation password do not match.");
-      }
-
-      const response = await changePasswordApi({
-        currentPassword,
-        newPassword,
+      await changePasswordApi(formData); // Assuming you implement this function in your API file
+      toast.success("Password changed successfully");
+      setFormData({
+        oldPassword: "",
+        newPassword: "",
+        confirmNewPassword: "",
       });
-
-      if (response.data.success) {
-        toast.success("Password changed successfully");
-      } else {
-        toast.error(response.data.message);
-      }
-    } catch (error) {
-      console.error("Error changing password:", error.message);
-      toast.error(error.message);
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to change password");
     }
   };
 
@@ -50,10 +45,10 @@ function ChangePassword() {
     <Components.Wrapper>
       <Components.ChangePasswordContainer className="py-5">
         <Components.Form
-          onSubmit={handlePasswordChange}
           style={{
             width: "80%",
           }}
+          onSubmit={handleSubmit}
         >
           <Components.Title className="font-primary mb-3">
             Change Password
@@ -62,64 +57,37 @@ function ChangePassword() {
           <Components.Line>Enter your old password</Components.Line>
           <Components.InputContainer className="mb-2">
             <Components.Input
-              type={showCurrentPassword ? "text" : "password"}
+              type="password"
+              name="oldPassword"
+              value={formData.oldPassword}
+              onChange={handleChange}
               placeholder="Old password"
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
+              style={{ width: "100%" }}
             />
-            <Components.IconWrapper
-              onClick={() => toggleShowPassword(setShowCurrentPassword)}
-            >
-              <img
-                src={`/assets/svg/${
-                  showCurrentPassword ? "eye" : "eye-crossed"
-                }.svg`}
-                alt="eye"
-                style={{ height: "25px", cursor: "pointer" }}
-              />
-            </Components.IconWrapper>
           </Components.InputContainer>
 
           <Components.Line>Enter your new password</Components.Line>
           <Components.InputContainer className="mb-2">
             <Components.Input
-              type={showNewPassword ? "text" : "password"}
+              type="password"
+              name="newPassword"
+              value={formData.newPassword}
+              onChange={handleChange}
               placeholder="New password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
+              style={{ width: "100%" }}
             />
-            <Components.IconWrapper
-              onClick={() => toggleShowPassword(setShowNewPassword)}
-            >
-              <img
-                src={`/assets/svg/${
-                  showNewPassword ? "eye" : "eye-crossed"
-                }.svg`}
-                alt="eye"
-                style={{ height: "25px", cursor: "pointer" }}
-              />
-            </Components.IconWrapper>
           </Components.InputContainer>
 
           <Components.Line>Confirm new password</Components.Line>
           <Components.InputContainer className="mb-2">
             <Components.Input
-              type={showConfirmNewPassword ? "text" : "password"}
+              type="password"
+              name="confirmNewPassword"
+              value={formData.confirmNewPassword}
+              onChange={handleChange}
               placeholder="Confirm password"
-              value={confirmNewPassword}
-              onChange={(e) => setConfirmNewPassword(e.target.value)}
+              style={{ width: "100%" }}
             />
-            <Components.IconWrapper
-              onClick={() => toggleShowPassword(setShowConfirmNewPassword)}
-            >
-              <img
-                src={`/assets/svg/${
-                  showConfirmNewPassword ? "eye" : "eye-crossed"
-                }.svg`}
-                alt="eye"
-                style={{ height: "25px", cursor: "pointer" }}
-              />
-            </Components.IconWrapper>
           </Components.InputContainer>
 
           <Components.Button type="submit" className="mt-4">
