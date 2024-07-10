@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
-import axios from "axios";
 import { getAllCoursesApi } from "../../apis/Apis";
 import "../../styles/tailwind.css";
 import { Link } from "react-router-dom";
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
+  
   useEffect(() => {
     getAllCoursesApi()
       .then((res) => {
@@ -16,33 +16,6 @@ const Courses = () => {
         console.error("Error fetching courses:", err);
       });
   }, []);
-
-  // const [query, setQuery] = useState("");
-  // const [results, setResults] = useState([]);
-
-  // const [jobs, setJobs] = useState([]);
-  // useEffect(() => {
-  //   fetch("jobs.json")
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setJobs(data);
-  //     });
-  // }, []);
-  // console.log(jobs);
-
-  // const handleInputChange = (event) => {
-  //   setQuery(event.target.value);
-  // };
-
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     const response = await axios.get(`/api/courses/search?query=${query}`);
-  //     setResults(response.data.courses);
-  //   } catch (error) {
-  //     console.error("Error searching courses:", error.message);
-  //   }
-  // };
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
@@ -75,7 +48,7 @@ const Courses = () => {
             <input
               type="text"
               placeholder="Search course names"
-              className="bg-white me-1 border border-white rounded-md shadow-sm px-2 py-2 text-gray-900 focus:outline-none w-full sm:w-2/3 md:w-1/2 lg:w-2/3 xl:w-3/4"
+              className="bg-white me-1 focus:tw-outline-none border border-white rounded-md shadow-sm px-2 py-2 text-gray-900 focus:outline-none w-full sm:w-2/3 md:w-1/2 lg:w-2/3 xl:w-3/4"
               style={{
                 width: "60vh",
               }}
@@ -125,12 +98,7 @@ const Courses = () => {
             <div className="col-lg-20">
               <div className="custom-container mt-3">
                 <div className="row row-cols-1 row-cols-md-1 g-3">
-                  <p
-                    className="text-blue font-primary tw-text-2xl tw-ml-3"
-                    style={{
-                      marginTop: "30px",
-                    }}
-                  >
+                  <p className="text-blue font-primary tw-text-2xl tw-ml-3">
                     {courses.length} Results
                   </p>
                   {courses.map((item) => (

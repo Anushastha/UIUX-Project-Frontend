@@ -30,6 +30,7 @@ const AdminColleges = () => {
 
   useEffect(() => {
     getAllCollegesApi().then((res) => {
+      console.log("Colleges API response:", res.data.colleges);
       setColleges(res.data.colleges);
     });
 
@@ -64,7 +65,6 @@ const AdminColleges = () => {
       );
     }
   };
-  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -88,7 +88,7 @@ const AdminColleges = () => {
     galleryImages.forEach((image) => {
       formData.append("galleryImages", image);
     });
-  
+
     createCollegeApi(formData)
       .then((res) => {
         if (!res.data.success) {
@@ -121,17 +121,24 @@ const AdminColleges = () => {
   };
 
   const handleDelete = (id) => {
+    console.log("College ID to delete:", id); // Verify the ID being passed
     if (window.confirm("Are you sure you want to delete this college?")) {
-      deleteCollegeApi(id).then((res) => {
-        if (!res.data.success) {
-          toast.error(res.data.message);
-        } else {
-          toast.success(res.data.message);
-          setColleges(colleges.filter((college) => college._id !== id));
-        }
-      });
+      deleteCollegeApi(id)
+        .then((res) => {
+          if (!res.data.success) {
+            toast.error(res.data.message);
+          } else {
+            toast.success(res.data.message);
+            setColleges(colleges.filter((college) => college._id !== id));
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting college:", error);
+          toast.error("Internal Server Error!");
+        });
     }
   };
+  
 
   return (
     <div className="m-4">
@@ -332,35 +339,49 @@ const AdminColleges = () => {
             </tr>
           </thead>
           <tbody>
-            {colleges.map((college) => (
-              <tr key={college._id}>
-                <td>{college.collegeName}</td>
-                <td>{college.collegeEmail}</td>
-                <td>{college.collegeNumber}</td>
-                <td>{college.collegeType}</td>
-                <td>{college.affiliation}</td>
-                <td>
-                  {college.coursesAvailable
-                    .map((course) => course.courseName)
-                    .join(", ")}
-                </td>
-                <td>{new Date(college.establishedAt).toLocaleDateString()}</td>
-                <td>{college.location.address}</td>
-                <td>
-                  <button
-                    onClick={() => handleDelete(college._id)}
-                    className="btn btn-danger btn-sm"
-                  >
-                    Delete
-                  </button>
-                  <Link to={`/admin/colleges/edit/${college._id}`}>
-                    <button className="btn btn-warning btn-sm ms-2">
-                      Edit
-                    </button>
-                  </Link>
-                </td>
-              </tr>
-            ))}
+            {colleges.map((college) => {
+              console.log("College object:", college); // Check the structure of each college object
+              return (
+                <tr key={college._id}>
+                  <td>{college.collegeName}</td>
+                  <td>{college.collegeEmail}</td>
+                  <td>{college.collegeNumber}</td>
+                  <td>{college.collegeType}</td>
+                  <td>{college.affiliation}</td>
+                  <td>
+                    {college.coursesAvailable
+                      .map((course) => course.courseName)
+                      .join(", ")}
+                  </td>
+                  <td>
+                    {new Date(college.establishedAt).toLocaleDateString()}
+                  </td>
+                  <td>{college.location.address}</td>
+                  <td>
+                    <div
+                      className="btn-group"
+                      role="group"
+                      aria-label="Basic example"
+                    >
+                      <Link
+                        to={`/admin/colleges/editCollege/${college._id}`}
+                        type="button"
+                        className="btn btn-blue"
+                      >
+                        Edit
+                      </Link>
+                      <button
+                        onClick={() => handleDelete(college._id)}
+                        type="button"
+                        className="btn btn-danger"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

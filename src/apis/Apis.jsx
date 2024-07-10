@@ -27,10 +27,13 @@ export const createCollegeApi = (formData) =>
 export const getAllCollegesApi = () => Api.get("/api/colleges/get_colleges");
 export const getSingleCollegeApi = (id) =>
   Api.get(`/api/colleges/get_college/${id}`);
+
+export const deleteCollegeApi = (id) =>
+  Api.delete(`/api/colleges/delete_college/${id}`);
+
 export const updateCollegeApi = (id, formData) =>
   Api.put(`/api/colleges/update_college/${id}`, formData, config);
-export const deleteCollegeApi = (id) =>
-  Api.delete(`/api/colleges/delete_college/${id}`, config);
+
 export const addCourseToCollegeApi = (data) =>
   Api.post("/api/colleges/addCourse", data);
 export const searchCollegesApi = (query) =>

@@ -1,35 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
-import axios from "axios";
+import { getAllCollegesApi } from "../../apis/Apis";
+import "../../styles/tailwind.css";
+import { Link } from "react-router-dom";
 
 const Colleges = () => {
-  const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
+  const [colleges, setColleges] = useState([]);
 
-  const handleInputChange = (event) => {
-    setQuery(event.target.value);
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await axios.get(`/api/colleges/search?query=${query}`);
-      setResults(response.data.colleges);
-    } catch (error) {
-      console.error("Error searching colleges:", error.message);
-    }
-  };
+  useEffect(() => {
+    getAllCollegesApi()
+      .then((res) => {
+        setColleges(res.data.colleges);
+      })
+      .catch((err) => {
+        console.error("Error fetching colleges:", err);
+      });
+  }, []);
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md">
-        <div style={{ margin: "15vh" }}>
+        <div style={{ marginLeft: "11vh" }}>
           <p
-            className="flex font-primary"
+            className="font-primary"
             style={{
+              display: "flex",
+              flex: "start",
               textAlign: "center",
               fontSize: "30px",
-              position: "absolute",
+              position: "relative",
             }}
           >
             Discover colleges that
@@ -37,47 +36,204 @@ const Colleges = () => {
             fit your criteria
           </p>
         </div>
-        <form onSubmit={handleSubmit}>
+        <div
+          style={{
+            display: "flex",
+          }}
+        >
           <div
-            className=" items-center overflow-hidden mx-auto w-full max-w-lg"
+            id="search-bar"
+            className="items-center overflow-hidden mx-auto w-full max-w-lg"
             style={{
-              position: "absolute",
-              marginTop: "20vh",
-              left: "35%",
+              marginTop: "5vh",
               display: "flex",
+              justifyContent: "center",
             }}
           >
             <input
               type="text"
               placeholder="Search college names"
-              className="bg-white me-1 border border-white rounded-md shadow-sm px-2 py-2 text-gray-900 focus:outline-none w-full sm:w-2/3 md:w-1/2 lg:w-2/3 xl:w-3/4"
-              onChange={handleInputChange}
+              className="bg-white me-1 focus:tw-outline-none border border-white rounded-md shadow-sm px-2 py-2 text-gray-900 focus:outline-none w-full sm:w-2/3 md:w-1/2 lg:w-2/3 xl:w-3/4"
               style={{
                 width: "60vh",
+                marginLeft: "40vh",
               }}
-              value={query}
             />
             <button
               type="submit"
               className="py-2 px-4 bg-white border border-white rounded-md shadow-sm text-gray-900 hover:bg-gray-100"
             >
-              <FiSearch className="text-xl text-[#2E266D]" />
+              <FiSearch className="text-xl text-blue" />
             </button>
           </div>
-        </form>
-        <div className="mt-4">
-          {results.length > 0 && (
-            <ul className="list-disc pl-5">
-              {results.map((college, index) => (
-                <li key={index} className="mb-2">
-                  {college.collegeName}
-                </li>
-              ))}
-            </ul>
-          )}
+          <div
+            className="save-and-compare-buttons"
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <div
+              className="items-center overflow-hidden mx-auto w-full max-w-lg me-3"
+              style={{
+                marginTop: "5vh",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <div
+                className="bg-white text-blue font-secondary me-1"
+                style={{
+                  width: "80px",
+                  height: "40px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  cursor: "pointer",
+                }}
+              >
+                Save
+              </div>
+              <div
+                className="bg-white text-blue font-secondary me-1"
+                style={{
+                  width: "80px",
+                  height: "40px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  cursor: "pointer",
+                }}
+              >
+                Compare
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div></div>
+      <div
+        style={{
+          width: "fit-content",
+          display: "flex",
+          padding: "8px 20px 20px 20px",
+        }}
+      >
+        <div
+          className="bg-blue me-2"
+          style={{ maxWidth: "200px", padding: "10px" }}
+        >
+          <img src="/assets/images/ad.png" alt="Ad" />
+        </div>
+        <div
+          className="bg-white"
+          style={{
+            marginBottom: "100px",
+            height: "max-content",
+            padding: "20px 50px 40px 50px",
+          }}
+        >
+          <div className="custom-container mt-3">
+            <div className="row row-cols-1 row-cols-md-1 g-3">
+              <p className="text-blue font-primary tw-text-2xl tw-ml-3 mb-3">
+                {colleges.length} Results
+              </p>
+              <div className="row">
+                {colleges.map((college) => (
+                  <div
+                    key={college._id}
+                    className="col-lg-4 col-md-6 col-sm-12 mb-4"
+                  >
+                    <Link
+                      to={`/user/colleges/collegeDetails/${college._id}`}
+                      className="card-link"
+                    >
+                      <div
+                        className="card h-100"
+                        style={{
+                          boxShadow:
+                            "rgba(60, 64, 67, 0.15) 0px 1px 2px 0px, rgba(60, 64, 67, 0.1) 0px 2px 6px 2px",
+                          borderRadius: "0px",
+                          border: "none",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <img
+                          src={college.collegeImageUrl}
+                          alt={college.collegeName}
+                          className="card-img-top"
+                          style={{
+                            height: "100px",
+                            objectFit: "cover",
+                            borderRadius: "0px",
+                          }}
+                        />
+                        <div className="card-body">
+                          <p
+                            className="card-title font-primary text-blue"
+                            style={{
+                              fontSize: "18px",
+                              marginBottom: "5vh",
+                            }}
+                          >
+                            {college.collegeName}
+                          </p>
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: "7px",
+                              alignItems: "center",
+                            }}
+                          >
+                            <img
+                              src="/assets/svg/location.svg"
+                              alt="phone"
+                              style={{
+                                height: "15px",
+                              }}
+                            />
+                            <p
+                              className="card-text font-secondary"
+                              style={{
+                                fontSize: "14px",
+                              }}
+                            >
+                              {college.location.address}
+                            </p>
+                          </div>
+
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: "7px",
+                              alignItems: "center",
+                            }}
+                          >
+                            <img
+                              src="/assets/svg/phone-black.svg"
+                              alt="location"
+                              style={{
+                                height: "15px",
+                              }}
+                            />
+                            <p
+                              className="card-text font-secondary"
+                              style={{
+                                fontSize: "14px",
+                              }}
+                            >
+                              {college.collegeNumber}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
