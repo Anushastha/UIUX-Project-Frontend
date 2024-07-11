@@ -81,7 +81,7 @@ const Colleges = () => {
                 justifyContent: "center",
               }}
             >
-              <div
+              <Link
                 className="bg-white text-blue font-secondary me-1"
                 style={{
                   padding: "10px",
@@ -92,9 +92,10 @@ const Colleges = () => {
                   alignItems: "center",
                   cursor: "pointer",
                 }}
+                to={`/user/colleges/savedColleges`}
               >
                 Saved Colleges
-              </div>
+              </Link>
               <div
                 className="bg-white text-blue font-secondary me-1"
                 style={{

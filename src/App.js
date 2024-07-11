@@ -30,6 +30,7 @@ import ChangePassword from './pages/user/ChangePassword';
 import EditProfile from './pages/user/EditProfile';
 import UserProfile from './pages/user/UserProfile';
 import CollegeDetail from './pages/user/CollegeDetail';
+import SavedColleges from './pages/user/SavedColleges';
 
 const PrivateRoute = ({ children, isAdmin }) => {
   const token = localStorage.getItem('token');
@@ -87,6 +88,7 @@ function App() {
           <Route path="user/changePassword" element={<PrivateRoute><ChangePassword /></PrivateRoute>} />
           <Route path="user/editProfile" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
           <Route path="user/userProfile" element={<PrivateRoute><UserProfile /></PrivateRoute>} />
+          <Route path="user/colleges/savedColleges" element={<PrivateRoute><SavedColleges /></PrivateRoute>} />
 
           <Route path="admin/colleges" element={<PrivateRoute isAdmin={true}><AdminColleges /></PrivateRoute>} />
           <Route path="admin/courses" element={<PrivateRoute isAdmin={true}><AdminCourses /></PrivateRoute>} />

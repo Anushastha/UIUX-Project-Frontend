@@ -45,6 +45,11 @@ export const downloadBrochureApi = (filename) => {
   });
 };
 
+//Bookmark APIs
+export const addSaveApi = (data) => Api.post("/api/user/add_save", data);
+export const getSavedApi = (id) => Api.get(`/api/user/get_saved/${id}`);
+export const removeSavedApi = (id) =>
+  Api.delete(`/api/user/remove_saved/${id}`, config);
 
 //Courses APIs
 export const createCourseApi = (formData) =>
@@ -66,4 +71,3 @@ export const updateBlogApi = (id, formData) =>
   Api.put(`/api/blogs/update_blog/${id}`, formData, config);
 export const deleteBlogApi = (id) =>
   Api.delete(`/api/blogs/delete_blog/${id}`, config);
-

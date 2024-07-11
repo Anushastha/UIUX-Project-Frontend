@@ -1,51 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getSingleCollegeApi, downloadBrochureApi } from "../../apis/Apis";
+import { getSingleCollegeApi, addSaveApi } from "../../apis/Apis";
+import { toast } from "react-toastify";
 import "../../styles/tailwind.css";
 
 const CollegeDetail = () => {
   const { id } = useParams();
-  const [collegeName, setCollegeName] = useState("");
-  const [collegeDescription, setCollegeDescription] = useState("");
-  const [collegeType, setCollegeType] = useState("");
-  const [address, setAddress] = useState("");
-  const [googleMapsUrl, setGoogleMapsUrl] = useState("");
-  const [collegeNumber, setCollegeNumber] = useState("");
-  const [collegeEmail, setCollegeEmail] = useState("");
-  const [collegeWebsiteUrl, setCollegeWebsiteUrl] = useState("");
-  const [establishedAt, setEstablishedAt] = useState("");
-  const [affiliation, setAffiliation] = useState("");
-  const [collegeImage, setCollegeImage] = useState("");
-  const [applyNow, setApplyNow] = useState("");
-  const [galleryImages, setGalleryImages] = useState([]);
-  const [coursesAvailable, setCoursesAvailable] = useState([]);
-  const [brochure, setBrochure] = useState(null);
-  const [courses, setCourses] = useState([]);
-
-  useEffect(() => {
-    getSingleCollegeApi(id).then((res) => {
-      const collegeData = res.data.college;
-      setCollegeName(collegeData.collegeName);
-      setCollegeDescription(collegeData.collegeDescription);
-      setCollegeType(collegeData.collegeType);
-      setAddress(collegeData.address);
-      setGoogleMapsUrl(collegeData.googleMapsUrl);
-      setCollegeNumber(collegeData.collegeNumber);
-      setCollegeWebsiteUrl(collegeData.collegeWebsiteUrl);
-      setCollegeEmail(collegeData.collegeEmail);
-      setEstablishedAt(collegeData.establishedAt);
-      setAffiliation(collegeData.affiliation);
-      setCollegeImage(collegeData.collegeImageUrl);
-      setApplyNow(collegeData.applyNow);
-      setGalleryImages(collegeData.galleryImages);
-      setCoursesAvailable(collegeData.coursesAvailable);
-      setBrochure(collegeData.brochure);
-      setCourses(collegeData.courses);
-    });
-  }, [id]);
-
   const [college, setCollege] = useState(null);
   const [activeSection, setActiveSection] = useState("Overview");
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     getSingleCollegeApi(id)
@@ -59,12 +22,39 @@ const CollegeDetail = () => {
       });
   }, [id]);
 
+  const handleSave = (collegeId) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user || !user._id) {
+      toast.error("Please log in to save colleges.");
+      return;
+    }
+    const data = {
+      userId: user._id,
+      collegeId: collegeId,
+      address: "ktm",
+      collegeNumber: 9888111736,
+    };
+    addSaveApi(data)
+      .then((res) => {
+        if (!res.data.success) {
+          toast.error(res.data.message);
+        } else {
+          toast.success("College added to saves list");
+          setIsFavorite(true); // Update state to indicate college is saved
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching user saves:", error.response || error);
+        toast.error("Failed to fetch user saves");
+      });
+  };
+
   if (!college) {
     return <div>Loading...</div>;
   }
 
   const descriptionSplitIndex = Math.floor(
-    college.collegeDescription.length / 7
+    college.collegeDescription.length / 10
   );
   const firstPartDescription = college.collegeDescription.substring(
     0,
@@ -73,21 +63,6 @@ const CollegeDetail = () => {
   const secondPartDescription = college.collegeDescription.substring(
     descriptionSplitIndex
   );
-
-  const downloadBrochure = async (brochure) => {
-    try {
-      const response = await downloadBrochureApi(brochure);
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", brochure);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (error) {
-      console.error("Error downloading brochure:", error);
-    }
-  };
 
   return (
     <div className="min-h-screen flex items-center justify-center">
@@ -127,9 +102,9 @@ const CollegeDetail = () => {
                         <img
                           src="/assets/svg/location.svg"
                           alt="location"
-                          className="tw-h-3"
+                          className="tw-h-4"
                         />
-                        <p className="card-text font-secondary tw-text-black tw-text-xs">
+                        <p className="card-text font-secondary tw-text-black tw-text-sm">
                           {college.location.address}
                         </p>
                       </div>
@@ -138,9 +113,9 @@ const CollegeDetail = () => {
                         <img
                           src="/assets/svg/phone-black.svg"
                           alt="phone"
-                          className="tw-h-3"
+                          className="tw-h-4"
                         />
-                        <p className="card-text font-secondary tw-text-black tw-text-xs">
+                        <p className="card-text font-secondary tw-text-black tw-text-sm">
                           {college.collegeNumber}
                         </p>
                       </div>
@@ -149,11 +124,25 @@ const CollegeDetail = () => {
                 </div>
 
                 <div className="tw-mt-4 md:tw-mt-0">
-                  <img
-                    src="/assets/svg/bookmark-outlined.svg"
-                    alt="save"
-                    className="tw-h-8 tw-cursor-pointer"
-                  />
+                  <button
+                    style={{
+                      cursor: "pointer",
+                      background: "none",
+                      border: "none",
+                    }}
+                    onClick={() => handleSave(id)}
+                  >
+                    <img
+                      src={`/assets/svg/${
+                        isFavorite ? "bookmark-filled" : "bookmark-outlined"
+                      }.svg`}
+                      alt="bookmark"
+                      style={{
+                        height: "25px",
+                        cursor: "pointer",
+                      }}
+                    />
+                  </button>
                 </div>
               </div>
               <div
@@ -275,12 +264,16 @@ const CollegeDetail = () => {
 
                       {/* buttons */}
                       <div className="tw-flex tw-gap-2 tw-justify-center tw-items-center tw-mt-5">
-                        <button
-                          onClick={() => downloadBrochure(college.brochure)}
-                          className="tw-bg-blue-500 tw-text-white tw-px-6 tw-py-2 tw-rounded-lg tw-shadow-md hover:tw-bg-blue-700 tw-transition-all tw-duration-300"
+                        <a
+                          className="btn btn-blue font-primary tw-py-1 tw-text-xs tw-w-24"
+                          href={college.brochure}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          download
                         >
-                          Download Brochure
-                        </button>
+                          Download <br />
+                          Brochure
+                        </a>
 
                         <a
                           className="btn btn-blue font-primary tw-py-1 tw-text-xs tw-w-24"
@@ -324,33 +317,49 @@ const CollegeDetail = () => {
               )}
 
               {activeSection === "Courses" && (
-                <div className="font-secondary">
-                  <strong>Courses Available:</strong>
-                  {college.coursesAvailable
-                    .map((course) => course.courseName)
-                    .join(", ")}
+                <div className="tw-flex tw-justify-center">
+                  <div className="tw-font-secondary tw-w-full md:tw-w-2/3 lg:tw-w-1/2">
+                    <p
+                      className="tw-mb-4 tw-text-left font-primary"
+                      style={{
+                        fontSize: "1.5rem",
+                      }}
+                    >
+                      Courses Offered
+                    </p>
+                    {college.coursesAvailable.length > 0 ? (
+                      <ol className="tw-list-decimal tw-list-inside tw-text-left">
+                        {college.coursesAvailable.map((course, index) => (
+                          <li key={index}>{course.courseName}</li>
+                        ))}
+                      </ol>
+                    ) : (
+                      <p style={{ color: "red", fontWeight: "bold" }}>
+                        No courses available
+                      </p>
+                    )}
+                  </div>
                 </div>
               )}
 
               {activeSection === "Gallery" && (
-                <div className="container">
-                  <div className="row g-2 justify-content-center">
-                    {college.galleryImages.map((image, index) => (
-                      <div
-                        className="col-lg-2 col-md-4 col-sm-6 mb-2"
-                        key={index}
-                      >
-                        <img
-                          src={image}
-                          alt={`Gallery image ${index + 1}`}
-                          style={{
-                            height: "auto",
-                            width: "250px",
-                          }}
-                        />
-                      </div>
-                    ))}
-                  </div>
+                <div className="row g-2 justify-content-center">
+                  {college.galleryImages.map((image, index) => (
+                    <div
+                      className="col-lg-2 col-md-4 col-sm-6 mb-2"
+                      key={index}
+                    >
+                      <img
+                        src={image}
+                        alt={`Gallery image ${index + 1}`}
+                        style={{
+                          width: "250px",
+                          height: "180px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
