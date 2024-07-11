@@ -39,6 +39,13 @@ export const addCourseToCollegeApi = (data) =>
 export const searchCollegesApi = (query) =>
   Api.get(`/api/colleges/search?query=${query}`);
 
+export const downloadBrochureApi = (filename) => {
+  return Api.get(`/api/colleges/download_brochure/${filename}`, {
+    responseType: "blob",
+  });
+};
+
+
 //Courses APIs
 export const createCourseApi = (formData) =>
   Api.post("/api/courses/create_course", formData);
@@ -59,3 +66,4 @@ export const updateBlogApi = (id, formData) =>
   Api.put(`/api/blogs/update_blog/${id}`, formData, config);
 export const deleteBlogApi = (id) =>
   Api.delete(`/api/blogs/delete_blog/${id}`, config);
+

@@ -30,7 +30,6 @@ const AdminColleges = () => {
 
   useEffect(() => {
     getAllCollegesApi().then((res) => {
-      console.log("Colleges API response:", res.data.colleges);
       setColleges(res.data.colleges);
     });
 
@@ -80,8 +79,8 @@ const AdminColleges = () => {
       formData.append("coursesAvailable[]", course);
     });
     formData.append("establishedAt", establishedAt);
-    formData.append("location[address]", address);
-    formData.append("location[googleMapsUrl]", googleMapsUrl);
+    formData.append("location", address);
+    formData.append("googleMapsUrl", googleMapsUrl);
     formData.append("applyNow", applyNow);
     formData.append("collegeImage", collegeImage);
     formData.append("brochure", brochure);
@@ -116,12 +115,11 @@ const AdminColleges = () => {
       })
       .catch((err) => {
         console.error(err);
-        toast.error("Internal Server Error!");
+        toast.error("Internal Server Error !");
       });
   };
 
   const handleDelete = (id) => {
-    console.log("College ID to delete:", id); // Verify the ID being passed
     if (window.confirm("Are you sure you want to delete this college?")) {
       deleteCollegeApi(id)
         .then((res) => {
@@ -138,7 +136,6 @@ const AdminColleges = () => {
         });
     }
   };
-  
 
   return (
     <div className="m-4">
@@ -258,7 +255,7 @@ const AdminColleges = () => {
                 <input
                   onChange={(e) => setGoogleMapsUrl(e.target.value)}
                   className="form-control mb-2"
-                  type="text"
+                  type="url"
                   placeholder="Enter Google Maps URL"
                 />
                 <label className="mb-2 font-primary">Apply Now URL</label>
@@ -274,7 +271,7 @@ const AdminColleges = () => {
                 <input
                   onChange={handleImageUpload}
                   className="form-control mb-2"
-                  type="file"
+                  type="file"     
                 />
                 {previewImage && (
                   <div>
@@ -324,8 +321,8 @@ const AdminColleges = () => {
       </div>
 
       <div className="table-responsive">
-        <table className="table table-striped table-hover">
-          <thead className="bg-dark text-white">
+        <table className="table table-bordered table-hover">
+          <thead className="table-dark text-center font-primary">
             <tr>
               <th scope="col">Name</th>
               <th scope="col">Email</th>
@@ -340,9 +337,8 @@ const AdminColleges = () => {
           </thead>
           <tbody>
             {colleges.map((college) => {
-              console.log("College object:", college); // Check the structure of each college object
               return (
-                <tr key={college._id}>
+                <tr key={college.id}>
                   <td>{college.collegeName}</td>
                   <td>{college.collegeEmail}</td>
                   <td>{college.collegeNumber}</td>
@@ -364,14 +360,14 @@ const AdminColleges = () => {
                       aria-label="Basic example"
                     >
                       <Link
-                        to={`/admin/colleges/editCollege/${college._id}`}
+                        to={`/admin/colleges/editCollege/${college.id}`}
                         type="button"
                         className="btn btn-blue"
                       >
                         Edit
                       </Link>
                       <button
-                        onClick={() => handleDelete(college._id)}
+                        onClick={() => handleDelete(college.id)}
                         type="button"
                         className="btn btn-danger"
                       >

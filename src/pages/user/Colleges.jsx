@@ -84,7 +84,8 @@ const Colleges = () => {
               <div
                 className="bg-white text-blue font-secondary me-1"
                 style={{
-                  width: "80px",
+                  padding: "10px",
+                  width: "max-content",
                   height: "40px",
                   display: "flex",
                   justifyContent: "center",
@@ -92,12 +93,13 @@ const Colleges = () => {
                   cursor: "pointer",
                 }}
               >
-                Save
+                Saved Colleges
               </div>
               <div
                 className="bg-white text-blue font-secondary me-1"
                 style={{
-                  width: "80px",
+                  padding: "10px",
+                  width: "max-content",
                   height: "40px",
                   display: "flex",
                   justifyContent: "center",
@@ -105,6 +107,10 @@ const Colleges = () => {
                   cursor: "pointer",
                 }}
               >
+                <img
+                  src="/assets/svg/cards.svg"
+                  style={{ height: "25px", marginRight: "5px" }}
+                />
                 Compare
               </div>
             </div>
@@ -140,11 +146,11 @@ const Colleges = () => {
               <div className="row">
                 {colleges.map((college) => (
                   <div
-                    key={college._id}
+                    key={college.id}
                     className="col-lg-4 col-md-6 col-sm-12 mb-4"
                   >
                     <Link
-                      to={`/user/colleges/collegeDetails/${college._id}`}
+                      to={`/user/colleges/collegeDetails/${college.id}`}
                       className="card-link"
                     >
                       <div
