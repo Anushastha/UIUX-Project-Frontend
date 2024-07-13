@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { getSavedApi, removeSavedApi } from "../../apis/Apis";
+import "../../styles/tailwind.css";
 
-const SavedColleges = ({}) => {
+const SavedColleges = () => {
   const [save, setSaves] = useState([]);
+  const [hoveredItemId, setHoveredItemId] = useState(null);
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("user");
@@ -21,40 +23,63 @@ const SavedColleges = ({}) => {
   }, []);
 
   const handleRemoveSave = (id) => {
-    const confirmDialog = window.confirm(
-      "Are you sure you want to remove the college from saved list?"
-    );
-    if (!confirmDialog) {
-      return;
-    } else {
-      removeSavedApi(id)
-        .then((res) => {
-          if (res.data.success === true) {
-            toast.success(res.data.message);
-            window.location.reload();
-          } else {
-            toast.error(res.data.message);
-          }
-        })
-        .catch((error) => {
-          console.error("Error removing saved item:", error);
-          toast.error("Failed to remove saved item");
-        });
-    }
+    removeSavedApi(id)
+      .then((res) => {
+        if (res.data.success === true) {
+          toast.success(res.data.message);
+          setSaves((prevSaves) => prevSaves.filter((item) => item._id !== id));
+        } else {
+          toast.error(res.data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error removing saved item:", error);
+        toast.error("Failed to remove saved item");
+      });
+  };
+
+  const handleMouseEnter = (id) => {
+    setHoveredItemId(id);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredItemId(null);
   };
 
   return (
-    <>
-      <div className="row">
-        <div className="col-12">
-          <div
-            className="card p-3 mb-3 border"
-            style={{ borderColor: "#D8812F" }}
-          >
-            <h5 className="mb-4">Saved Colleges</h5>
+    <div className="row">
+      <div className="col-12">
+        <div
+          className="container bg-white max-w-3xl"
+          style={{
+            height: "max-content",
+            padding: "40px 50px 40px 50px",
+            marginBottom: "100px",
+          }}
+        >
+          <div className="container tw-px-20">
+            <p
+              className="mb-3 font-primary text-blue"
+              style={{
+                fontSize: "30px",
+              }}
+            >
+              Saved Colleges
+            </p>
             {save.length > 0 ? (
               save.map((item) => (
-                <div key={item._id} className="card mb-3">
+                <div
+                  key={item._id}
+                  className="card d-flex flex-column px-5 py-3 "
+                  style={{
+                    height: "100%",
+                    boxShadow:
+                      "rgba(60, 64, 67, 0.15) 0px 1px 2px 0px, rgba(60, 64, 67, 0.1) 0px 2px 6px 2px",
+                    borderRadius: "0px",
+                    border: "none",
+                    marginBottom: "20px",
+                  }}
+                >
                   <div className="row g-0">
                     <div className="col-md-4">
                       <img
@@ -64,38 +89,96 @@ const SavedColleges = ({}) => {
                       />
                     </div>
                     <div className="col-md-8">
-                      <div className="card-body">
-                        <h5 className="card-title">
-                          {item.college?.collegeName || "N/A"}
-                        </h5>
-                        <p className="card-text">
-                          <small className="text-muted">
-                            Location: {item.college?.address || "N/A"}
-                          </small>
-                        </p>
-                        <p className="card-text">
-                          <small className="text-muted">
-                            Contact: ${item.college?.collegeNumber || "N/A"}
-                          </small>
-                        </p>
-                        <button
-                          className="btn btn-sm btn-outline-danger me-2"
-                          onClick={() => handleRemoveSave(item._id)}
+                      <div
+                        className="card-body"
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <div
+                          style={{
+                            flex: "start",
+                            marginLeft: "10px",
+                          }}
                         >
-                          <img src="/assets/svg/bookmark-outlined.svg" />
-                        </button>
+                          <p
+                            className="font-primary text-blue"
+                            style={{ fontSize: "28px" }}
+                          >
+                            {item.college?.collegeName || "N/A"}
+                          </p>
+                          <div className="tw-flex tw-gap-6 tw-mt-1">
+                            <div className="tw-flex tw-gap-1 tw-items-center">
+                              <img
+                                src="/assets/svg/location.svg"
+                                alt="location"
+                                className="tw-h-4"
+                              />
+                              <p className="card-text font-secondary tw-text-black tw-text-sm">
+                                {item.college?.location.address}
+                              </p>
+                            </div>
+
+                            <div className="tw-flex tw-gap-1 tw-items-center">
+                              <img
+                                src="/assets/svg/phone-black.svg"
+                                alt="phone"
+                                className="tw-h-4"
+                              />
+                              <p className="card-text font-secondary tw-text-black tw-text-sm">
+                                {item.college?.collegeNumber}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          style={{
+                            flex: "end",
+                          }}
+                        >
+                          <button
+                            className="bookmark-button"
+                            onClick={() => handleRemoveSave(item._id)}
+                            onMouseEnter={() => handleMouseEnter(item._id)}
+                            onMouseLeave={handleMouseLeave}
+                          >
+                            {hoveredItemId === item._id ? (
+                              <img
+                                src="/assets/svg/bookmark-outlined.svg"
+                                style={{
+                                  height: "35px",
+                                }}
+                                alt="Remove Bookmark"
+                              />
+                            ) : (
+                              <img
+                                src="/assets/svg/bookmark-filled.svg"
+                                style={{
+                                  height: "35px",
+                                }}
+                                alt="Remove Bookmark"
+                              />
+                            )}
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               ))
             ) : (
-              <div className="text-center">No saved colleges</div>
+              <div
+                className="my-5 text-center font-bold text-red font-primary"
+                style={{ fontSize: "20px" }}
+              >
+                No colleges saved
+              </div>
             )}
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

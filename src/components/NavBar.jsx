@@ -162,7 +162,7 @@ const NavBar = () => {
                         <li>
                           <Link
                             className="dropdown-item font-primary"
-                            to={`/user/userProfile/${user.id}`}
+                            to={`/user/userProfile/`}
                           >
                             Profile
                           </Link>

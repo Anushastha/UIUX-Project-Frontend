@@ -18,8 +18,25 @@ const config = {
 //Auth APIs
 export const loginApi = (data) => Api.post("/api/user/login", data);
 export const registerApi = (data) => Api.post("/api/user/create", data);
-export const changePasswordApi = (id) =>
-  Api.post("/api/user/change_password", id, config);
+
+export const changePassword = async (data, token) => {
+  try {
+    const response = await Api.post("/api/user/change_password", data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const getUserProfileApi = () => {
+  return Api.get("/api/user/profile", config); // Ensure `config` is passed here
+};
+export const updateUserProfileApi = (userId, data) =>
+  Api.put(`/api/user/update_profile/${userId}`, data, config);
 
 // College APIs
 export const createCollegeApi = (formData) =>
@@ -27,15 +44,11 @@ export const createCollegeApi = (formData) =>
 export const getAllCollegesApi = () => Api.get("/api/colleges/get_colleges");
 export const getSingleCollegeApi = (id) =>
   Api.get(`/api/colleges/get_college/${id}`);
-
 export const deleteCollegeApi = (id) =>
   Api.delete(`/api/colleges/delete_college/${id}`);
-
 export const updateCollegeApi = (id, formData) =>
   Api.put(`/api/colleges/update_college/${id}`, formData, config);
 
-export const addCourseToCollegeApi = (data) =>
-  Api.post("/api/colleges/addCourse", data);
 export const searchCollegesApi = (query) =>
   Api.get(`/api/colleges/search?query=${query}`);
 

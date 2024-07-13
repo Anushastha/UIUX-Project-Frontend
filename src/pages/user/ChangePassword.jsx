@@ -1,102 +1,105 @@
 import React, { useState } from "react";
-import * as Components from "../../Components";
-import "../../styles/auth.css";
-import { toast } from "react-toastify";
-import { changePasswordApi } from "../../apis/Apis";
+import { changePassword } from "../../apis/Apis";
+import "../../styles/tailwind.css";
 
-function ChangePassword() {
-  const [formData, setFormData] = useState({
-    oldPassword: "",
-    newPassword: "",
-    confirmNewPassword: "",
-  });
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+const ChangePassword = () => {
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (formData.newPassword !== formData.confirmNewPassword) {
-      toast.error("Passwords do not match");
+    if (newPassword !== confirmNewPassword) {
+      setMessage("New passwords do not match");
       return;
     }
 
     try {
-      await changePasswordApi(formData); // Assuming you implement this function in your API file
-      toast.success("Password changed successfully");
-      setFormData({
-        oldPassword: "",
-        newPassword: "",
-        confirmNewPassword: "",
-      });
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to change password");
+      const token = localStorage.getItem("token");
+      const response = await changePassword(
+        { currentPassword, newPassword, confirmNewPassword },
+        token
+      );
+      setMessage(response.message);
+    } catch (error) {
+      setMessage(error.message || "An error occurred");
     }
   };
 
-  const toggleShowPassword = (setShowPassword) => {
-    setShowPassword((prev) => !prev);
-  };
-
   return (
-    <Components.Wrapper>
-      <Components.ChangePasswordContainer className="py-5">
-        <Components.Form
-          style={{
-            width: "80%",
-          }}
-          onSubmit={handleSubmit}
-        >
-          <Components.Title className="font-primary mb-3">
+    <div className="tw-container tw-mx-auto tw-p-4">
+      <div className="tw-card tw-shadow-lg tw-rounded-lg tw-bg-white">
+        <div className="tw-card-body tw-p-6">
+          <h2 className="tw-card-title tw-text-xl tw-font-bold tw-mb-4">
             Change Password
-          </Components.Title>
-
-          <Components.Line>Enter your old password</Components.Line>
-          <Components.InputContainer className="mb-2">
-            <Components.Input
-              type="password"
-              name="oldPassword"
-              value={formData.oldPassword}
-              onChange={handleChange}
-              placeholder="Old password"
-              style={{ width: "100%" }}
-            />
-          </Components.InputContainer>
-
-          <Components.Line>Enter your new password</Components.Line>
-          <Components.InputContainer className="mb-2">
-            <Components.Input
-              type="password"
-              name="newPassword"
-              value={formData.newPassword}
-              onChange={handleChange}
-              placeholder="New password"
-              style={{ width: "100%" }}
-            />
-          </Components.InputContainer>
-
-          <Components.Line>Confirm new password</Components.Line>
-          <Components.InputContainer className="mb-2">
-            <Components.Input
-              type="password"
-              name="confirmNewPassword"
-              value={formData.confirmNewPassword}
-              onChange={handleChange}
-              placeholder="Confirm password"
-              style={{ width: "100%" }}
-            />
-          </Components.InputContainer>
-
-          <Components.Button type="submit" className="mt-4">
-            Submit
-          </Components.Button>
-        </Components.Form>
-      </Components.ChangePasswordContainer>
-    </Components.Wrapper>
+          </h2>
+          <form onSubmit={handleSubmit}>
+            <div className="tw-mb-3">
+              <label
+                htmlFor="currentPassword"
+                className="tw-form-label tw-block tw-font-medium tw-mb-2"
+              >
+                Current Password
+              </label>
+              <input
+                type="password"
+                className="tw-form-control tw-w-full tw-border tw-rounded-lg tw-py-2 tw-px-3"
+                id="currentPassword"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                required
+              />
+            </div>
+            <div className="tw-mb-3">
+              <label
+                htmlFor="newPassword"
+                className="tw-form-label tw-block tw-font-medium tw-mb-2"
+              >
+                New Password
+              </label>
+              <input
+                type="password"
+                className="tw-form-control tw-w-full tw-border tw-rounded-lg tw-py-2 tw-px-3"
+                id="newPassword"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                required
+              />
+            </div>
+            <div className="tw-mb-3">
+              <label
+                htmlFor="confirmNewPassword"
+                className="tw-form-label tw-block tw-font-medium tw-mb-2"
+              >
+                Confirm New Password
+              </label>
+              <input
+                type="password"
+                className="tw-form-control tw-w-full tw-border tw-rounded-lg tw-py-2 tw-px-3"
+                id="confirmNewPassword"
+                value={confirmNewPassword}
+                onChange={(e) => setConfirmNewPassword(e.target.value)}
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="tw-btn tw-btn-primary tw-bg-blue-500 tw-text-black tw-py-2 tw-px-4 tw-rounded-lg"
+            >
+              Change Password
+            </button>
+          </form>
+          {message && (
+            <div className="tw-alert tw-alert-info tw-mt-3 tw-bg-blue-100 tw-text-blue-700 tw-p-3 tw-rounded-lg">
+              {message}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
   );
-}
+};
 
 export default ChangePassword;

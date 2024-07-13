@@ -85,10 +85,11 @@ function App() {
           <Route path="user/blogs/blogDetails/:id" element={<PrivateRoute><BlogDetail /></PrivateRoute>} />
           <Route path="user/courses/courseDetails/:id" element={<PrivateRoute><CourseDetail /></PrivateRoute>} />
           <Route path="user/colleges/collegeDetails/:id" element={<PrivateRoute><CollegeDetail /></PrivateRoute>} />
-          <Route path="user/changePassword" element={<PrivateRoute><ChangePassword /></PrivateRoute>} />
-          <Route path="user/editProfile" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
-          <Route path="user/userProfile" element={<PrivateRoute><UserProfile /></PrivateRoute>} />
           <Route path="user/colleges/savedColleges" element={<PrivateRoute><SavedColleges /></PrivateRoute>} />
+          <Route path="user/changePassword" element={<PrivateRoute><ChangePassword /></PrivateRoute>} />
+          <Route path="user/editProfile/:id" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
+          <Route path="user/userProfile" element={<PrivateRoute><UserProfile /></PrivateRoute>} />
+          
 
           <Route path="admin/colleges" element={<PrivateRoute isAdmin={true}><AdminColleges /></PrivateRoute>} />
           <Route path="admin/courses" element={<PrivateRoute isAdmin={true}><AdminCourses /></PrivateRoute>} />

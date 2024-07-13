@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getSingleCollegeApi, addSaveApi } from "../../apis/Apis";
+import {
+  getSingleCollegeApi,
+  addSaveApi,
+  removeSavedApi,
+  getSavedApi,
+} from "../../apis/Apis";
 import { toast } from "react-toastify";
 import "../../styles/tailwind.css";
 
@@ -9,44 +14,71 @@ const CollegeDetail = () => {
   const [college, setCollege] = useState(null);
   const [activeSection, setActiveSection] = useState("Overview");
   const [isFavorite, setIsFavorite] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
     getSingleCollegeApi(id)
       .then((res) => {
         console.log("Fetched college data:", res.data.college);
-
         setCollege(res.data.college);
       })
       .catch((err) => {
         console.error("Error fetching college:", err);
       });
+    // Fetch user's saved colleges and check if current college is saved
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user && user._id) {
+      getSavedApi(user._id)
+        .then((res) => {
+          console.log("Fetched user's saved colleges:", res.data.save);
+          const savedColleges = res.data.save.map((item) => item.college._id);
+          if (savedColleges.includes(id)) {
+            setIsFavorite(true);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching saved colleges:", error);
+        });
+    }
   }, [id]);
 
-  const handleSave = (collegeId) => {
+  const handleSaveToggle = async (collegeId) => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user || !user._id) {
       toast.error("Please log in to save colleges.");
       return;
     }
-    const data = {
-      userId: user._id,
-      collegeId: collegeId,
-      address: "ktm",
-      collegeNumber: 9888111736,
-    };
-    addSaveApi(data)
-      .then((res) => {
+
+    try {
+      if (isFavorite) {
+        // Remove from saved list
+        const res = await removeSavedApi(collegeId);
+        if (!res.data.success) {
+          toast.error(res.data.message);
+        } else {
+          toast.success("College removed from saves list");
+          setIsFavorite(false); // Update state
+        }
+      } else {
+        // Add to saved list
+        const data = {
+          userId: user._id,
+          collegeId: collegeId,
+          address: "ktm", // Example additional data
+          collegeNumber: 9888111736, // Example additional data
+        };
+        const res = await addSaveApi(data);
         if (!res.data.success) {
           toast.error(res.data.message);
         } else {
           toast.success("College added to saves list");
-          setIsFavorite(true); // Update state to indicate college is saved
+          setIsFavorite(true); // Update state
         }
-      })
-      .catch((error) => {
-        console.error("Error fetching user saves:", error.response || error);
-        toast.error("Failed to fetch user saves");
-      });
+      }
+    } catch (error) {
+      console.error("Error saving or removing college:", error);
+      toast.error("Failed to save or remove college");
+    }
   };
 
   if (!college) {
@@ -130,11 +162,19 @@ const CollegeDetail = () => {
                       background: "none",
                       border: "none",
                     }}
-                    onClick={() => handleSave(id)}
+                    onClick={() => handleSaveToggle(id)}
+                    onMouseEnter={() => setHovered(true)}
+                    onMouseLeave={() => setHovered(false)}
                   >
                     <img
                       src={`/assets/svg/${
-                        isFavorite ? "bookmark-filled" : "bookmark-outlined"
+                        hovered
+                          ? isFavorite
+                            ? "bookmark-outlined"
+                            : "bookmark-filled"
+                          : isFavorite
+                          ? "bookmark-filled"
+                          : "bookmark-outlined"
                       }.svg`}
                       alt="bookmark"
                       style={{

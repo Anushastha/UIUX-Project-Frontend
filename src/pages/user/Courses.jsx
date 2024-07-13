@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
-  
+
   useEffect(() => {
     getAllCoursesApi()
       .then((res) => {
@@ -103,12 +103,7 @@ const Courses = () => {
                   </p>
                   {courses.map((item) => (
                     <div key={item.courseId} className="col">
-                      <div
-                        style={{
-                          display: "flex",
-                          width: "100%",
-                        }}
-                      >
+                      <div className="container">
                         <div
                           className="card d-flex flex-column tw-px-5"
                           style={{
@@ -119,7 +114,12 @@ const Courses = () => {
                             border: "none",
                           }}
                         >
-                          <div style={{ display: "flex" }}>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                            }}
+                          >
                             {/*main info*/}
                             <div
                               className="card-body d-flex flex-column"
@@ -164,7 +164,6 @@ const Courses = () => {
                                 flexDirection: "column",
                                 justifyContent: "center",
                                 alignItems: "flex-start",
-                                width: "20%",
                                 padding: "10px",
                               }}
                             >
