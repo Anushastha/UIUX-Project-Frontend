@@ -63,7 +63,13 @@ const UserProfile = () => {
   // };
 
   return (
-    <div className="tw-flex tw-items-center tw-justify-center tw-min-h-scree">
+    <div
+      className="container flex items-center justify-center min-h-screen"
+      style={{
+        overflow: "hidden",
+        width: "max-content",
+      }}
+    >
       {loading ? (
         <p className="loading-text">Loading user data...</p>
       ) : userData ? (
@@ -79,7 +85,7 @@ const UserProfile = () => {
 
           <div
             id="info"
-            className="tw-flex tw-flex-col md:tw-flex-row tw-justify-center tw-items-center tw-gap-4 md:tw-gap-12 tw-p-4"
+            className="tw-flex tw-flex-col md:tw-flex-row tw-justify-center tw-items-center tw-gap-20 tw-p-4 tw-mb-8"
           >
             <div
               id="img-container"

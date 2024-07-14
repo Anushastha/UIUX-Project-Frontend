@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
-import { getAllCollegesApi } from "../../apis/Apis";
+import { getAllCollegesApi, searchCollegesApi } from "../../apis/Apis";
 import "../../styles/tailwind.css";
 import { Link } from "react-router-dom";
 
 const Colleges = () => {
   const [colleges, setColleges] = useState([]);
+
+  const [searchQuery, setSearchQuery] = useState(""); // State for storing the search query
+  const [searchResults, setSearchResults] = useState([]); // State for storing search results
+  const [showResults, setShowResults] = useState(false); // State to control when to display search results
 
   useEffect(() => {
     getAllCollegesApi()
@@ -16,6 +20,28 @@ const Colleges = () => {
         console.error("Error fetching colleges:", err);
       });
   }, []);
+
+  // Function to handle search input change
+  const handleSearchInputChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  // Function to handle search form submission
+  const handleSearchSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await searchCollegesApi(searchQuery);
+      setSearchResults(response.data.colleges);
+      setShowResults(true); // Show search results after submitting the form
+
+    } catch (error) {
+      console.error("Error searching colleges:", error);
+      // Handle error, e.g., show error message to the user
+    }
+  };
+
+  // Determine which array to map based on whether there's a search query
+  const displayedColleges = showResults ? searchResults : colleges;
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
@@ -41,7 +67,8 @@ const Colleges = () => {
             display: "flex",
           }}
         >
-          <div
+          <form
+            onSubmit={handleSearchSubmit}
             id="search-bar"
             className="items-center overflow-hidden mx-auto w-full max-w-lg"
             style={{
@@ -53,6 +80,8 @@ const Colleges = () => {
             <input
               type="text"
               placeholder="Search college names"
+              value={searchQuery}
+              onChange={handleSearchInputChange}
               className="bg-white me-1 focus:tw-outline-none border border-white rounded-md shadow-sm px-2 py-2 text-gray-900 focus:outline-none w-full sm:w-2/3 md:w-1/2 lg:w-2/3 xl:w-3/4"
               style={{
                 width: "60vh",
@@ -65,7 +94,7 @@ const Colleges = () => {
             >
               <FiSearch className="text-xl text-blue" />
             </button>
-          </div>
+          </form>
           <div
             className="save-and-compare-buttons"
             style={{
@@ -142,10 +171,10 @@ const Colleges = () => {
           <div className="custom-container mt-3">
             <div className="row row-cols-1 row-cols-md-1 g-3">
               <p className="text-blue font-primary tw-text-2xl tw-ml-3 mb-3">
-                {colleges.length} Results
+                {displayedColleges.length} Results
               </p>
               <div className="row">
-                {colleges.map((college) => (
+                {displayedColleges.map((college) => (
                   <div
                     key={college.id}
                     className="col-lg-4 col-md-6 col-sm-12 mb-4"

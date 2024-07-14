@@ -81,7 +81,7 @@ const EditProfile = () => {
         toast.success("Profile updated successfully");
         setUserData({
           ...userData,
-          profileImage: response.data.userProfile.profileImage, // Update profileImage in userData
+          profileImage: response.data.userProfile.profileImage,
         });
       } else {
         throw new Error(response.data.message);
@@ -105,9 +105,15 @@ const EditProfile = () => {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div
+      className="container flex items-center justify-center min-h-screen"
+      style={{
+        overflow: "hidden",
+        width: "max-content",
+      }}
+    >
       <div
-        className="tw-bg-white tw-p-8 tw-w-full tw-max-w-4xl tw-mx-4 md:tw-mx-auto tw-relative"
+        className="tw-bg-white tw-p-8 tw-max-w-4xl tw-mx-4 md:tw-mx-auto tw-relative"
         style={{
           marginTop: "60px",
         }}
@@ -117,13 +123,12 @@ const EditProfile = () => {
         </p>
         <div
           id="info"
-          className="tw-flex tw-flex-col md:tw-flex-row tw-justify-center tw-items-center tw-gap-4 md:tw-gap-12 tw-p-4"
+          className="tw-flex tw-flex-col md:tw-flex-row tw-justify-center tw-items-center tw-gap-20 tw-p-4 tw-mb-4"
         >
           <div
             id="img-container"
-            className="tw-flex tw-justify-center tw-items-center tw-mb-4 md:tw-mb-0"
+            className="tw-flex tw-flex-col tw-justify-center tw-items-center tw-mb-4 md:tw-mb-0"
           >
-            <input type="file" onChange={handleProfileImageUpload} />
             {previewImage ? (
               <img
                 src={previewImage}
@@ -148,6 +153,18 @@ const EditProfile = () => {
                   : ""}
               </div>
             )}
+            <label
+              htmlFor="file-upload"
+              className="btn btn-outline-blue btn-sm tw-mt-4"
+            >
+              <span>Update Image</span>
+              <input
+                id="file-upload"
+                type="file"
+                className="tw-hidden"
+                onChange={handleProfileImageUpload}
+              />
+            </label>
           </div>
 
           <div id="profile-details">

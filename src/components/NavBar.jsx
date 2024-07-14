@@ -111,22 +111,36 @@ const NavBar = () => {
             <form className="d-flex gap-2" role="search">
               {user ? (
                 <div className="dropdown d-flex align-items-center">
-                  <div
-                    className="tw-rounded-full tw-flex tw-items-center tw-justify-center font-secondary font-bold"
-                    style={{
-                      width: "30px",
-                      height: "30px",
-                      backgroundColor: "red",
-                      color: "white",
-                      fontSize: "20px",
-                      borderRadius: "50%",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {user.fullName ? user.fullName.charAt(0).toUpperCase() : ""}{" "}
-                  </div>
+                  {user.profileImage ? (
+                    <img
+                      className="tw-rounded-full tw-flex tw-items-center tw-justify-center font-secondary font-bold"
+                      style={{
+                        width: "30px",
+                        height: "30px",
+                      }}
+                      src={user.profileImage}
+                    ></img>
+                  ) : (
+                    <div
+                      className="tw-rounded-full tw-flex tw-items-center tw-justify-center font-secondary font-bold"
+                      style={{
+                        width: "30px",
+                        height: "30px",
+                        backgroundColor: "red",
+                        color: "white",
+                        fontSize: "20px",
+                        borderRadius: "50%",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {user.fullName
+                        ? user.fullName.charAt(0).toUpperCase()
+                        : ""}{" "}
+                    </div>
+                  )}
+
                   <button
                     className="btn dropdown-toggle bg-transparent border-0 font-primary"
                     type="button"
