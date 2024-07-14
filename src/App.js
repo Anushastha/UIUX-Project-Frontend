@@ -31,6 +31,8 @@ import EditProfile from './pages/user/EditProfile';
 import UserProfile from './pages/user/UserProfile';
 import CollegeDetail from './pages/user/CollegeDetail';
 import SavedColleges from './pages/user/SavedColleges';
+import AdminRoutes from './pages/protected_routes/AdminRoutes';
+import UserRoutes from './pages/protected_routes/UserRoutes';
 
 const PrivateRoute = ({ children, isAdmin }) => {
   const token = localStorage.getItem('token');
@@ -89,7 +91,18 @@ function App() {
           <Route path="user/changePassword" element={<PrivateRoute><ChangePassword /></PrivateRoute>} />
           <Route path="user/editProfile/:id" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
           <Route path="user/userProfile" element={<PrivateRoute><UserProfile /></PrivateRoute>} />
-          
+
+          {/* <Route path="user/colleges" element={<Colleges />} />
+            <Route path="user/courses" element={<Courses />} />
+            <Route path="user/blogs" element={<Blogs />} />
+            <Route path="user/blogs/blogDetails/:id" element={<BlogDetail />} />
+            <Route path="user/courses/courseDetails/:id" element={<CourseDetail />} />
+            <Route path="user/colleges/collegeDetails/:id" element={<CollegeDetail />} />
+            <Route path="user/colleges/savedColleges" element={<SavedColleges />} />
+            <Route path="user/changePassword" element={<ChangePassword />} />
+            <Route path="user/editProfile/:id" element={<EditProfile />} />
+            <Route path="user/userProfile" element={<UserProfile />} /> */}
+
 
           <Route path="admin/colleges" element={<PrivateRoute isAdmin={true}><AdminColleges /></PrivateRoute>} />
           <Route path="admin/courses" element={<PrivateRoute isAdmin={true}><AdminCourses /></PrivateRoute>} />
@@ -97,6 +110,14 @@ function App() {
           <Route path="admin/colleges/editCollege/:id" element={<PrivateRoute isAdmin={true}><AdminEditCollege /></PrivateRoute>} />
           <Route path="admin/courses/editCourse/:id" element={<PrivateRoute isAdmin={true}><AdminEditCourse /></PrivateRoute>} />
           <Route path="admin/blogs/editBlog/:id" element={<PrivateRoute isAdmin={true}><AdminEditBlogs /></PrivateRoute>} />
+
+          {/* 
+            <Route path="admin/colleges" element={<AdminColleges />} />
+            <Route path="admin/courses" element={<AdminCourses />} />
+            <Route path="admin/blogs" element={<AdminBlogs />} />
+            <Route path="admin/colleges/editCollege/:id" element={<AdminEditCollege />} />
+            <Route path="admin/courses/editCourse/:id" element={<AdminEditCourse />} />
+            <Route path="admin/blogs/editBlog/:id" element={<AdminEditBlogs />} /> */}
 
         </Route>
       </Routes>

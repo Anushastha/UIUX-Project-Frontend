@@ -1,9 +1,8 @@
 import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; // Import Link
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getUserProfileApi } from "../../apis/Apis";
-// import "../../css/profile.css";
 
 const UserProfile = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -63,61 +62,166 @@ const UserProfile = () => {
   // };
 
   return (
-    <div className="d-flex flex-column align-items-center justify-content-center profile-page-container">
-      <h2 className="mb-2">Welcome to Your Profile, {userData?.firstName}</h2>
+    <div className="tw-flex tw-items-center tw-justify-center tw-min-h-scree">
       {loading ? (
         <p className="loading-text">Loading user data...</p>
       ) : userData ? (
-        <div className="d-flex flex-column align-items-center justify-content-center profile-details-container mt-5 shadow-lg">
-          <div className="old-image-box mx-5 p-5 ">
-            {userData.profileImage ? (
-              <img
-                src={userData.profileImage}
-                alt="Old Profile Image"
-                className="old-profile-image rounded-circle shadow-lg"
-                style={{ objectFit: "cover", maxWidth: 200, maxHeight: 200 }}
-              />
-            ) : (
-              <img
-                src="https://static.vecteezy.com/system/resources/previews/020/213/738/non_2x/add-profile-picture-icon-upload-photo-of-social-media-user-vector.jpg"
-                alt="Default Image"
-                className="old-profile-image rounded-circle"
-                style={{ objectFit: "cover", maxWidth: 300, maxHeight: 300 }}
-              />
-            )}
+        <div
+          className="tw-bg-white tw-p-8 tw-w-full tw-max-w-4xl tw-mx-4 md:tw-mx-auto tw-relative"
+          style={{
+            marginTop: "60px",
+          }}
+        >
+          <p className="tw-font-primary tw-text-blue tw-text-center tw-text-3xl tw-mb-5">
+            <u>Profile</u>
+          </p>
+
+          <div
+            id="info"
+            className="tw-flex tw-flex-col md:tw-flex-row tw-justify-center tw-items-center tw-gap-4 md:tw-gap-12 tw-p-4"
+          >
+            <div
+              id="img-container"
+              className="tw-flex tw-justify-center tw-items-center tw-mb-4 md:tw-mb-0"
+            >
+              {userData.profileImage ? (
+                <img
+                  src={userData.profileImage}
+                  alt="Profile Image"
+                  className="tw-rounded-full"
+                  style={{
+                    objectFit: "cover",
+                    width: "200px",
+                    height: "200px",
+                  }}
+                />
+              ) : (
+                <div
+                  className="tw-rounded-full tw-font-secondary tw-font-bold tw-bg-pink-700 tw-text-white tw-flex tw-items-center tw-justify-center"
+                  style={{ width: "200px", height: "200px", fontSize: "100px" }}
+                >
+                  {userData.fullName
+                    ? userData.fullName.charAt(0).toUpperCase()
+                    : ""}
+                </div>
+              )}
+            </div>
+
+            <div id="profile-details">
+              <div className="tw-mb-4">
+                <p className="tw-text-blue tw-font-secondary">Full name</p>
+                <div className="tw-flex tw-items-center">
+                  <input
+                    className="tw-border-none tw-p-2 focus:tw-outline-none"
+                    style={{
+                      backgroundColor: "#F3F4F4",
+                      color: "#A8AAAA",
+                      border: "none",
+                      marginRight: "2px",
+                      padding: "3px 10px",
+                      width: "250px",
+                    }}
+                    readOnly
+                    value={userData.fullName}
+                  />
+                  <div
+                    className="tw-bg-gray-100"
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      backgroundColor: "#F3F4F4",
+                      padding: "5px",
+                    }}
+                  >
+                    <img
+                      src="/assets/svg/user.svg"
+                      style={{
+                        height: "20px",
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="tw-mb-4">
+                <p className="tw-text-blue tw-font-secondary">Email address</p>
+                <div className="tw-flex tw-items-center">
+                  <input
+                    className="tw-border-none tw-p-2 focus:tw-outline-none"
+                    style={{
+                      backgroundColor: "#F3F4F4",
+                      color: "#A8AAAA",
+                      border: "none",
+                      marginRight: "2px",
+                      padding: "3px 10px",
+                      width: "250px",
+                    }}
+                    readOnly
+                    value={userData.email}
+                  />
+                  <div
+                    className="tw-bg-gray-100"
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      backgroundColor: "#F3F4F4",
+                      padding: "5px",
+                    }}
+                  >
+                    <img
+                      src="/assets/svg/mail.svg"
+                      style={{
+                        height: "20px",
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="tw-mb-4">
+                <p className="tw-text-blue tw-font-secondary">Phone number</p>
+                <div className="tw-flex tw-items-center">
+                  <input
+                    className="tw-border-none tw-p-2 focus:tw-outline-none"
+                    style={{
+                      backgroundColor: "#F3F4F4",
+                      color: "#A8AAAA",
+                      border: "none",
+                      marginRight: "2px",
+                      padding: "3px 10px",
+                      width: "250px",
+                    }}
+                    readOnly
+                    value={userData.phoneNumber}
+                  />
+                  <div
+                    className="tw-bg-gray-100"
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      backgroundColor: "#F3F4F4",
+                      padding: "5px",
+                    }}
+                  >
+                    <img
+                      src="/assets/svg/phone-blue.svg"
+                      style={{
+                        height: "20px",
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="profile-details border-top ">
-            <p className="mt-3">
-              <strong>First Name:</strong> {userData.firstName}
-            </p>
-            <p>
-              <strong>Last Name:</strong> {userData.lastName}
-            </p>
-            <p>
-              <strong>Contact Number:</strong> {userData.contact}
-            </p>
-            <p>
-              <strong>Address:</strong> {userData.location}
-            </p>
-            <p>
-              <strong>Email:</strong> {userData.email}
-            </p>
-          </div>
-          {profileImage && (
-            <img
-              src={profileImage}
-              alt="Profile Preview"
-              className="profile-image-preview rounded-circle"
-              style={{ objectFit: "cover", maxWidth: 300, maxHeight: 300 }}
-            />
-          )}
-          <Link className="mb-2" to={`/profile/edit/${userData.id}`}>
-            <button className="btn btn-lightbtn btn-outline-dark">
-              Edit Profile
-            </button>
+          <Link
+            className="tw-flex tw-justify-center tw-mt-6"
+            to={`/user/editProfile/${userData.id}`}
+          >
+            <button className="btn btn-blue">Edit Profile</button>
           </Link>
-          <br></br>
         </div>
       ) : (
         <p className="error-text">

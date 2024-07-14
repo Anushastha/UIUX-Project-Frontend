@@ -33,10 +33,10 @@ export const changePassword = async (data, token) => {
 };
 
 export const getUserProfileApi = () => {
-  return Api.get("/api/user/profile", config); // Ensure `config` is passed here
+  return Api.get("/api/user/get_profile", config);
 };
-export const updateUserProfileApi = (userId, data) =>
-  Api.put(`/api/user/update_profile/${userId}`, data, config);
+export const updateUserProfileApi = (userId, formData) =>
+  Api.put(`/api/user/update_profile/${userId}`, formData, config);
 
 // College APIs
 export const createCollegeApi = (formData) =>

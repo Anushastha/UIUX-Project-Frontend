@@ -95,15 +95,18 @@ function LoginRegister() {
         } else {
           toast.success(res.data.message);
           localStorage.setItem("token", res.data.token);
-          const isAdmin = res.data.isAdmin;
+          // const isAdmin = res.data.isAdmin;
+
           const convertedJson = JSON.stringify(res.data.userData);
           localStorage.setItem("user", convertedJson);
 
-          if (isAdmin) {
-            navigate("/admin/colleges");
-          } else {
-            navigate("/user/colleges");
-          }
+          navigate(res.data.isAdmin ? "/admin/colleges" : "/user/colleges");
+
+          // if (isAdmin) {
+          //   navigate("/admin/colleges");
+          // } else {
+          //   navigate("/user/colleges");
+          // }
         }
       })
       .catch((err) => {
