@@ -33,7 +33,6 @@ const Colleges = () => {
       const response = await searchCollegesApi(searchQuery);
       setSearchResults(response.data.colleges);
       setShowResults(true); // Show search results after submitting the form
-
     } catch (error) {
       console.error("Error searching colleges:", error);
       // Handle error, e.g., show error message to the user
@@ -125,7 +124,7 @@ const Colleges = () => {
               >
                 Saved Colleges
               </Link>
-              <div
+              <Link
                 className="bg-white text-blue font-secondary me-1"
                 style={{
                   padding: "10px",
@@ -136,13 +135,15 @@ const Colleges = () => {
                   alignItems: "center",
                   cursor: "pointer",
                 }}
+                to={`/user/colleges/compareColleges`}
+
               >
                 <img
                   src="/assets/svg/cards.svg"
                   style={{ height: "25px", marginRight: "5px" }}
                 />
                 Compare
-              </div>
+              </Link>
             </div>
           </div>
         </div>
@@ -155,17 +156,22 @@ const Colleges = () => {
         }}
       >
         <div
-          className="bg-blue me-2"
-          style={{ maxWidth: "200px", padding: "10px" }}
+          className="bg-white me-2"
+          id="filter-container"
+          style={{ minWidth: "200px", padding: "10px", width: "20%" }}
         >
           <img src="/assets/images/ad.png" alt="Ad" />
         </div>
         <div
           className="bg-white"
+          id="colleges-container"
           style={{
             marginBottom: "100px",
             height: "max-content",
             padding: "20px 50px 40px 50px",
+            width: "85%",
+            minHeight: "50vh",
+            minWidth: "75vw",
           }}
         >
           <div className="custom-container mt-3">
@@ -173,7 +179,12 @@ const Colleges = () => {
               <p className="text-blue font-primary tw-text-2xl tw-ml-3 mb-3">
                 {displayedColleges.length} Results
               </p>
-              <div className="row">
+              <div
+                className="row"
+                style={{
+                  margin: "0px",
+                }}
+              >
                 {displayedColleges.map((college) => (
                   <div
                     key={college.id}
@@ -191,6 +202,7 @@ const Colleges = () => {
                           borderRadius: "0px",
                           border: "none",
                           cursor: "pointer",
+                          minWidth: "260px",
                         }}
                       >
                         <img

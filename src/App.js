@@ -31,6 +31,7 @@ import EditProfile from './pages/user/EditProfile';
 import UserProfile from './pages/user/UserProfile';
 import CollegeDetail from './pages/user/CollegeDetail';
 import SavedColleges from './pages/user/SavedColleges';
+import CompareColleges from './pages/user/CompareColleges';
 const PrivateRoute = ({ children, isAdmin }) => {
   const token = localStorage.getItem('token');
   const user = JSON.parse(localStorage.getItem('user'));
@@ -85,6 +86,7 @@ function App() {
           <Route path="user/courses/courseDetails/:id" element={<PrivateRoute><CourseDetail /></PrivateRoute>} />
           <Route path="user/colleges/collegeDetails/:id" element={<PrivateRoute><CollegeDetail /></PrivateRoute>} />
           <Route path="user/colleges/savedColleges" element={<PrivateRoute><SavedColleges /></PrivateRoute>} />
+          <Route path="user/colleges/compareColleges" element={<PrivateRoute><CompareColleges /></PrivateRoute>} />
           <Route path="user/changePassword" element={<PrivateRoute><ChangePassword /></PrivateRoute>} />
           <Route path="user/editProfile/:id" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
           <Route path="user/userProfile" element={<PrivateRoute><UserProfile /></PrivateRoute>} />

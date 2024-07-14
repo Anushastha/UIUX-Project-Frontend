@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
-import { getAllCoursesApi } from "../../apis/Apis";
+import { getAllCoursesApi, searchCoursesApi } from "../../apis/Apis";
 import "../../styles/tailwind.css";
 import { Link } from "react-router-dom";
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
+
+  const [searchQuery, setSearchQuery] = useState(""); // State for storing the search query
+  const [searchResults, setSearchResults] = useState([]); // State for storing search results
+  const [showResults, setShowResults] = useState(false); // State to control when to display search results
 
   useEffect(() => {
     getAllCoursesApi()
@@ -16,6 +20,27 @@ const Courses = () => {
         console.error("Error fetching courses:", err);
       });
   }, []);
+
+  // Function to handle search input change
+  const handleSearchInputChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  // Function to handle search form submission
+  const handleSearchSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await searchCoursesApi(searchQuery);
+      setSearchResults(response.data.courses);
+      setShowResults(true); // Show search results after submitting the form
+    } catch (error) {
+      console.error("Error searching courses:", error);
+      // Handle error, e.g., show error message to the user
+    }
+  };
+
+  // Determine which array to map based on whether there's a search query
+  const displayedCourses = showResults ? searchResults : courses;
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
@@ -36,9 +61,14 @@ const Courses = () => {
             for Your Career Path
           </p>
         </div>
-        <form>
-          <div
-            className="items-center overflow-hidden mx-auto w-full max-w-lg"
+        <div
+          style={{
+            marginRight: "100px",
+          }}
+        >
+          <form
+            onSubmit={handleSearchSubmit}
+            className="items-center overflow-hidden mx-auto w-full max-w-lg me-5"
             style={{
               marginTop: "5vh",
               display: "flex",
@@ -48,9 +78,12 @@ const Courses = () => {
             <input
               type="text"
               placeholder="Search course names"
+              value={searchQuery}
+              onChange={handleSearchInputChange}
               className="bg-white me-1 focus:tw-outline-none border border-white rounded-md shadow-sm px-2 py-2 text-gray-900 focus:outline-none w-full sm:w-2/3 md:w-1/2 lg:w-2/3 xl:w-3/4"
               style={{
                 width: "60vh",
+                marginLeft: "40vh",
               }}
             />
             <button
@@ -59,19 +92,8 @@ const Courses = () => {
             >
               <FiSearch className="text-xl text-blue" />
             </button>
-          </div>
-        </form>
-        {/* <div className="mt-4">
-          {results.length > 0 && (
-            <ul className="list-disc pl-5">
-              {results.map((course, index) => (
-                <li key={index} className="mb-2">
-                  {course.courseName}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div> */}
+          </form>
+        </div>
       </div>
       <div
         style={{
@@ -81,10 +103,11 @@ const Courses = () => {
         }}
       >
         <div
-          className="bg-blue me-2"
-          style={{ width: "fit-content", padding: "10px" }}
+          className="bg-white me-2"
+          id="ad-container"
+          style={{ minWidth: "200px", padding: "10px", width: "20%" }}
         >
-          <img src="/assets/images/ad.png" />
+          <img src="/assets/images/ad.png" alt="Ad" />
         </div>
         <div
           className="bg-white"
@@ -92,6 +115,9 @@ const Courses = () => {
             marginBottom: "100px",
             height: "max-content",
             padding: "20px 50px 40px 50px",
+            width: "85%",
+            minHeight: "50vh",
+            minWidth: "75vw",
           }}
         >
           <div className="row justify-content-center">
@@ -99,9 +125,9 @@ const Courses = () => {
               <div className="custom-container mt-3">
                 <div className="row row-cols-1 row-cols-md-1 g-3">
                   <p className="text-blue font-primary tw-text-2xl tw-ml-3">
-                    {courses.length} Results
+                    {displayedCourses.length} Results
                   </p>
-                  {courses.map((item) => (
+                  {displayedCourses.map((item) => (
                     <div key={item.courseId} className="col">
                       <div className="container">
                         <div
