@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getUserProfileApi } from "../../apis/Apis";
+import "../../styles/tailwind.css";
 
 const UserProfile = () => {
   const user = JSON.parse(localStorage.getItem("user"));

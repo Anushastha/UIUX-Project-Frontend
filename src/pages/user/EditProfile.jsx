@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getUserProfileApi, updateUserProfileApi } from "../../apis/Apis";
-import {jwtDecode} from "jwt-decode"; // Corrected import statement for jwtDecode
+import { jwtDecode } from "jwt-decode";
+import "../../styles/tailwind.css";
 
 const EditProfile = () => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [profileImage, setProfileImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
 
   const { id } = useParams();
 
@@ -60,6 +62,7 @@ const EditProfile = () => {
   const handleProfileImageUpload = (event) => {
     const file = event.target.files[0];
     setProfileImage(file);
+    setPreviewImage(URL.createObjectURL(file));
   };
 
   const handleSaveProfile = async () => {
@@ -76,7 +79,10 @@ const EditProfile = () => {
       const response = await updateUserProfileApi(id, formData);
       if (response.data.success) {
         toast.success("Profile updated successfully");
-        setUserData(response.data.userProfile);
+        setUserData({
+          ...userData,
+          profileImage: response.data.userProfile.profileImage, // Update profileImage in userData
+        });
       } else {
         throw new Error(response.data.message);
       }
@@ -101,39 +107,55 @@ const EditProfile = () => {
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div
-        className="bg-white p-8 w-full max-w-4xl mx-4 md:mx-auto relative"
+        className="tw-bg-white tw-p-8 tw-w-full tw-max-w-4xl tw-mx-4 md:tw-mx-auto tw-relative"
         style={{
           marginTop: "60px",
         }}
       >
-        <p className="font-primary text-blue text-center text-3xl mb-5">
+        <p className="tw-font-primary tw-text-blue tw-text-center tw-text-3xl tw-mb-5">
           <u>Profile</u>
         </p>
         <div
           id="info"
-          className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-12 p-4"
+          className="tw-flex tw-flex-col md:tw-flex-row tw-justify-center tw-items-center tw-gap-4 md:tw-gap-12 tw-p-4"
         >
           <div
             id="img-container"
-            className="flex justify-center items-center mb-4 md:mb-0"
+            className="tw-flex tw-justify-center tw-items-center tw-mb-4 md:tw-mb-0"
           >
             <input type="file" onChange={handleProfileImageUpload} />
-            {profileImage && (
+            {previewImage ? (
               <img
-                src={URL.createObjectURL(profileImage)}
+                src={previewImage}
                 alt="Profile Preview"
-                className="profile-image-preview"
-                style={{ objectFit: "cover", maxWidth: 300, maxHeight: 300 }}
+                className="profile-image-preview tw-rounded-full"
+                style={{ objectFit: "cover", width: "200px", height: "200px" }}
               />
+            ) : userData.profileImage ? (
+              <img
+                src={userData.profileImage}
+                alt="Profile Image"
+                className="tw-rounded-full"
+                style={{ objectFit: "cover", width: "200px", height: "200px" }}
+              />
+            ) : (
+              <div
+                className="tw-rounded-full tw-font-secondary tw-font-bold tw-bg-pink-700 tw-text-white tw-flex tw-items-center tw-justify-center"
+                style={{ width: "200px", height: "200px", fontSize: "100px" }}
+              >
+                {userData.fullName
+                  ? userData.fullName.charAt(0).toUpperCase()
+                  : ""}
+              </div>
             )}
           </div>
 
           <div id="profile-details">
-            <div className="mb-4">
-              <p className="text-blue font-secondary">Full name</p>
-              <div className="flex items-center">
+            <div className="tw-mb-4">
+              <p className="tw-text-blue tw-font-secondary">Full name</p>
+              <div className="tw-flex tw-items-center">
                 <input
-                  className="form-control border-none p-2 focus:outline-none"
+                  className="tw-border-none tw-p-2 focus:tw-outline-none"
                   style={{
                     backgroundColor: "#F3F4F4",
                     color: "#A8AAAA",
@@ -167,11 +189,11 @@ const EditProfile = () => {
                 </div>
               </div>
             </div>
-            <div className="mb-4">
-              <p className="text-blue font-secondary">Email address</p>
-              <div className="flex items-center">
+            <div className="tw-mb-4">
+              <p className="tw-text-blue tw-font-secondary">Email address</p>
+              <div className="tw-flex tw-items-center">
                 <input
-                  className="form-control border-none p-2 focus:outline-none"
+                  className="tw-border-none tw-p-2 focus:tw-outline-none"
                   style={{
                     backgroundColor: "#F3F4F4",
                     color: "#A8AAAA",
@@ -205,11 +227,11 @@ const EditProfile = () => {
                 </div>
               </div>
             </div>
-            <div className="mb-4">
-              <p className="text-blue font-secondary">Phone number</p>
-              <div className="flex items-center">
+            <div className="tw-mb-4">
+              <p className="tw-text-blue tw-font-secondary">Phone number</p>
+              <div className="tw-flex tw-items-center">
                 <input
-                  className="form-control border-none p-2 focus:outline-none"
+                  className="tw-border-none tw-p-2 focus:tw-outline-none"
                   style={{
                     backgroundColor: "#F3F4F4",
                     color: "#A8AAAA",

@@ -31,9 +31,6 @@ import EditProfile from './pages/user/EditProfile';
 import UserProfile from './pages/user/UserProfile';
 import CollegeDetail from './pages/user/CollegeDetail';
 import SavedColleges from './pages/user/SavedColleges';
-import AdminRoutes from './pages/protected_routes/AdminRoutes';
-import UserRoutes from './pages/protected_routes/UserRoutes';
-
 const PrivateRoute = ({ children, isAdmin }) => {
   const token = localStorage.getItem('token');
   const user = JSON.parse(localStorage.getItem('user'));
