@@ -24,7 +24,7 @@ const Details = ({ courseName, detail1, detail2 }) => {
     );
 };
 
-const Experience = () => {
+const PopularCourses = () => {
     const ref = useRef(null);
     const { scrollYProgress } = useScroll({
         target: ref,
@@ -78,4 +78,4 @@ const Experience = () => {
     );
 };
 
-export default Experience;
+export default PopularCourses;

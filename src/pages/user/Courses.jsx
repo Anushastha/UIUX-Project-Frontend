@@ -105,7 +105,12 @@ const Courses = () => {
         <div
           className="bg-white me-2"
           id="ad-container"
-          style={{ minWidth: "200px", padding: "10px", width: "20%" }}
+          style={{
+            minWidth: "200px",
+            padding: "10px",
+            width: "20%",
+            position: "fixed",
+          }}
         >
           <img src="/assets/images/ad.png" alt="Ad" />
         </div>
