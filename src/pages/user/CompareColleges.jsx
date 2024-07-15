@@ -181,7 +181,8 @@ const CompareColleges = () => {
         <u>Facilities</u>
         <div
           style={{
-            display: "flex",
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
             justifyContent: "center",
             marginTop: "10px",
           }}
@@ -191,7 +192,7 @@ const CompareColleges = () => {
               key={index}
               src={image}
               alt={`Image ${index + 1}`}
-              style={{ maxWidth: "20%", objectFit: "cover", margin: "0 10px" }}
+              style={{ width: "80%", height: "auto", objectFit: "cover" }}
             />
           ))}
         </div>

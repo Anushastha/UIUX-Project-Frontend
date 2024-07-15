@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { changePassword } from "../../apis/Apis";
 import "../../styles/tailwind.css";
+import { toast } from "react-toastify";
 
 const ChangePassword = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
-  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (newPassword !== confirmNewPassword) {
-      setMessage("New passwords do not match");
+      toast.error("New passwords do not match");
       return;
     }
 
@@ -22,81 +22,165 @@ const ChangePassword = () => {
         { currentPassword, newPassword, confirmNewPassword },
         token
       );
-      setMessage(response.message);
+      toast.success(response.message);
     } catch (error) {
-      setMessage(error.message || "An error occurred");
+      toast.error(error.message || "An error occurred");
     }
   };
 
   return (
-    <div className="tw-container tw-mx-auto tw-p-4">
-      <div className="tw-card tw-shadow-lg tw-rounded-lg tw-bg-white">
-        <div className="tw-card-body tw-p-6">
-          <h2 className="tw-card-title tw-text-xl tw-font-bold tw-mb-4">
-            Change Password
-          </h2>
-          <form onSubmit={handleSubmit}>
-            <div className="tw-mb-3">
-              <label
-                htmlFor="currentPassword"
-                className="tw-form-label tw-block tw-font-medium tw-mb-2"
-              >
-                Current Password
-              </label>
-              <input
-                type="password"
-                className="tw-form-control tw-w-full tw-border tw-rounded-lg tw-py-2 tw-px-3"
-                id="currentPassword"
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
-                required
-              />
+    <div
+      className="container flex items-center justify-center min-h-screen"
+      style={{
+        overflow: "hidden",
+        width: "max-content",
+      }}
+    >
+      <div
+        className="tw-bg-white tw-p-8 tw-max-w-4xl tw-mx-4 md:tw-mx-auto tw-relative"
+        style={{
+          marginTop: "60px",
+        }}
+      >
+        <p className="tw-font-primary tw-text-blue tw-text-center tw-text-3xl tw-mb-5">
+          <u>Change Password</u>
+        </p>
+        <form
+          onSubmit={handleSubmit}
+          id="info"
+          className="tw-flex tw-flex-col tw-justify-center tw-items-center tw-p-4 tw-mx-10"
+        >
+          <div id="password-details">
+            <div className="tw-mb-4">
+              <p className="tw-text-blue tw-font-secondary">
+                Enter your old password
+              </p>
+              <div className="tw-flex tw-items-center">
+                <input
+                  className="tw-border-none tw-p-2 focus:tw-outline-none"
+                  style={{
+                    backgroundColor: "#F3F4F4",
+                    color: "#A8AAAA",
+                    border: "none",
+                    marginRight: "2px",
+                    padding: "3px 10px",
+                    width: "250px",
+                  }}
+                  type="password"
+                  placeholder="Old Password"
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  required
+                />
+                <div
+                  className="bg-gray-100"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    backgroundColor: "#F3F4F4",
+                    padding: "5px",
+                  }}
+                >
+                  <img
+                    src="/assets/svg/eye.svg"
+                    style={{
+                      height: "20px",
+                    }}
+                    alt="eye Icon"
+                  />
+                </div>
+              </div>
             </div>
-            <div className="tw-mb-3">
-              <label
-                htmlFor="newPassword"
-                className="tw-form-label tw-block tw-font-medium tw-mb-2"
-              >
-                New Password
-              </label>
-              <input
-                type="password"
-                className="tw-form-control tw-w-full tw-border tw-rounded-lg tw-py-2 tw-px-3"
-                id="newPassword"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                required
-              />
+            <div className="tw-mb-4">
+              <p className="tw-text-blue tw-font-secondary">
+                Enter new Password
+              </p>
+              <div className="tw-flex tw-items-center">
+                <input
+                  className="tw-border-none tw-p-2 focus:tw-outline-none"
+                  style={{
+                    backgroundColor: "#F3F4F4",
+                    color: "#A8AAAA",
+                    border: "none",
+                    marginRight: "2px",
+                    padding: "3px 10px",
+                    width: "250px",
+                  }}
+                  type="password"
+                  placeholder="New password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  required
+                />
+                <div
+                  className="bg-gray-100"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    backgroundColor: "#F3F4F4",
+                    padding: "5px",
+                  }}
+                >
+                  <img
+                    src="/assets/svg/eye.svg"
+                    style={{
+                      height: "20px",
+                    }}
+                    alt="eye Icon"
+                  />
+                </div>
+              </div>
             </div>
-            <div className="tw-mb-3">
-              <label
-                htmlFor="confirmNewPassword"
-                className="tw-form-label tw-block tw-font-medium tw-mb-2"
-              >
-                Confirm New Password
-              </label>
-              <input
-                type="password"
-                className="tw-form-control tw-w-full tw-border tw-rounded-lg tw-py-2 tw-px-3"
-                id="confirmNewPassword"
-                value={confirmNewPassword}
-                onChange={(e) => setConfirmNewPassword(e.target.value)}
-                required
-              />
+            <div className="tw-mb-4">
+              <p className="tw-text-blue tw-font-secondary">
+                Confirm new password
+              </p>
+              <div className="tw-flex tw-items-center">
+                <input
+                  className="tw-border-none tw-p-2 focus:tw-outline-none"
+                  style={{
+                    backgroundColor: "#F3F4F4",
+                    color: "#A8AAAA",
+                    border: "none",
+                    marginRight: "2px",
+                    padding: "3px 10px",
+                    width: "250px",
+                  }}
+                  type="password"
+                  placeholder="Confirm Password"
+                  value={confirmNewPassword}
+                  onChange={(e) => setConfirmNewPassword(e.target.value)}
+                  required
+                />
+                <div
+                  className="bg-gray-100"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    backgroundColor: "#F3F4F4",
+                    padding: "5px",
+                  }}
+                >
+                  <img
+                    src="/assets/svg/eye.svg"
+                    style={{
+                      height: "20px",
+                    }}
+                    alt="eye Icon"
+                  />
+                </div>
+              </div>
             </div>
-            <button
-              type="submit"
-              className="tw-btn tw-btn-primary tw-bg-blue-500 tw-text-black tw-py-2 tw-px-4 tw-rounded-lg"
-            >
-              Change Password
+          </div>
+          <div>
+            <button className="btn btn-blue" type="submit">
+              Submit
             </button>
-          </form>
-          {message && (
-            <div className="tw-alert tw-alert-info tw-mt-3 tw-bg-blue-100 tw-text-blue-700 tw-p-3 tw-rounded-lg">
-              {message}
-            </div>
-          )}
-        </div>
+          </div>
+        </form>
       </div>
     </div>
   );

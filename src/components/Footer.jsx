@@ -97,6 +97,7 @@ const Footer = () => {
               <Link
                 className="btn btn-blue font-primary me-1"
                 style={{ width: "100px", height: "30px", fontSize: "0.9rem" }}
+                to={`/auth?mode=login`}
               >
                 Login
               </Link>
@@ -107,6 +108,7 @@ const Footer = () => {
                   height: "30px",
                   fontSize: "0.9rem",
                 }}
+                to={`/auth?mode=register`}
               >
                 Register
               </Link>

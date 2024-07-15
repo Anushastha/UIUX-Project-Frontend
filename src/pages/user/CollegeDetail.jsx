@@ -5,6 +5,7 @@ import {
   addSaveApi,
   removeSavedApi,
   getSavedApi,
+  getAllBlogsApi,
 } from "../../apis/Apis";
 import { toast } from "react-toastify";
 import "../../styles/tailwind.css";
@@ -15,6 +16,7 @@ const CollegeDetail = () => {
   const [activeSection, setActiveSection] = useState("Overview");
   const [isFavorite, setIsFavorite] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const [blogs, setBlogs] = useState([]); // State to store blogs
 
   useEffect(() => {
     getSingleCollegeApi(id)
@@ -40,6 +42,14 @@ const CollegeDetail = () => {
           console.error("Error fetching saved colleges:", error);
         });
     }
+    getAllBlogsApi()
+      .then((res) => {
+        console.log("Fetched blogs data:", res.data.blogs);
+        setBlogs(res.data.blogs);
+      })
+      .catch((err) => {
+        console.error("Error fetching blogs:", err);
+      });
   }, [id]);
 
   const handleSaveToggle = async (collegeId) => {
@@ -400,6 +410,55 @@ const CollegeDetail = () => {
                       />
                     </div>
                   ))}
+                </div>
+              )}
+
+              {activeSection === "Blogs" && (
+                <div className="container tw-mt-4 p-4">
+                  <div className="tw-grid tw-grid-cols-1 sm:tw-grid-cols-2 md:tw-grid-cols-3 tw-gap-4">
+                    {blogs.map((blog) => (
+                      <div
+                        key={blog._id}
+                        className="card d-flex flex-column"
+                        style={{
+                          border: "none",
+                          boxShadow:
+                            "rgba(60, 64, 67, 0.15) 0px 1px 2px 0px, rgba(60, 64, 67, 0.1) 0px 2px 6px 2px",
+                        }}
+                      >
+                        <img
+                          src={blog.blogImageUrl}
+                          className="card-img-top img-fluid"
+                          alt={blog.blogTitle}
+                          style={{
+                            height: "120px",
+                            objectFit: "cover",
+                          }}
+                        />
+                        <div className="card-body p-2">
+                          <p
+                            className="card-title font-primary text-blue"
+                            style={{
+                              fontSize: "14px",
+                              minHeight: "2.5em",
+                              overflow: "hidden",
+                            }}
+                          >
+                            {blog.blogTitle}
+                          </p>
+                          <p
+                            className="card-text font-secondary text-green"
+                            style={{
+                              fontSize: "12px",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            {new Date(blog.createdAt).toLocaleDateString()}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>

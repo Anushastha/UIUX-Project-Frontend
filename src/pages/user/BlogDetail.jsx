@@ -20,7 +20,7 @@ const BlogDetail = () => {
   }, [id]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center mb-5">
       <div
         className="container bg-white max-w-3xl"
         style={{

@@ -17,7 +17,6 @@ function LoginRegister() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
 
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
@@ -73,7 +72,7 @@ function LoginRegister() {
       .then((res) => {
         if (res.data.success) {
           toast.success(res.data.message);
-          navigate("/auth?mode=login");
+          navigate("/auth");
         } else {
           toast.error(res.data.message);
         }
@@ -95,12 +94,10 @@ function LoginRegister() {
           toast.error(res.data.message);
         } else {
           toast.success(res.data.message);
-          const storage = rememberMe ? localStorage : sessionStorage;
-          storage.setItem("token", res.data.token);
+          localStorage.setItem("token", res.data.token);
           // const isAdmin = res.data.isAdmin;
-
           const convertedJson = JSON.stringify(res.data.userData);
-          storage.setItem("user", convertedJson);
+          localStorage.setItem("user", convertedJson);
 
           navigate(res.data.isAdmin ? "/admin/colleges" : "/user/colleges");
 
@@ -121,8 +118,6 @@ function LoginRegister() {
   const togglePasswordVisibility = () => setPasswordVisible(!passwordVisible);
   const toggleConfirmPasswordVisibility = () =>
     setConfirmPasswordVisible(!confirmPasswordVisible);
-  const toggleRememberMe = () => setRememberMe(!rememberMe);
-
 
   return (
     <Components.Wrapper>
@@ -279,8 +274,6 @@ function LoginRegister() {
                   Remember me
                   <input
                     type="checkbox"
-                    checked={rememberMe}
-                    onChange={toggleRememberMe}
                     style={{
                       marginLeft: "10px",
                     }}

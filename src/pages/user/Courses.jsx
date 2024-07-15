@@ -109,7 +109,7 @@ const Courses = () => {
             minWidth: "200px",
             padding: "10px",
             width: "20%",
-            position: "fixed",
+            height: "max-content",
           }}
         >
           <img src="/assets/images/ad.png" alt="Ad" />

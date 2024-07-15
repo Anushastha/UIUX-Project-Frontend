@@ -162,6 +162,8 @@ export const Anchor = styled.a`
 
 `;
 
+
+
 export const LoginBottomContainer = styled.div`
   display: flex;
   justify-content: space-between;
