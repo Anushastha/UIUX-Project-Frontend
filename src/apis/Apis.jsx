@@ -19,6 +19,13 @@ const config = {
 export const loginApi = (data) => Api.post("/api/user/login", data);
 export const registerApi = (data) => Api.post("/api/user/create", data);
 
+export const sendEmailApi = (data) =>
+  Api.post("/api/user/reset_password", data);
+export const verifyCodeApi = (data) =>
+  Api.post("/api/user/reset_code", data, config);
+export const updatePasswordApi = (data) =>
+  Api.post("/api/user/update_password", data);
+
 export const changePassword = async (data, token) => {
   try {
     const response = await Api.post("/api/user/change_password", data, {
@@ -51,6 +58,26 @@ export const updateCollegeApi = (id, formData) =>
 export const searchCollegesApi = (query) =>
   Api.get(`/api/colleges/search?query=${query}`);
 
+export const filterCollegesApi = async (filters) => {
+  try {
+    const response = await axios.get(`api/colleges/filter`, { params: filters });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetchFilterOptionsApi = async () => {
+  try {
+    const response = await axios.get(`api/colleges/filter_options`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+
 export const downloadBrochureApi = (filename) => {
   return Api.get(`/api/colleges/download_brochure/${filename}`, {
     responseType: "blob",
@@ -75,7 +102,6 @@ export const deleteCourseApi = (id) =>
   Api.delete(`/api/courses/delete_course/${id}`, config);
 export const searchCoursesApi = (query) =>
   Api.get(`/api/courses/search?query=${query}`);
-
 
 //Blogs APIs
 export const createBlogApi = (formData) =>

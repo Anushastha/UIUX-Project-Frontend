@@ -136,7 +136,6 @@ const Colleges = () => {
                   cursor: "pointer",
                 }}
                 to={`/user/colleges/compareColleges`}
-
               >
                 <img
                   src="/assets/svg/cards.svg"
@@ -203,6 +202,7 @@ const Colleges = () => {
                           border: "none",
                           cursor: "pointer",
                           minWidth: "260px",
+                          marginRight: "40px",
                         }}
                       >
                         <img
@@ -258,7 +258,7 @@ const Colleges = () => {
                           >
                             <img
                               src="/assets/svg/phone-black.svg"
-                              alt="location"
+                              alt="number"
                               style={{
                                 height: "15px",
                               }}

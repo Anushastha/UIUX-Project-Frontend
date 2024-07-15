@@ -1,6 +1,7 @@
 import React from "react";
 import "../styles/footer.css";
 import { Link } from "react-router-dom";
+import "../styles/tailwind.css";
 
 const Footer = () => {
   return (
@@ -10,8 +11,24 @@ const Footer = () => {
           background: "white",
           paddingBottom: "20px",
           paddingTop: "10px",
+          zIndex: "0",
+          position: "relative",
         }}
       >
+        <div>
+          <img
+            className="footer-image-container"
+            src="/assets/images/footerImage.png"
+            alt="img"
+            style={{
+              height: "280px",
+              zIndex: "1",
+              position: "absolute",
+              bottom: "25px",
+              right: "20px",
+            }}
+          />
+        </div>
         <div
           style={{
             paddingTop: "20px",

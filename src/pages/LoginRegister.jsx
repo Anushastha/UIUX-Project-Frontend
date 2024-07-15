@@ -17,6 +17,7 @@ function LoginRegister() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
 
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
@@ -94,11 +95,12 @@ function LoginRegister() {
           toast.error(res.data.message);
         } else {
           toast.success(res.data.message);
-          localStorage.setItem("token", res.data.token);
+          const storage = rememberMe ? localStorage : sessionStorage;
+          storage.setItem("token", res.data.token);
           // const isAdmin = res.data.isAdmin;
 
           const convertedJson = JSON.stringify(res.data.userData);
-          localStorage.setItem("user", convertedJson);
+          storage.setItem("user", convertedJson);
 
           navigate(res.data.isAdmin ? "/admin/colleges" : "/user/colleges");
 
@@ -116,10 +118,11 @@ function LoginRegister() {
   };
 
   const toggleSignIn = (value) => setSignIn(value);
-
   const togglePasswordVisibility = () => setPasswordVisible(!passwordVisible);
   const toggleConfirmPasswordVisibility = () =>
     setConfirmPasswordVisible(!confirmPasswordVisible);
+  const toggleRememberMe = () => setRememberMe(!rememberMe);
+
 
   return (
     <Components.Wrapper>
@@ -268,7 +271,7 @@ function LoginRegister() {
             </Components.InputContainer>
 
             <Components.LoginBottomContainer>
-              <Components.Anchor href="#">
+              <Components.Anchor href="/sendEmail">
                 Forgot your password?
               </Components.Anchor>
               <Components.RememberMe>
@@ -276,6 +279,8 @@ function LoginRegister() {
                   Remember me
                   <input
                     type="checkbox"
+                    checked={rememberMe}
+                    onChange={toggleRememberMe}
                     style={{
                       marginLeft: "10px",
                     }}

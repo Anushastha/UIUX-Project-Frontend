@@ -30,6 +30,7 @@ const AdminColleges = () => {
 
   useEffect(() => {
     getAllCollegesApi().then((res) => {
+      console.log("Colleges API response:", res.data.colleges);
       setColleges(res.data.colleges);
     });
 
@@ -79,8 +80,8 @@ const AdminColleges = () => {
       formData.append("coursesAvailable[]", course);
     });
     formData.append("establishedAt", establishedAt);
-    formData.append("location", address);
-    formData.append("googleMapsUrl", googleMapsUrl);
+    formData.append("location[address]", address);
+    formData.append("location[googleMapsUrl]", googleMapsUrl);
     formData.append("applyNow", applyNow);
     formData.append("collegeImage", collegeImage);
     formData.append("brochure", brochure);
@@ -115,11 +116,12 @@ const AdminColleges = () => {
       })
       .catch((err) => {
         console.error(err);
-        toast.error("Internal Server Error !");
+        toast.error("Internal Server Error!");
       });
   };
 
   const handleDelete = (id) => {
+    console.log("College ID to delete:", id); // Verify the ID being passed
     if (window.confirm("Are you sure you want to delete this college?")) {
       deleteCollegeApi(id)
         .then((res) => {
@@ -255,7 +257,7 @@ const AdminColleges = () => {
                 <input
                   onChange={(e) => setGoogleMapsUrl(e.target.value)}
                   className="form-control mb-2"
-                  type="url"
+                  type="text"
                   placeholder="Enter Google Maps URL"
                 />
                 <label className="mb-2 font-primary">Apply Now URL</label>
@@ -271,7 +273,7 @@ const AdminColleges = () => {
                 <input
                   onChange={handleImageUpload}
                   className="form-control mb-2"
-                  type="file"     
+                  type="file"
                 />
                 {previewImage && (
                   <div>
@@ -329,8 +331,6 @@ const AdminColleges = () => {
               <th scope="col">Contact</th>
               <th scope="col">Type</th>
               <th scope="col">Affiliation</th>
-              <th scope="col">Courses</th>
-              <th scope="col">Established</th>
               <th scope="col">Address</th>
               <th scope="col">Actions</th>
             </tr>
@@ -344,14 +344,6 @@ const AdminColleges = () => {
                   <td>{college.collegeNumber}</td>
                   <td>{college.collegeType}</td>
                   <td>{college.affiliation}</td>
-                  <td>
-                    {college.coursesAvailable
-                      .map((course) => course.courseName)
-                      .join(", ")}
-                  </td>
-                  <td>
-                    {new Date(college.establishedAt).toLocaleDateString()}
-                  </td>
                   <td>{college.location.address}</td>
                   <td>
                     <div

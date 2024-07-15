@@ -6,5 +6,5 @@ body {
     background: -webkit-linear-gradient(to top right, #c2e8ff, #90c3fc);
     background: linear-gradient(to top right, #c2e8ff, #90c3fc);
     color: #2e266d;
-    height: 100vh;
+    height: 100%;
 }

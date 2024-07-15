@@ -1,35 +1,31 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { verifyCodeApi } from "../apis/Apis";
+import { sendEmailApi } from "../apis/Apis";
 import "../styles/tailwind.css";
 
-const ForgotPasswordCode = () => {
-  const [verificationCode, setVerificationCode] = useState("");
+const SendEmail = () => {
+  const [email, setEmail] = useState("");
+
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const userEmail = location.state && location.state.User_email;
-
-  const handleChangeCode = (e) => {
-    setVerificationCode(e.target.value);
+  const changeEmail = (e) => {
+    setEmail(e.target.value);
   };
 
-  const handleVerifyCode = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
     const data = {
-      resetCode: verificationCode,
-      email: userEmail,
+      email: email,
     };
 
-    verifyCodeApi(data)
+    sendEmailApi(data)
       .then((res) => {
         if (res.data.success === false) {
           toast.error(res.data.message);
         } else {
           toast.success(res.data.message);
-          navigate("/resetPassword", { state: { User_email: userEmail } });
+          navigate("/resetCode", { state: { User_email: email } });
         }
       })
       .catch((err) => {
@@ -43,11 +39,10 @@ const ForgotPasswordCode = () => {
       <div className="row vh-100 d-flex align-items-center justify-content-center">
         <div className="col-md-5 bg-white p-5">
           <p className="text-center my-4 font-primary tw-text-blue tw-text-4xl">
-            <u>Enter Verification Code</u>
+            <u>Forgot Password?</u>
           </p>
           <form
             className="px-3"
-            onSubmit={handleVerifyCode}
             style={{
               display: "flex",
               flexDirection: "column",
@@ -55,22 +50,16 @@ const ForgotPasswordCode = () => {
               alignItems: "center",
             }}
           >
-            <p
-              style={{
-                textAlign: "center",
-              }}
-            >
-              A code has been sent to your email. Please check your email and
-              enter the verification code
-            </p>
-            <div className="tw-flex tw-items-center">
-              <div className="tw-mb-4 tw-mt-4">
-                <b className="tw-text-blue tw-font-secondary">Enter code</b>
+            <p>Enter your email address to get a reset code</p>
+            <div className="tw-flex tw-items-center tw-mt-4">
+              <div className="tw-mb-4">
+                <b className="tw-text-blue tw-font-secondary tw-mt-5">
+                  Enter email address
+                </b>
                 <div className="tw-flex tw-items-center">
                   <input
                     className="tw-border-none tw-p-2 focus:tw-outline-none"
-                    value={verificationCode}
-                    onChange={handleChangeCode}
+                    onChange={changeEmail}
                     style={{
                       backgroundColor: "#F3F4F4",
                       color: "#A8AAAA",
@@ -91,7 +80,7 @@ const ForgotPasswordCode = () => {
                     }}
                   >
                     <img
-                      src="/assets/svg/password-underline.svg"
+                      src="/assets/svg/mail.svg"
                       style={{
                         height: "20px",
                       }}
@@ -101,21 +90,12 @@ const ForgotPasswordCode = () => {
               </div>
             </div>
             <button
-              className="btn btn-blue tw-text-sm font-primary"
+              className="btn btn-blue tw-text-sm tw-mt-3 font-primary"
               type="submit"
-              onSubmit={handleVerifyCode}
+              onClick={handleSubmit}
             >
-              Verify
+              Send Code
             </button>
-            <p className="text-center mt-3 font-secondary">
-              Didn't get code?{" "}
-              <a
-                href="/sendEmail"
-                className="text-decoration-none text-blue tw-ml-2"
-              >
-                <b>Click here to resend</b>
-              </a>
-            </p>
           </form>
         </div>
       </div>
@@ -123,4 +103,4 @@ const ForgotPasswordCode = () => {
   );
 };
 
-export default ForgotPasswordCode;
+export default SendEmail;

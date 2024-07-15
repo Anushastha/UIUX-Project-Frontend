@@ -13,3 +13,9 @@
     color: #87CB28;
     font-weight: bold;
   }
+
+  @media (max-width: 768px) {
+    .footer-image-container {
+      display: none;
+    }
+  }

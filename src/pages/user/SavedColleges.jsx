@@ -50,11 +50,13 @@ const SavedColleges = () => {
     <div className="row">
       <div className="col-12">
         <div
-          className="container bg-white max-w-3xl"
+          className="container bg-white"
           style={{
             height: "max-content",
-            padding: "40px 50px 40px 50px",
+            padding: "30px 40px 30px 40px",
             marginBottom: "100px",
+            maxWidth: "90%",
+            minHeight: "400px",
           }}
         >
           <div className="container tw-px-20">
@@ -70,7 +72,7 @@ const SavedColleges = () => {
               save.map((item) => (
                 <div
                   key={item._id}
-                  className="card d-flex flex-column px-5 py-3 "
+                  className="card d-flex flex-column px-5 py-3"
                   style={{
                     height: "100%",
                     boxShadow:

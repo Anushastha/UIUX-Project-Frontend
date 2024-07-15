@@ -32,6 +32,9 @@ import UserProfile from './pages/user/UserProfile';
 import CollegeDetail from './pages/user/CollegeDetail';
 import SavedColleges from './pages/user/SavedColleges';
 import CompareColleges from './pages/user/CompareColleges';
+import SendEmail from './pages/SendEmail';
+import ForgotPasswordCode from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 const PrivateRoute = ({ children, isAdmin }) => {
   const token = localStorage.getItem('token');
   const user = JSON.parse(localStorage.getItem('user'));
@@ -53,13 +56,19 @@ function Layout() {
   const showNavBar = !location.pathname.startsWith('/auth') &&
     !location.pathname.startsWith('/user/changePassword') &&
     !location.pathname.startsWith('/user/editProfile') &&
-    !location.pathname.startsWith('/user/userProfile');
+    !location.pathname.startsWith('/user/userProfile') &&
+    !location.pathname.startsWith('/sendEmail') &&
+    !location.pathname.startsWith('/resetCode') &&
+    !location.pathname.startsWith('/resetPassword');
 
   const showFooter = !location.pathname.startsWith('/auth') &&
     !location.pathname.startsWith('/admin') &&
     !location.pathname.startsWith('/user/changePassword') &&
     !location.pathname.startsWith('/user/editProfile') &&
-    !location.pathname.startsWith('/user/userProfile');
+    !location.pathname.startsWith('/user/userProfile') &&
+    !location.pathname.startsWith('/sendEmail') &&
+    !location.pathname.startsWith('/resetCode') &&
+    !location.pathname.startsWith('/resetPassword');
 
   return (
     <>
@@ -78,6 +87,10 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Landing />} />
           <Route path="auth" element={<LoginRegister />} />
+          <Route path='/sendEmail' element={<SendEmail />} />
+          <Route path='/resetCode' element={<ForgotPasswordCode />} />
+          <Route path='/resetPassword' element={<ResetPassword />} />
+
 
           <Route path="user/colleges" element={<PrivateRoute><Colleges /></PrivateRoute>} />
           <Route path="user/courses" element={<PrivateRoute><Courses /></PrivateRoute>} />
