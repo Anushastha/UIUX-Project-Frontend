@@ -2,6 +2,7 @@ import React from "react";
 import "../../scss/customs.scss";
 import { Link } from "react-router-dom";
 import PopularCourses from "../../components/PopularCourses";
+import "../../styles/tailwind.css";
 
 const Landing = () => {
   return (
@@ -140,14 +141,14 @@ const Landing = () => {
               className="font-primary font-bold w-full text-center md:mb-16"
               style={{
                 fontSize: "45px",
-                marginBottom: "100px",
-                marginTop: "80px",
+                marginTop: "150px",
+                marginBottom: "50px",
               }}
             >
               Popular Courses
             </h1>
           </div>
-          <div className="flex w-full flex-col items-center justify-center">
+          <div className="tw-mb-60 tw-flex tw-w-full tw-flex-col tw-items-center tw-justify-center">
             <PopularCourses />
           </div>
         </div>
