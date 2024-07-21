@@ -58,6 +58,9 @@ export const updateCollegeApi = (id, formData) =>
 export const searchCollegesApi = (query) =>
   Api.get(`/api/colleges/search?query=${query}`);
 
+export const getCollegesOfferingCourseApi = (courseId) =>
+  Api.get(`/api/colleges/collegesOfferingCourse/${courseId}`);
+
 export const filterCollegesApi = async (filters) => {
   try {
     const response = await axios.get(`api/colleges/filter`, { params: filters });
@@ -66,7 +69,6 @@ export const filterCollegesApi = async (filters) => {
     throw error;
   }
 };
-
 export const fetchFilterOptionsApi = async () => {
   try {
     const response = await axios.get(`api/colleges/filter_options`);

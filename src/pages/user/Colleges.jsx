@@ -156,8 +156,8 @@ const Colleges = () => {
       >
         <div
           className="bg-white me-2"
-          id="filter-container"
-          style={{ minWidth: "200px", padding: "10px", width: "20%" }}
+          id="container"
+          style={{ minWidth: "100px", padding: "10px", width: "20%" }}
         >
           <img src="/assets/images/ad.png" alt="Ad" />
         </div>
@@ -170,7 +170,7 @@ const Colleges = () => {
             padding: "20px 50px 40px 50px",
             width: "85%",
             minHeight: "50vh",
-            minWidth: "75vw",
+            minWidth: "20%",
           }}
         >
           <div className="custom-container mt-3">
@@ -194,7 +194,7 @@ const Colleges = () => {
                       className="card-link"
                     >
                       <div
-                        className="card h-100"
+                        className="card h-100 tw-transition-transform tw-transform hover:tw-scale-105 active:tw-scale-95"
                         style={{
                           boxShadow:
                             "rgba(60, 64, 67, 0.15) 0px 1px 2px 0px, rgba(60, 64, 67, 0.1) 0px 2px 6px 2px",

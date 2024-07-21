@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getSingleBlogApi } from "../../apis/Apis";
+import "../../styles/tailwind.css";
 
 const BlogDetail = () => {
   const { id } = useParams();
@@ -22,11 +23,12 @@ const BlogDetail = () => {
   return (
     <div className="min-h-screen flex items-center justify-center mb-5">
       <div
-        className="container bg-white max-w-3xl"
+        className="bg-white max-w-3xl"
         style={{
           height: "max-content",
           borderRadius: "15px",
           padding: "40px 50px 40px 50px",
+          margin: "30px 60px 60px 60px",
         }}
       >
         <div className="container">
@@ -59,7 +61,7 @@ const BlogDetail = () => {
                 style={{ height: "fit-content", marginBottom: "30px" }}
               />
               <p
-                className="font-secondary"
+                className="font-secondary tw-text-lg"
                 style={{
                   textAlign: "justify",
                   textJustify: "inter-word",

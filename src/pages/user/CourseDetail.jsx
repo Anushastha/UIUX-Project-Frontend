@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getSingleCourseApi } from "../../apis/Apis";
+import {
+  getSingleCourseApi,
+  getCollegesOfferingCourseApi,
+} from "../../apis/Apis";
+import "../../styles/tailwind.css";
 
 const CourseDetail = () => {
   const { id } = useParams();
@@ -11,6 +15,7 @@ const CourseDetail = () => {
   const [averageDurationMin, setAverageDurationMin] = useState("");
   const [averageDurationMax, setAverageDurationMax] = useState("");
   const [courseImage, setCourseImage] = useState("");
+  const [colleges, setColleges] = useState([]);
 
   useEffect(() => {
     getSingleCourseApi(id).then((res) => {
@@ -23,16 +28,20 @@ const CourseDetail = () => {
       setAverageDurationMax(courseData.averageDurationMax);
       setCourseImage(courseData.courseImageUrl);
     });
+    getCollegesOfferingCourseApi(id).then((res) => {
+      setColleges(res.data.colleges);
+    });
   }, [id]);
 
   return (
     <div className="min-h-screen flex items-center justify-center mb-5">
       <div
-        className="container bg-white max-w-3xl"
+        className="bg-white max-w-3xl"
         style={{
           height: "max-content",
           borderRadius: "15px",
           padding: "40px 50px 40px 50px",
+          margin: "30px 60px 60px 60px",
         }}
       >
         <div className="container">
@@ -74,40 +83,67 @@ const CourseDetail = () => {
               Colleges that offer this course
             </p>
             <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-              }}
+              className="tw-flex tw-flex-col md:tw-flex-row md:tw-justify-between gap-6"
+              style={{ gap: "30px" }}
             >
-              <div>
-                <table class="table table-bordered">
+              <div className="table-responsive overflow-x-auto">
+                <table className="table table-bordered">
                   <tbody>
-                    <tr>
-                      <td>John</td>
-                      <td>Doe</td>
-                      <td>john@example.com</td>
-                    </tr>
-                    <tr>
-                      <td>Mary</td>
-                      <td>Moe</td>
-                      <td>mary@example.com</td>
-                    </tr>
-                    <tr>
-                      <td>July</td>
-                      <td>Dooley</td>
-                      <td>july@example.com</td>
-                    </tr>
+                    {colleges.length > 0 ? (
+                      colleges.map((college) => (
+                        <tr key={college._id}>
+                          <td style={{ textAlign: "center" }}>
+                            <img
+                              src={college.collegeImageUrl}
+                              alt={college.collegeName}
+                              style={{
+                                height: "50px",
+                                width: "auto",
+                                objectFit: "cover",
+                                borderRadius: "5px",
+                                display: "block",
+                                margin: "0 auto",
+                                minWidth: "50px",
+                              }}
+                            />
+                          </td>
+                          <td
+                            style={{
+                              textAlign: "left",
+                              padding: "20px",
+                              width: "max-content",
+                              minWidth: "350px",
+                              display: "flex",
+                            }}
+                          >
+                            <p
+                              className="text-blue font-secondary"
+                              style={{ textAlign: "left" }}
+                            >
+                              {college.collegeName}
+                            </p>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="2">No colleges found for this course.</td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
-              <div style={{}}>
+              <div className="tw-w-full md:tw-w-auto">
                 <img
                   src={courseImage}
                   alt="Course Image"
                   style={{
-                    height: "200px",
+                    height: "250px",
                     objectFit: "cover",
                     borderRadius: "0px",
+                    width: "100%",
+                    minWidth: "300px",
+                    margin: "0 auto",
                   }}
                 />
               </div>

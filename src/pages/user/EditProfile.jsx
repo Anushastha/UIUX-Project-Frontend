@@ -83,6 +83,15 @@ const EditProfile = () => {
           ...userData,
           profileImage: response.data.userProfile.profileImage,
         });
+
+        // Store the updated profile image URL in localStorage
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            ...userData,
+            profileImage: response.data.userProfile.profileImage,
+          })
+        );
       } else {
         throw new Error(response.data.message);
       }
@@ -155,7 +164,7 @@ const EditProfile = () => {
             )}
             <label
               htmlFor="file-upload"
-              className="btn btn-outline-blue btn-sm tw-mt-4"
+              className="btn btn-outline-blue btn-sm tw-mt-4 font-primary"
             >
               <span>Update Image</span>
               <input
@@ -285,7 +294,10 @@ const EditProfile = () => {
           </div>
         </div>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <button className="btn btn-blue" onClick={handleSaveProfile}>
+          <button
+            className="btn btn-blue font-primary"
+            onClick={handleSaveProfile}
+          >
             Save Profile
           </button>
         </div>

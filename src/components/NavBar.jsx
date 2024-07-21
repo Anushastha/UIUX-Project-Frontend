@@ -115,18 +115,17 @@ const NavBar = () => {
                     <img
                       className="tw-rounded-full tw-flex tw-items-center tw-justify-center font-secondary font-bold"
                       style={{
-                        width: "30px",
-                        height: "30px",
+                        width: "35px",
+                        height: "35px",
                       }}
                       src={user.profileImage}
                     ></img>
                   ) : (
                     <div
-                      className="tw-rounded-full tw-flex tw-items-center tw-justify-center font-secondary font-bold"
+                      className="tw-rounded-full tw-flex tw-items-center tw-bg-pink-700 tw-justify-center font-secondary font-bold"
                       style={{
-                        width: "30px",
-                        height: "30px",
-                        backgroundColor: "red",
+                        width: "35px",
+                        height: "35px",
                         color: "white",
                         fontSize: "20px",
                         borderRadius: "50%",

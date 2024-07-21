@@ -8,6 +8,10 @@ const ChangePassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [newPasswordVisible, setNewPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -27,6 +31,12 @@ const ChangePassword = () => {
       toast.error(error.message || "An error occurred");
     }
   };
+
+  const togglePasswordVisibility = () => setPasswordVisible(!passwordVisible);
+  const toggleNewPasswordVisibility = () =>
+    setNewPasswordVisible(!newPasswordVisible);
+  const toggleConfirmPasswordVisibility = () =>
+    setConfirmPasswordVisible(!confirmPasswordVisible);
 
   return (
     <div
@@ -53,20 +63,19 @@ const ChangePassword = () => {
           <div id="password-details">
             <div className="tw-mb-4">
               <p className="tw-text-blue tw-font-secondary">
-                Enter your old password
+                Enter your current password
               </p>
               <div className="tw-flex tw-items-center">
                 <input
-                  className="tw-border-none tw-p-2 focus:tw-outline-none"
+                  className="tw-border-none focus:tw-outline-none tw-text-blue"
                   style={{
                     backgroundColor: "#F3F4F4",
-                    color: "#A8AAAA",
                     border: "none",
                     marginRight: "2px",
                     padding: "3px 10px",
                     width: "250px",
                   }}
-                  type="password"
+                  type={passwordVisible ? "text" : "password"}
                   placeholder="Old Password"
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
@@ -81,14 +90,18 @@ const ChangePassword = () => {
                     backgroundColor: "#F3F4F4",
                     padding: "5px",
                   }}
+                  onClick={togglePasswordVisibility}
                 >
                   <img
-                    src="/assets/svg/eye.svg"
+                    src={`/assets/svg/${
+                      passwordVisible ? "eye" : "eye-crossed"
+                    }.svg`}
+                    alt="eye"
                     style={{
                       height: "20px",
+                      cursor: "pointer",
                     }}
-                    alt="eye Icon"
-                  />
+                  />{" "}
                 </div>
               </div>
             </div>
@@ -98,16 +111,15 @@ const ChangePassword = () => {
               </p>
               <div className="tw-flex tw-items-center">
                 <input
-                  className="tw-border-none tw-p-2 focus:tw-outline-none"
+                  className="tw-border-none tw-p-2 focus:tw-outline-none tw-text-blue"
                   style={{
                     backgroundColor: "#F3F4F4",
-                    color: "#A8AAAA",
                     border: "none",
                     marginRight: "2px",
                     padding: "3px 10px",
                     width: "250px",
                   }}
-                  type="password"
+                  type={newPasswordVisible ? "text" : "password"}
                   placeholder="New password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
@@ -122,14 +134,18 @@ const ChangePassword = () => {
                     backgroundColor: "#F3F4F4",
                     padding: "5px",
                   }}
+                  onClick={toggleNewPasswordVisibility}
                 >
                   <img
-                    src="/assets/svg/eye.svg"
+                    src={`/assets/svg/${
+                      newPasswordVisible ? "eye" : "eye-crossed"
+                    }.svg`}
+                    alt="eye"
                     style={{
                       height: "20px",
+                      cursor: "pointer",
                     }}
-                    alt="eye Icon"
-                  />
+                  />{" "}
                 </div>
               </div>
             </div>
@@ -139,16 +155,15 @@ const ChangePassword = () => {
               </p>
               <div className="tw-flex tw-items-center">
                 <input
-                  className="tw-border-none tw-p-2 focus:tw-outline-none"
+                  className="tw-border-none tw-p-2 focus:tw-outline-none tw-text-blue"
                   style={{
                     backgroundColor: "#F3F4F4",
-                    color: "#A8AAAA",
                     border: "none",
                     marginRight: "2px",
                     padding: "3px 10px",
                     width: "250px",
                   }}
-                  type="password"
+                  type={confirmPasswordVisible ? "text" : "password"}
                   placeholder="Confirm Password"
                   value={confirmNewPassword}
                   onChange={(e) => setConfirmNewPassword(e.target.value)}
@@ -163,20 +178,24 @@ const ChangePassword = () => {
                     backgroundColor: "#F3F4F4",
                     padding: "5px",
                   }}
+                  onClick={toggleConfirmPasswordVisibility}
                 >
                   <img
-                    src="/assets/svg/eye.svg"
+                    src={`/assets/svg/${
+                      confirmPasswordVisible ? "eye" : "eye-crossed"
+                    }.svg`}
+                    alt="eye"
                     style={{
                       height: "20px",
+                      cursor: "pointer",
                     }}
-                    alt="eye Icon"
-                  />
+                  />{" "}
                 </div>
               </div>
             </div>
           </div>
           <div>
-            <button className="btn btn-blue" type="submit">
+            <button className="btn btn-blue font-primary" type="submit">
               Submit
             </button>
           </div>

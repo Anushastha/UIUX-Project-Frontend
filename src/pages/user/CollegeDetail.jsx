@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
   getSingleCollegeApi,
+  getSingleCourseApi,
   addSaveApi,
   removeSavedApi,
   getSavedApi,
@@ -9,6 +10,9 @@ import {
 } from "../../apis/Apis";
 import { toast } from "react-toastify";
 import "../../styles/tailwind.css";
+import Modal from "react-modal";
+
+Modal.setAppElement("#root");
 
 const CollegeDetail = () => {
   const { id } = useParams();
@@ -16,13 +20,19 @@ const CollegeDetail = () => {
   const [activeSection, setActiveSection] = useState("Overview");
   const [isFavorite, setIsFavorite] = useState(false);
   const [hovered, setHovered] = useState(false);
-  const [blogs, setBlogs] = useState([]); // State to store blogs
+  const [blogs, setBlogs] = useState([]);
+  const [courses, setCourses] = useState([]); // State to store course details
+  const [colleges, setColleges] = useState([]);
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   useEffect(() => {
     getSingleCollegeApi(id)
       .then((res) => {
         console.log("Fetched college data:", res.data.college);
         setCollege(res.data.college);
+        fetchCourseDetails(res.data.college.coursesAvailable); // Fetch course details
       })
       .catch((err) => {
         console.error("Error fetching college:", err);
@@ -52,13 +62,23 @@ const CollegeDetail = () => {
       });
   }, [id]);
 
+  const fetchCourseDetails = async (courseIds) => {
+    try {
+      const courseDetails = await Promise.all(
+        courseIds.map((courseId) => getSingleCourseApi(courseId))
+      );
+      setCourses(courseDetails.map((res) => res.data.course));
+    } catch (error) {
+      console.error("Error fetching course details:", error);
+    }
+  };
+
   const handleSaveToggle = async (collegeId) => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user || !user._id) {
       toast.error("Please log in to save colleges.");
       return;
     }
-
     try {
       if (isFavorite) {
         // Remove from saved list
@@ -91,30 +111,51 @@ const CollegeDetail = () => {
     }
   };
 
+  const openModal = (index) => {
+    setSelectedImageIndex(index);
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
+  const handleNextImage = () => {
+    setSelectedImageIndex(
+      (prevIndex) => (prevIndex + 1) % college.galleryImages.length
+    );
+  };
+
+  const handlePrevImage = () => {
+    setSelectedImageIndex(
+      (prevIndex) =>
+        (prevIndex - 1 + college.galleryImages.length) %
+        college.galleryImages.length
+    );
+  };
+
   if (!college) {
-    return <div>Loading...</div>;
+    return (
+      <div className="tw-text-red tw-font-primary tw-font-bold tw-container tw-justify-center tw-align-middle">
+        Loading, Please wait...
+      </div>
+    );
   }
 
-  const descriptionSplitIndex = Math.floor(
-    college.collegeDescription.length / 10
-  );
-  const firstPartDescription = college.collegeDescription.substring(
-    0,
-    descriptionSplitIndex
-  );
-  const secondPartDescription = college.collegeDescription.substring(
-    descriptionSplitIndex
-  );
+  const words = college.collegeDescription.split(" ");
+  const descriptionSplitIndex = Math.floor(words.length / 3);
+  const firstPartDescription = words.slice(0, descriptionSplitIndex).join(" ");
+  const secondPartDescription = words.slice(descriptionSplitIndex).join(" ");
 
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div
-        className="container bg-white max-w-3xl"
+        className="bg-white max-w-3xl"
         style={{
           height: "max-content",
           borderRadius: "15px",
           padding: "40px",
-          marginBottom: "60px",
+          margin: "30px 60px 60px 60px",
         }}
       >
         <div className="container">
@@ -341,7 +382,7 @@ const CollegeDetail = () => {
                       id="college-description"
                       className="tw-w-full lg:tw-w-1/2"
                     >
-                      <p className="font-secondary tw-text-justify tw-break-words">
+                      <p className="font-secondary tw-text-justify tw-break-words tw-text-lg">
                         {firstPartDescription}
                       </p>
                     </div>
@@ -358,8 +399,8 @@ const CollegeDetail = () => {
                     </div>
                   </div>
 
-                  <div id="remaining-description" className="tw-mt-10">
-                    <p className="font-secondary tw-text-justify">
+                  <div id="remaining-description" className="tw-mt-5">
+                    <p className="font-secondary tw-text-justify tw-text-lg">
                       {secondPartDescription}
                     </p>
                   </div>
@@ -367,27 +408,42 @@ const CollegeDetail = () => {
               )}
 
               {activeSection === "Courses" && (
-                <div className="tw-flex tw-justify-center">
-                  <div className="tw-font-secondary tw-w-full md:tw-w-2/3 lg:tw-w-1/2">
+                <div className="tw-flex tw-flex-col tw-items-center">
+                  {/* Centered Container for Title and List */}
+                  <div className="tw-w-full md:tw-w-3/4 tw-container">
                     <p
-                      className="tw-mb-4 tw-text-left font-primary"
+                      className="font-primary tw-text-blue tw-text-2xl"
                       style={{
-                        fontSize: "1.5rem",
+                        marginBottom: "10px",
                       }}
                     >
                       Courses Offered
                     </p>
-                    {college.coursesAvailable.length > 0 ? (
-                      <ol className="tw-list-decimal tw-list-inside tw-text-left">
-                        {college.coursesAvailable.map((course, index) => (
-                          <li key={index}>{course.courseName}</li>
-                        ))}
-                      </ol>
-                    ) : (
-                      <p style={{ color: "red", fontWeight: "bold" }}>
-                        No courses available
-                      </p>
-                    )}
+                    <ol>
+                      {courses.map((course, index) => (
+                        <li key={course._id} className="tw-mb-2">
+                          <p className="tw-font-secondary tw-text-blue tw-text-lg">
+                            <p>
+                              {index + 1}. {course.courseName}
+                            </p>
+                          </p>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+
+                  {/* Details of Each Course */}
+                  <div className="tw-w-full md:tw-w-3/4 tw-mt-8">
+                    {courses.map((course) => (
+                      <div key={course._id} className="tw-mb-4">
+                        <p className="tw-font-secondary tw-text-blue tw-text-justify">
+                          <b className="tw-text-xl">{course.courseName}</b>:{" "}
+                          <p className="tw-text-lg">
+                            {course.courseDescription}
+                          </p>
+                        </p>
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}
@@ -395,18 +451,18 @@ const CollegeDetail = () => {
               {activeSection === "Gallery" && (
                 <div className="row g-2 justify-content-center">
                   {college.galleryImages.map((image, index) => (
-                    <div
-                      className="col-lg-2 col-md-4 col-sm-6 mb-2"
-                      key={index}
-                    >
+                    <div className="col-lg-2 col-md-4 col-sm-6 mb-2">
                       <img
+                        key={index}
                         src={image}
-                        alt={`Gallery image ${index + 1}`}
+                        alt={`College Gallery ${index + 1}`}
                         style={{
                           width: "250px",
                           height: "180px",
                           objectFit: "cover",
+                          cursor: "pointer",
                         }}
+                        onClick={() => openModal(index)}
                       />
                     </div>
                   ))}
@@ -439,7 +495,7 @@ const CollegeDetail = () => {
                           <p
                             className="card-title font-primary text-blue"
                             style={{
-                              fontSize: "14px",
+                              fontSize: "15px",
                               minHeight: "2.5em",
                               overflow: "hidden",
                             }}
@@ -465,6 +521,37 @@ const CollegeDetail = () => {
           </div>
         </div>
       </div>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Image Modal"
+        className="tw-relative tw-w-4/5 tw-max-w-4xl tw-bg-white tw-rounded-lg tw-shadow-lg tw-p-4"
+        overlayClassName="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50 tw-flex tw-justify-center tw-items-center"
+      >
+        <button
+          onClick={handlePrevImage}
+          className="tw-absolute tw-left-5 tw-top-1/2 tw-transform tw--translate-y-1/2 tw-p-2 tw-bg-blue tw-text-white tw-rounded-full tw-shadow-lg"
+        >
+          &#60;
+        </button>
+        <img
+          src={college.galleryImages[selectedImageIndex]}
+          alt={`College Gallery ${selectedImageIndex + 1}`}
+          className="tw-w-full tw-max-h-[70vh] tw-object-contain"
+        />
+        <button
+          onClick={handleNextImage}
+          className="tw-absolute tw-right-5 tw-top-1/2 tw-transform tw--translate-y-1/2 tw-p-2 tw-bg-blue tw-text-white tw-rounded-full tw-shadow-lg"
+        >
+          &#62;
+        </button>
+        <button
+          onClick={closeModal}
+          className="tw-absolute tw-top-5 tw-right-5 tw-p-2 tw-bg-blue tw-text-white tw-rounded-full tw-shadow-lg"
+        >
+          &#10005;
+        </button>
+      </Modal>
     </div>
   );
 };

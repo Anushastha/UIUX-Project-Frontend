@@ -227,7 +227,7 @@ const UserProfile = () => {
             className="tw-flex tw-justify-center tw-mt-6"
             to={`/user/editProfile/${userData.id}`}
           >
-            <button className="btn btn-blue">Edit Profile</button>
+            <button className="btn btn-blue font-primary">Edit Profile</button>
           </Link>
         </div>
       ) : (

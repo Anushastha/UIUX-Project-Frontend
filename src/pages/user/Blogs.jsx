@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getAllBlogsApi } from "../../apis/Apis";
 import { Link } from "react-router-dom";
+import "../../styles/tailwind.css";
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
@@ -33,7 +34,7 @@ const Blogs = () => {
                   style={{ textDecoration: "none" }}
                 >
                   <div
-                    className="card d-flex flex-column"
+                    className="card d-flex flex-column tw-transition-transform tw-transform hover:tw-scale-105 active:tw-scale-95"
                     style={{
                       border: "none",
                       borderRadius: "0px",
@@ -46,7 +47,7 @@ const Blogs = () => {
                       className="card-img-top  img-fluid"
                       alt={item.blogTitle}
                       style={{
-                        height: "180px",
+                        height: "150px",
                         objectFit: "cover",
                         borderRadius: "0px",
                       }}
